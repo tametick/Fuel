@@ -57,16 +57,15 @@ class ActorSprite extends FlxSprite {
 		super.update();
 		
 		if (owner == Registry.player) {
-			// right/left facing is switched because flixel assumes the original sprites faced right
 			if (FlxG.keys.RIGHT) {
 				velocity.x += Registry.playerAcceleration;
-				facing = FlxObject.LEFT;
+				facing = FlxObject.RIGHT;				
 				direction = E;
 				owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Registry.bulletSpeed);
 			}
 			if (FlxG.keys.LEFT) {
 				velocity.x -= Registry.playerAcceleration;
-				facing = FlxObject.RIGHT;
+				facing = FlxObject.LEFT;
 				direction = W;
 				owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Registry.bulletSpeed);
 			}
