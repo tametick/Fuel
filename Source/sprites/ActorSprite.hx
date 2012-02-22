@@ -13,10 +13,14 @@ import utils.Direction;
 class ActorSprite extends FlxSprite {
 	public var owner:Actor;
 	public var direction:Direction;
+	public var directionIndicator:IndicatorSprite;
 
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
 		this.owner = owner;
+		if (owner.type == PLAYER) {
+			directionIndicator = new IndicatorSprite();
+		}
 		
 		maxVelocity = Registry.maxVelocity;
 		drag = Registry.drag;
@@ -63,6 +67,22 @@ class ActorSprite extends FlxSprite {
 				velocity.y -= Registry.playerAcceleration;
 				direction = N;
 			}
+			
+			switch (direction) {
+				case N:
+					directionIndicator.x = x;
+					directionIndicator.y = y - Registry.tileSize;
+				case E:
+					directionIndicator.x = x + Registry.tileSize;
+					directionIndicator.y = y;
+				case S:
+					directionIndicator.x = x;
+					directionIndicator.y = y + Registry.tileSize;
+				case W:
+					directionIndicator.x = x - Registry.tileSize;
+					directionIndicator.y = y;
+			}
+			
 		} else {
 			// enemy movement
 		}
