@@ -50,12 +50,8 @@ class Level {
 				mapSprite.itemSprites,
 				mapSprite.actorSprites,
 				Registry.player.sprite.directionIndicator];
-		
-		for (a in actors) {
-			if (a.weapon != null) {
-				sprites.push(a.weapon.group);
-			}
-		}
+				
+		sprites.concat(mapSprite.bulletSprites);
 		
 		return sprites;
 	}

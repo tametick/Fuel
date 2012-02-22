@@ -16,6 +16,7 @@ class MapSprite extends FlxTilemap {
 
 	public var itemSprites:FlxGroup;
 	public var actorSprites:FlxGroup;
+	public var bulletSprites(getBulletSprites, null):Array<FlxGroup>;
 	
 	public var exitDoorSprite:ActorSprite;
 
@@ -31,6 +32,16 @@ class MapSprite extends FlxTilemap {
 		this.owner = owner;
 		
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), FlxTilemap.imgAuto, 0, 0, FlxTilemap.AUTO);
+	}
+	
+	function getBulletSprites():Array<FlxGroup> {
+		var sprites = [];
+		for (a in owner.actors) {
+			if (a.weapon != null) {
+				sprites.push(a.weapon.group);
+			}
+		}
+		return sprites;
 	}
 	
 	public function addAllActors() {
