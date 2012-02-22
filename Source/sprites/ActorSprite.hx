@@ -60,47 +60,47 @@ class ActorSprite extends FlxSprite {
 		super.update();
 		
 		if (owner == Registry.player) {
+			// show the attack direction
+			directionIndicator.play(Type.enumConstructor(direction));
+			switch (direction) {
+				case N:
+					directionIndicator.x = x;
+					directionIndicator.y = y - Registry.tileSize - 2;
+				case E:
+					directionIndicator.x = x + Registry.tileSize;
+					directionIndicator.y = y - 1;
+				case S:
+					directionIndicator.x = x;
+					directionIndicator.y = y + Registry.tileSize;
+				case W:
+					directionIndicator.x = x - Registry.tileSize - 1;
+					directionIndicator.y = y - 1;
+			}
+			
 			if (FlxG.keys.RIGHT) {
 				velocity.x += Registry.playerAcceleration;
 				facing = FlxObject.RIGHT;				
 				direction = E;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Registry.bulletSpeed);
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Math.round(Registry.bulletSpeed+velocity.x));
 			}
 			if (FlxG.keys.LEFT) {
 				velocity.x -= Registry.playerAcceleration;
 				facing = FlxObject.LEFT;
 				direction = W;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Registry.bulletSpeed);
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Math.round(Registry.bulletSpeed-velocity.x));
 			}
 			if (FlxG.keys.DOWN) {
 				velocity.y += Registry.playerAcceleration;
 				direction = S;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_DOWN, Registry.bulletSpeed);
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_DOWN, Math.round(Registry.bulletSpeed+velocity.y));
 			}
 			if (FlxG.keys.UP) {
 				velocity.y -= Registry.playerAcceleration;
 				direction = N;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_UP, Registry.bulletSpeed);
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_UP, Math.round(Registry.bulletSpeed-velocity.y));
 			}
 			if (FlxG.keys.SPACE) {
 				owner.weapon.fire();
-			}
-			
-			
-			// show the attack direction
-			switch (direction) {
-				case N:
-					directionIndicator.x = x;
-					directionIndicator.y = y - Registry.tileSize;
-				case E:
-					directionIndicator.x = x + Registry.tileSize;
-					directionIndicator.y = y;
-				case S:
-					directionIndicator.x = x;
-					directionIndicator.y = y + Registry.tileSize;
-				case W:
-					directionIndicator.x = x - Registry.tileSize;
-					directionIndicator.y = y;
 			}
 			
 		} else {
