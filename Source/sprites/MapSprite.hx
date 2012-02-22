@@ -67,11 +67,29 @@ class MapSprite extends FlxTilemap {
 		switch (i.owner.type) 
 		{
 			case LEVER_CLOSE:
+				// switch lever
 				itemSprites.remove(i);
-				addItemAndSprite(ActorFactory.newActor(LEVER_OPEN, i.owner.tileX, i.owner.tileY));
+				owner.items.remove(i.owner);
+				var openLever = ActorFactory.newActor(LEVER_OPEN, i.owner.tileX, i.owner.tileY);
+				addItemAndSprite(openLever);
+				
+				// open doors
+				for (item in itemSprites.members) {
+					var i = cast(item, ActorSprite);
+					if (i.owner.type == DOOR_CLOSE) {
+						itemSprites.remove(i);
+						owner.items.remove(i.owner);
+						var openDoor = ActorFactory.newActor(DOOR_OPEN, i.owner.tileX, i.owner.tileY);
+						addItemAndSprite(openDoor);
+					}
+				}
 				
 			case DOOR_CLOSE:
+				a.x = i.x - Registry.tileSize;
 				FlxG.collide(a, i);
+				
+			case DOOR_OPEN:
+				trace("yay!");
 				
 			default:
 				
