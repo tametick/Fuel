@@ -5,6 +5,7 @@ import org.flixel.FlxGroup;
 import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import org.flixel.FlxTilemap;
+import org.flixel.plugin.photonstorm.baseTypes.Bullet;
 import world.Actor;
 import world.ActorFactory;
 import world.Level;
@@ -93,7 +94,7 @@ class MapSprite extends FlxTilemap {
 		
 		// physics stuff
 		FlxG.collide(this, actorSprites);
-		FlxG.collide(this, bulletSpritesAsSingleGroup);
+		FlxG.collide(this, bulletSpritesAsSingleGroup, hitWall);
 		FlxG.collide(this, itemSprites);
 		FlxG.collide(actorSprites, actorSprites);
 		FlxG.overlap(actorSprites, itemSprites, overlap);
@@ -104,9 +105,17 @@ class MapSprite extends FlxTilemap {
 			if (w != null) {
 				var groupOfOthers = new FlxGroup();
 				groupOfOthers.members = Utils.allExcept(actorSprites.members, a);
-				FlxG.collide(groupOfOthers, w.group);
+				FlxG.collide(groupOfOthers, w.group, hitActor);
 			}
 		}
+	}
+	
+	public function hitWall(m:MapSprite, i:Bullet) {
+		i.kill();
+	}
+	
+	public function hitActor(a:ActorSprite, i:Bullet) {
+		trace(a, i);
 	}
 	
 	public function overlap(a:ActorSprite, i:ActorSprite) {

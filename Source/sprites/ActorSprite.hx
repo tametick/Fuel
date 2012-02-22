@@ -45,7 +45,7 @@ class ActorSprite extends FlxSprite {
 		
 		if (owner.weapon != null) {
 			owner.weapon.setParent(this, "x", "y");
-			owner.weapon.makePixelBullet(10);
+			owner.weapon.makePixelBullet(20);
 			owner.weapon.setBulletOffset(Math.round(width/2)-1, Math.round(height/2)-1);
 			
 			// fixme - calculate from dext
