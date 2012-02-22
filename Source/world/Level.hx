@@ -46,10 +46,18 @@ class Level {
 	}
 	
 	function getSprites():Array<Dynamic> {
-		return [mapSprite, 
+		var sprites = [mapSprite, 
 				mapSprite.itemSprites,
 				mapSprite.actorSprites,
 				Registry.player.sprite.directionIndicator];
+		
+		for (a in actors) {
+			if (a.weapon != null) {
+				sprites.push(a.weapon.group);
+			}
+		}
+		
+		return sprites;
 	}
 	
 	public inline function get(x:Int, y:Int):Int {

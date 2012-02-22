@@ -6,6 +6,7 @@ import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
 import data.Registry;
 import data.Library;
+import org.flixel.plugin.photonstorm.FlxWeapon;
 import world.Actor;
 import utils.Direction;
 
@@ -41,6 +42,11 @@ class ActorSprite extends FlxSprite {
 			height -= Registry.playerHitboxOffset;
 			offset.y += Registry.playerHitboxOffset;
 		}
+		
+		if (owner.weapon != null) {
+			owner.weapon.setParent(this, "x", "y");
+			owner.weapon.makePixelBullet(10);
+		}
 	}
 	
 	override public function update() {
@@ -52,22 +58,26 @@ class ActorSprite extends FlxSprite {
 				velocity.x += Registry.playerAcceleration;
 				facing = FlxObject.LEFT;
 				direction = E;
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Registry.bulletSpeed);
 			}
 			if (FlxG.keys.LEFT) {
 				velocity.x -= Registry.playerAcceleration;
 				facing = FlxObject.RIGHT;
 				direction = W;
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Registry.bulletSpeed);
 			}
 			if (FlxG.keys.DOWN) {
 				velocity.y += Registry.playerAcceleration;
 				direction = S;
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_DOWN, Registry.bulletSpeed);
 			}
 			if (FlxG.keys.UP) {
 				velocity.y -= Registry.playerAcceleration;
 				direction = N;
+				owner.weapon.setBulletDirection(FlxWeapon.BULLET_UP, Registry.bulletSpeed);
 			}
 			if (FlxG.keys.SPACE) {
-				
+				owner.weapon.fire();
 			}
 			
 			

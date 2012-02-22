@@ -18,6 +18,7 @@ class Registry {
 	public static inline var maxVelocity = new FlxPoint(50, 50);
 	public static inline var drag = new FlxPoint(200, 200);
 	public static inline var playerAcceleration = 10;
+	public static inline var bulletSpeed = 200;
 	
 	public static inline var font = "eight2empire";
 	
