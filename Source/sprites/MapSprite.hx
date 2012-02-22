@@ -83,8 +83,12 @@ class MapSprite extends FlxTilemap {
 				
 				
 			case DOOR_CLOSE:
-				a.x = i.x - Registry.tileSize;
-				FlxG.collide(a, i);
+				if(i.x>a.x) {
+					a.x = i.x - Registry.tileSize - 1;
+				} else {
+					a.x = i.x + Registry.tileSize + 1;
+				}
+				//FlxG.collide(a, i);
 				
 			
 			case DOOR_OPEN:
