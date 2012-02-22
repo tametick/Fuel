@@ -26,11 +26,13 @@ class ActorSprite extends FlxSprite {
 		if (isImmovable)
 			immovable = true;
 		
-		// fixme - only for player
-		width -= 2;
-		centerOffsets();
-		height -= 2;
-		offset.y += 2;
+		if (owner.type == PLAYER) {
+			// make the player's hitbox a bit smaller to ease navigation
+			width -= Registry.playerHitboxOffset;
+			centerOffsets();
+			height -= Registry.playerHitboxOffset;
+			offset.y += Registry.playerHitboxOffset;
+		}
 	}
 	
 	override public function update() {

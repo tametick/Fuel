@@ -11,6 +11,8 @@ class Registry {
 	public static inline var levelWidth = 13;
 	public static inline var levelHeight = 9;
 	public static inline var tileSize = 8;
+	
+	public static inline var playerHitboxOffset = 2;
 
 	public static inline var maxVelocity = new FlxPoint(50, 50);
 	public static inline var drag = new FlxPoint(200, 200);

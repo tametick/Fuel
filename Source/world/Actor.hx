@@ -24,13 +24,13 @@ class Actor {
 	}
 	
 	function setX(x:Float):Float {
-		// fixme - only for player
-		sprite.x = x * Registry.tileSize+1;
+		var offset = (type==PLAYER? Registry.playerHitboxOffset:0);
+		sprite.x = x * Registry.tileSize+offset/2;
 		return getX();
 	}
 	function setY(y:Float):Float {
-		// fixme - only for player
-		sprite.y = y * Registry.tileSize+2;
+		var offset = (type==PLAYER? Registry.playerHitboxOffset:0);
+		sprite.y = y * Registry.tileSize+offset;
 		return getY();
 	}
 	
