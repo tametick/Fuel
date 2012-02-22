@@ -1,6 +1,7 @@
 package world;
 import data.Registry;
 import data.Library;
+import org.flixel.plugin.photonstorm.FlxWeapon;
 import sprites.ActorSprite;
 import world.Actor;
 
@@ -15,6 +16,7 @@ class ActorFactory {
 			case PLAYER:
 				sheet = HUMANS;
 				index = 2;
+				a.weapon = new FlxWeapon("spear");
 			case LEVER_CLOSE:
 				sheet = FURNITURE2;
 				index = 0;

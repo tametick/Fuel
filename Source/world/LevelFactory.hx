@@ -66,11 +66,19 @@ class LevelFactory {
 		// add lever
 		level.items.push(ActorFactory.newActor(LEVER_CLOSE, freeTile.x, freeTile.y));
 		
-		
 		// add exit
 		level.mapSprite.setTile(Std.int(level.finish.x + 1), Std.int(level.finish.y), 0);
-		level.items.push(ActorFactory.newActor(DOOR_CLOSE,level.finish.x+1,level.finish.y));
+		var exitDoor = ActorFactory.newActor(DOOR_CLOSE, level.finish.x + 1, level.finish.y);
+		level.items.push(exitDoor);
+		level.mapSprite.exitDoorSprite = exitDoor.sprite;
 		
+		// add closed entry door
+		level.mapSprite.setTile(Std.int(level.start.x - 1), Std.int(level.start.y), 0);
+		var entryDoor = ActorFactory.newActor(DOOR_CLOSE, level.start.x - 1, level.start.y);
+		level.items.push(entryDoor);
+		
+		
+		// add all actor sprites to map
 		level.mapSprite.addAllActors();
 		return level;
 	}

@@ -1,9 +1,10 @@
 package world;
 
 import nme.display.BitmapData;
+import org.flixel.FlxObject;
+import org.flixel.FlxPoint;
 import data.Registry;
 import data.Library;
-import org.flixel.FlxPoint;
 import utils.Utils;
 import sprites.MapSprite;
 
@@ -13,6 +14,7 @@ class Level {
 	public var width:Int;
 	public var height:Int;
 	
+	public var sprites(getSprites, null):Array<Dynamic>;
 	public var actors(getActors, null):Array<Actor>;
 
 	// Actors are just ints used to lookup in the parts list,
@@ -25,7 +27,6 @@ class Level {
 	public var items:Array<Actor>;
 	public var start:FlxPoint;
 	public var finish:FlxPoint;
-	
 			
 	public function new(tiles:Array<Int>, ?w:Int = Registry.levelWidth, ?h:Int = Registry.levelHeight) {
 		this.tiles = tiles;
@@ -48,6 +49,16 @@ class Level {
 		a = a.concat(enemies);
 		a = a.concat(items);
 		return a;
+	}
+	
+	function getSprites():Array<Dynamic> {
+		var sprites = [mapSprite, 
+				mapSprite.itemSprites,
+				mapSprite.actorSprites,
+				mapSprite.bulletSpritesAsSingleGroup,
+				Registry.player.sprite.directionIndicator];
+		
+		return sprites;
 	}
 	
 	function newActor():Int {
