@@ -25,7 +25,7 @@ class Actor {
 	
 	function setX(x:Float):Float {
 		var offset = (type==PLAYER? Registry.playerHitboxOffset:0);
-		sprite.x = x * Registry.tileSize+offset/2;
+		sprite.x = x * Registry.tileSize+Std.int(offset/2);
 		return getX();
 	}
 	function setY(y:Float):Float {
