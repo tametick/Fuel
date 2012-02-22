@@ -14,7 +14,7 @@ class GameState extends FlxState {
 	var guiText:TextField;
 	
 	override public function create() {
-		add(FlxGridOverlay.create(Std.int(Registry.tileSize/2), Std.int(Registry.tileSize/2)));
+		add(FlxGridOverlay.create(Std.int(Registry.tileSize/2), Std.int(Registry.tileSize/2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
 		
 		newLevel();
 		
