@@ -96,8 +96,17 @@ class MapSprite extends FlxTilemap {
 		FlxG.collide(this, bulletSpritesAsSingleGroup);
 		FlxG.collide(this, itemSprites);
 		FlxG.collide(actorSprites, actorSprites);
-		FlxG.collide(actorSprites, bulletSpritesAsSingleGroup);
 		FlxG.overlap(actorSprites, itemSprites, overlap);
+		
+		for (actor in actorSprites.members) {
+			var a = cast(actor, ActorSprite);
+			var w = a.owner.weapon;
+			if (w != null) {
+				var groupOfOthers = new FlxGroup();
+				groupOfOthers.members = Utils.allExcept(actorSprites.members, a);
+				FlxG.collide(groupOfOthers, w.group);
+			}
+		}
 	}
 	
 	public function overlap(a:ActorSprite, i:ActorSprite) {
