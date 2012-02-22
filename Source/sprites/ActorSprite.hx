@@ -50,6 +50,9 @@ class ActorSprite extends FlxSprite {
 			
 			// fixme - calculate from dext
 			owner.weapon.setFireRate(300);
+			
+			// fixme - calculate from range
+			owner.weapon.setBulletLifeSpan(500);
 		}
 	}
 	

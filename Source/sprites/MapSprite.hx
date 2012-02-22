@@ -17,6 +17,7 @@ class MapSprite extends FlxTilemap {
 	public var itemSprites:FlxGroup;
 	public var actorSprites:FlxGroup;
 	public var bulletSprites(getBulletSprites, null):Array<FlxGroup>;
+	public var bulletSpritesAsSingleGroup(getBulletSpritesAsSingleGroup, null):FlxGroup;
 	
 	public var exitDoorSprite:ActorSprite;
 
@@ -35,13 +36,34 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	function getBulletSprites():Array<FlxGroup> {
-		var sprites = [];
+		// only calculated when creating new level
+		if (bulletSprites != null) {
+			return bulletSprites;
+		}
+		
+		var bulletSprites = [];
 		for (a in owner.actors) {
 			if (a.weapon != null) {
-				sprites.push(a.weapon.group);
+				bulletSprites.push(a.weapon.group);
 			}
 		}
-		return sprites;
+		return bulletSprites;
+	}
+	
+	function getBulletSpritesAsSingleGroup():FlxGroup {
+		// only calculated when creating new level
+		if (bulletSpritesAsSingleGroup != null) {
+			return bulletSpritesAsSingleGroup;
+		}
+		
+		bulletSpritesAsSingleGroup = new FlxGroup();
+		for (bullets in getBulletSprites()) {
+			for (bullet in bullets.members) {
+				bulletSpritesAsSingleGroup.add(bullet);
+			}
+		}
+		
+		return bulletSpritesAsSingleGroup;
 	}
 	
 	public function addAllActors() {
@@ -71,8 +93,10 @@ class MapSprite extends FlxTilemap {
 		
 		// physics stuff
 		FlxG.collide(this, actorSprites);
+		FlxG.collide(this, bulletSpritesAsSingleGroup);
 		FlxG.collide(this, itemSprites);
 		FlxG.collide(actorSprites, actorSprites);
+		FlxG.collide(actorSprites, bulletSpritesAsSingleGroup);
 		FlxG.overlap(actorSprites, itemSprites, overlap);
 	}
 	
