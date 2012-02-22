@@ -1,15 +1,18 @@
 package sprites;
 
-import data.Library;
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
-import world.Actor;
 import data.Registry;
+import data.Library;
+import world.Actor;
+import utils.Direction;
+
 
 class ActorSprite extends FlxSprite {
 	public var owner:Actor;
+	public var direction:Direction;
 
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
@@ -19,9 +22,10 @@ class ActorSprite extends FlxSprite {
 		drag = Registry.drag;
 		
 		
-		loadGraphic(Library.getImage(image), true, false, 8, 8);
+		loadGraphic(Library.getImage(image), true, true, 8, 8);
 		addAnimation("idle", [spriteIndex]);
 		play("idle");
+		direction = W;
 		
 		if (isImmovable)
 			immovable = true;
@@ -40,17 +44,24 @@ class ActorSprite extends FlxSprite {
 		
 		if (owner == Registry.player) {
 			// player movement
+			// right/left facing is switched because flixel assumes the original sprites faced right
 			if (FlxG.keys.RIGHT) {
 				velocity.x += Registry.playerAcceleration;
+				facing = FlxObject.LEFT;
+				direction = E;
 			}
 			if (FlxG.keys.LEFT) {
 				velocity.x -= Registry.playerAcceleration;
+				facing = FlxObject.RIGHT;
+				direction = W;
 			}
 			if (FlxG.keys.DOWN) {
 				velocity.y += Registry.playerAcceleration;
+				direction = S;
 			}
 			if (FlxG.keys.UP) {
 				velocity.y -= Registry.playerAcceleration;
+				direction = N;
 			}
 		} else {
 			// enemy movement
