@@ -5,6 +5,8 @@ import org.flixel.FlxGroup;
 import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import org.flixel.FlxTilemap;
+import world.Actor;
+import world.ActorFactory;
 import world.Level;
 import utils.Utils;
 import data.Registry;
@@ -41,6 +43,16 @@ class MapSprite extends FlxTilemap {
 		}
 	}
 	
+	public function addEnemyAndSprite(e:Actor) {
+		owner.enemies.push(e);
+		actorSprites.add(e.sprite);
+	}
+	
+	public function addItemAndSprite(i:Actor) {
+		owner.items.push(i);
+		itemSprites.add(i.sprite);
+	}
+	
 	override public function update() {
 		super.update();
 		
@@ -55,18 +67,11 @@ class MapSprite extends FlxTilemap {
 		switch (i.owner.type) 
 		{
 			case LEVER_CLOSE:
-				// fixme: switch to open lever & open door
-				a.owner.items.push(i.owner);
 				itemSprites.remove(i);
+				addItemAndSprite(ActorFactory.newActor(LEVER_OPEN, i.owner.tileX, i.owner.tileY));
 				
 			case DOOR_CLOSE:
-/*				a.x = i.x - Registry.tileSize;
-				if (a.owner.has(KEY)) {
-					a.owner.remove(KEY);
-					itemSprites.remove(i);
-				} else {*/
-					FlxG.collide(a, i);
-				//}
+				FlxG.collide(a, i);
 				
 			default:
 				
