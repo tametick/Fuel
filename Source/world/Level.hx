@@ -47,8 +47,8 @@ class Level {
 	
 	function getSprites():Array<Dynamic> {
 		return [mapSprite, 
-				mapSprite.actorSprites, 
-				mapSprite.itemSprites];
+				mapSprite.itemSprites,
+				mapSprite.actorSprites];
 	}
 	
 	public inline function get(x:Int, y:Int):Int {
