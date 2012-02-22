@@ -47,7 +47,6 @@ class ActorSprite extends FlxSprite {
 		super.update();
 		
 		if (owner == Registry.player) {
-			// player movement
 			// right/left facing is switched because flixel assumes the original sprites faced right
 			if (FlxG.keys.RIGHT) {
 				velocity.x += Registry.playerAcceleration;
@@ -67,7 +66,12 @@ class ActorSprite extends FlxSprite {
 				velocity.y -= Registry.playerAcceleration;
 				direction = N;
 			}
+			if (FlxG.keys.SPACE) {
+				
+			}
 			
+			
+			// show the attack direction
 			switch (direction) {
 				case N:
 					directionIndicator.x = x;

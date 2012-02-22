@@ -47,6 +47,8 @@ enum Images {
 	FURNITURE2;
 	FURNITURE3;
 	HUMANS;
+	ATTACKS;
+	ARROWS;
 	
 	INTERLACE;
 	MENU;
@@ -58,3 +60,5 @@ class Furniture1Image extends LoadedBitmap { public function new() { super(FURNI
 class Furniture2Image extends LoadedBitmap { public function new() { super(FURNITURE2); } }
 class Furniture3Image extends LoadedBitmap { public function new() { super(FURNITURE3); } }
 class HumansImage extends LoadedBitmap { public function new() { super(HUMANS); } }
+class AttacksImage extends LoadedBitmap { public function new() { super(ATTACKS); } }
+class ArrowsImage extends LoadedBitmap { public function new() { super(ARROWS); } }
