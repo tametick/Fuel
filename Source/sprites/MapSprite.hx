@@ -66,8 +66,7 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	public function overlap(a:ActorSprite, i:ActorSprite) {
-		switch (i.owner.type) 
-		{
+		switch (i.owner.type) {
 			case LEVER_CLOSE:
 				// switch lever
 				itemSprites.remove(i);
@@ -88,8 +87,6 @@ class MapSprite extends FlxTilemap {
 				} else {
 					a.x = i.x + Registry.tileSize + 1;
 				}
-				//FlxG.collide(a, i);
-				
 			
 			case DOOR_OPEN:
 				// this should probably be repalced with STAIRS or something
