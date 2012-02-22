@@ -51,7 +51,7 @@ class Level {
 				mapSprite.actorSprites,
 				Registry.player.sprite.directionIndicator];
 				
-		sprites.concat(mapSprite.bulletSprites);
+		sprites = sprites.concat(mapSprite.bulletSprites);
 		
 		return sprites;
 	}
