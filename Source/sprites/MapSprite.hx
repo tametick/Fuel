@@ -36,6 +36,7 @@ class MapSprite extends FlxTilemap {
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), FlxTilemap.imgAuto, 0, 0, FlxTilemap.AUTO);
 	}
 	
+		
 	function getBulletSprites():Array<FlxGroup> {
 		// only calculated when creating new level
 		if (bulletSprites != null) {
@@ -111,6 +112,13 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	public function hitWall(m:MapSprite, i:Bullet) {
+		var e = cast(i.weapon.parent, ActorSprite).explosionEmitter;
+		Registry.gameState.add(e);
+		e.x = i.x;
+		e.y = i.y;
+		for(p in 0...e.maxSize) {
+			e.emitParticle();
+		}
 		i.kill();
 	}
 	

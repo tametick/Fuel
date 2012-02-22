@@ -22,7 +22,7 @@ import org.flixel.plugin.photonstorm.FlxWeapon;
 
 class Bullet extends FlxSprite
 {
-	private var weapon:FlxWeapon;
+	public var weapon:FlxWeapon;
 	
 	private var bulletSpeed:Int;
 	

@@ -15,6 +15,7 @@ class ActorSprite extends FlxSprite {
 	public var owner:Actor;
 	public var direction:Direction;
 	public var directionIndicator:IndicatorSprite;
+	public var explosionEmitter:ExplosionEmitter;
 
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
@@ -26,14 +27,14 @@ class ActorSprite extends FlxSprite {
 		maxVelocity = Registry.maxVelocity;
 		drag = Registry.drag;
 		
-		
 		loadGraphic(Library.getImage(image), true, true, 8, 8);
 		addAnimation("idle", [spriteIndex]);
 		play("idle");
 		direction = W;
 		
-		if (isImmovable)
+		if (isImmovable) {
 			immovable = true;
+		}
 		
 		if (owner.type == PLAYER) {
 			// make the player's hitbox a bit smaller to ease navigation
@@ -54,6 +55,8 @@ class ActorSprite extends FlxSprite {
 			// fixme - calculate from range
 			owner.weapon.setBulletLifeSpan(500);
 		}
+		
+		explosionEmitter = new ExplosionEmitter();
 	}
 	
 	override public function update() {
