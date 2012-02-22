@@ -80,9 +80,11 @@ class ActorSprite extends FlxSprite {
 					directionIndicator.y = y - 1;
 			}
 			
+			
+			// fixme - use tweening for full-tile movement
 			if (FlxG.keys.RIGHT) {
 				velocity.x += Registry.playerAcceleration;
-				facing = FlxObject.RIGHT;				
+				facing = FlxObject.RIGHT;
 				direction = E;
 				owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Math.round(Registry.bulletSpeed+velocity.x));
 			}
