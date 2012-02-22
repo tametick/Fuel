@@ -54,19 +54,19 @@ class MapSprite extends FlxTilemap {
 	public function overlap(a:ActorSprite, i:ActorSprite) {
 		switch (i.owner.type) 
 		{
-			case KEY:
-				// get new item
+			case LEVER_CLOSE:
+				// fixme: switch to open lever & open door
 				a.owner.items.push(i.owner);
 				itemSprites.remove(i);
 				
 			case DOOR_CLOSE:
-				a.x = i.x - Registry.tileSize;
+/*				a.x = i.x - Registry.tileSize;
 				if (a.owner.has(KEY)) {
 					a.owner.remove(KEY);
 					itemSprites.remove(i);
-				} else {
+				} else {*/
 					FlxG.collide(a, i);
-				}
+				//}
 				
 			default:
 				

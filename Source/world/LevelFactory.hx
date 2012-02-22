@@ -63,8 +63,8 @@ class LevelFactory {
 			pathToStart = level.mapSprite.findTilePath(level.start, freeTile);
 			pathToFinish = level.mapSprite.findTilePath(freeTile, level.finish);
 		} while (pathToStart.nodes.length < minDist || pathToFinish.nodes.length < minDist);
-		// add key
-		level.items.push(ActorFactory.newActor(KEY, freeTile.x, freeTile.y));
+		// add lever
+		level.items.push(ActorFactory.newActor(LEVER_CLOSE, freeTile.x, freeTile.y));
 		
 		
 		// add exit

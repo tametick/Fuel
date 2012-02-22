@@ -40,13 +40,21 @@ class Library {
 
 // images
 enum Images {
-	ACTORS;
-	TILES;
-	FURNITURE;
+	DOORS;
+	DUNGEON;
+	FLOOR;
+	FURNITURE1;
+	FURNITURE2;
+	FURNITURE3;
+	HUMANS;
 	
-	SPLASH;
 	INTERLACE;
+	MENU;
 }
-class ActorsImage extends LoadedBitmap { public function new() { super(ACTORS); } }
-class TilesImage extends LoadedBitmap { public function new() { super(TILES); } }
-class FurnitureImage extends LoadedBitmap { public function new() { super(FURNITURE); } }
+class DoorsImage extends LoadedBitmap { public function new() { super(DOORS); } }
+class DungeonImage extends LoadedBitmap { public function new() { super(DUNGEON); } }
+class FloorImage extends LoadedBitmap { public function new() { super(FLOOR); } }
+class Furniture1Image extends LoadedBitmap { public function new() { super(FURNITURE1); } }
+class Furniture2Image extends LoadedBitmap { public function new() { super(FURNITURE2); } }
+class Furniture3Image extends LoadedBitmap { public function new() { super(FURNITURE3); } }
+class HumansImage extends LoadedBitmap { public function new() { super(HUMANS); } }

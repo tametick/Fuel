@@ -56,7 +56,8 @@ class Actor {
 
 enum ActorType {
 	PLAYER;
-	KEY;
+	LEVER_CLOSE;
+	LEVER_OPEN;
 	DOOR_CLOSE;
 	DOOR_OPEN;
 }

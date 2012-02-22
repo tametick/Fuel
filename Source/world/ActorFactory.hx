@@ -13,18 +13,21 @@ class ActorFactory {
 		
 		switch (type) {
 			case PLAYER:
-				sheet = ACTORS;
+				sheet = HUMANS;
+				index = 2;
+			case LEVER_CLOSE:
+				sheet = FURNITURE2;
+				index = 0;
+			case LEVER_OPEN:
+				sheet = FURNITURE2;
 				index = 1;
-			case KEY:
-				sheet = ACTORS;
-				index = 166;
 			case DOOR_CLOSE:
-				sheet = FURNITURE;
-				index = 207;
+				sheet = DOORS;
+				index = 2;
 				isImmovable = true;
 			case DOOR_OPEN:
-				sheet = FURNITURE;
-				index = 207 + 25;
+				sheet = DOORS;
+				index = 12;
 				isImmovable = true;
 		}
 		
