@@ -87,21 +87,29 @@ class ActorSprite extends FlxSprite {
 			// fixme - use tweening for full-tile movement
 			if(!isMoving) {
 				if (FlxG.keys.RIGHT) {
-					isMoving = true;
-					Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x+Registry.tileSize) } ).onComplete(stopped);
-					faceRight();
-				}
-				if (FlxG.keys.LEFT) {
-					Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x-Registry.tileSize) } ).onComplete(stopped);
-					faceLeft();
-				}
-				if (FlxG.keys.DOWN) {
-					Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y+Registry.tileSize) } ).onComplete(stopped);
-					faceDown();
-				}
-				if (FlxG.keys.UP) {
-					Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y-Registry.tileSize) } ).onComplete(stopped);
-					faceUp();
+					if(Registry.level.get(Std.int(owner.tileX+0.5)+1,Std.int(owner.tileY+0.5))==0) {
+						isMoving = true;
+						Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x+Registry.tileSize) } ).onComplete(stopped);
+						faceRight();
+					}
+				} else if (FlxG.keys.LEFT) {
+					if(Registry.level.get(Std.int(owner.tileX+0.5)-1,Std.int(owner.tileY+0.5))==0) {
+						isMoving = true;
+						Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x-Registry.tileSize) } ).onComplete(stopped);
+						faceLeft();
+					}
+				} else if (FlxG.keys.DOWN) {
+					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)+1)==0) {
+						isMoving = true;
+						Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y+Registry.tileSize) } ).onComplete(stopped);
+						faceDown();
+					}
+				} else if (FlxG.keys.UP) {
+					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)-1)==0) {
+						isMoving = true;
+						Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y-Registry.tileSize) } ).onComplete(stopped);
+						faceUp();
+					}
 				}
 			}
 			if (FlxG.keys.SPACE) {

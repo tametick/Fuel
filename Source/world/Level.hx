@@ -59,6 +59,7 @@ class Level {
 	}
 	public inline function set(x:Int, y:Int, val:Int) {
 		Utils.set(tiles, width, x, y, val);
+		mapSprite.setTile(x, y, val);
 	}
 	
 	function existActorAtPoint(x:Int, y:Int):Bool {
