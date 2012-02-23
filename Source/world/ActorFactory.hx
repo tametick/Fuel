@@ -16,7 +16,7 @@ class ActorFactory {
 			case PLAYER:
 				sheet = HUMANS;
 				index = 2;
-				a.weapon = new FlxWeapon("spear");
+				a.weapon = new Weapon(a);
 			case LEVER_CLOSE:
 				sheet = FURNITURE2;
 				index = 0;
@@ -34,7 +34,9 @@ class ActorFactory {
 		}
 		
 		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, isImmovable);
-		
+		if(a.weapon!=null) {
+			a.weapon.sprite.setParent(a.sprite, "x", "y");
+		}
 		return a;
 	}	
 }

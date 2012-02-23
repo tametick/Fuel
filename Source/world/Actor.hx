@@ -7,8 +7,7 @@ import sprites.ActorSprite;
 class Actor {
 	public var type:ActorType;
 	public var sprite:ActorSprite;
-	public var weapon:FlxWeapon;
-	public var range:Float;
+	public var weapon:Weapon;
 	
 	public var items:Array<Actor>;
 	public var tileX(getX, setX):Float;
@@ -17,7 +16,6 @@ class Actor {
 	public function new(type:ActorType) {
 		this.type = type;
 		items = [];
-		range = 1;
 	}
 	
 	function getX():Float {

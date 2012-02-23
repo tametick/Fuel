@@ -46,7 +46,7 @@ class MapSprite extends FlxTilemap {
 		var bulletSprites = [];
 		for (a in owner.actors) {
 			if (a.weapon != null) {
-				bulletSprites.push(a.weapon.group);
+				bulletSprites.push(a.weapon.sprite.group);
 			}
 		}
 		return bulletSprites;
@@ -102,7 +102,7 @@ class MapSprite extends FlxTilemap {
 		
 		for (actor in actorSprites.members) {
 			var a = cast(actor, ActorSprite);
-			var w = a.owner.weapon;
+			var w = a.owner.weapon.sprite;
 			if (w != null) {
 				var groupOfOthers = new FlxGroup();
 				groupOfOthers.members = Utils.allExcept(actorSprites.members, a);

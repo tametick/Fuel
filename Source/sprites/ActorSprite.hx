@@ -6,7 +6,6 @@ import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
 import data.Registry;
 import data.Library;
-import org.flixel.plugin.photonstorm.FlxWeapon;
 import world.Actor;
 import utils.Direction;
 
@@ -16,6 +15,7 @@ class ActorSprite extends FlxSprite {
 	public var direction:Direction;
 	public var directionIndicator:IndicatorSprite;
 	public var explosionEmitter:ExplosionEmitter;
+	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
@@ -44,19 +44,23 @@ class ActorSprite extends FlxSprite {
 			faceRight();
 		}
 		
+		// fixme - move to weapon factory
 		if (owner.weapon != null) {
-			owner.weapon.setParent(this, "x", "y");
-			owner.weapon.makePixelBullet(20);
-			owner.weapon.setBulletOffset(Math.round(width/2)-1, Math.round(height/2)-1);
+			weaponSprite.makePixelBullet(20);
+			weaponSprite.setBulletOffset(Math.round(width/2)-1, Math.round(height/2)-1);
 			
 			// fixme - calculate from dext
-			owner.weapon.setFireRate(300);
+			weaponSprite.setFireRate(300);
 			
 			// fixme - calculate from range
-			owner.weapon.setBulletLifeSpan(500);
+			weaponSprite.setBulletLifeSpan(500);
 		}
 		
 		explosionEmitter = new ExplosionEmitter();
+	}
+	
+	function getWeaponSprite():WeaponSprite {
+		return owner.weapon.sprite;
 	}
 	
 	override public function update() {
@@ -110,22 +114,22 @@ class ActorSprite extends FlxSprite {
 	function faceRight() {
 		facing = FlxObject.RIGHT;
 		direction = E;
-		owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Math.round(Registry.bulletSpeed+velocity.x));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_RIGHT, Math.round(Registry.bulletSpeed+velocity.x));
 	}
 	
 	function faceLeft() {
 		facing = FlxObject.LEFT;
 		direction = W;
-		owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Math.round(Registry.bulletSpeed-velocity.x));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_LEFT, Math.round(Registry.bulletSpeed-velocity.x));
 	}
 	
 	function faceDown()	{
 		direction = S;
-		owner.weapon.setBulletDirection(FlxWeapon.BULLET_DOWN, Math.round(Registry.bulletSpeed+velocity.y));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_DOWN, Math.round(Registry.bulletSpeed+velocity.y));
 	}
 	
 	function faceUp() {
 		direction = N;
-		owner.weapon.setBulletDirection(FlxWeapon.BULLET_UP, Math.round(Registry.bulletSpeed-velocity.y));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_UP, Math.round(Registry.bulletSpeed-velocity.y));
 	}
 }
