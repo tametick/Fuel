@@ -47,7 +47,7 @@ class ActorSprite extends FlxSprite {
 		
 		// fixme - move to weapon factory
 		if (owner.weapon != null) {
-			weaponSprite.makePixelBullet(20);
+			weaponSprite.makePixelBullet(Registry.bulletsPerWeapon);
 			weaponSprite.setBulletOffset(Math.round(width/2)-1, Math.round(height/2)-1);
 			
 			// fixme - calculate from dext
@@ -57,7 +57,7 @@ class ActorSprite extends FlxSprite {
 			weaponSprite.setBulletLifeSpan(500);
 		}
 		
-		explosionEmitter = new EmitterSprite(0xFFFFFF);
+		explosionEmitter = new EmitterSprite(Registry.explosionColor);
 	}
 	
 	function getWeaponSprite():WeaponSprite {

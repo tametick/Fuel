@@ -1,5 +1,6 @@
 package world;
 
+import data.Registry;
 import sprites.WeaponSprite;
 import world.Weapon;
 
@@ -10,7 +11,7 @@ class WeaponFactory {
 		
 		switch (type) {
 			case SPEAR:
-				w.range = 1;
+				w.range = Registry.rangeShort;
 		}
 		
 		return w;

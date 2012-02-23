@@ -3,14 +3,15 @@ package sprites;
 import org.flixel.FlxEmitter;
 import org.flixel.FlxParticle;
 import org.flixel.FlxPoint;
+import data.Registry;
 
 class EmitterSprite extends FlxEmitter {
-	static var maxV = new FlxPoint(25, 25);
-	public function new(color:Int, x:Int = 0, y:Int = 0, size:Int = 20) {
+	static var maxV = Registry.particlesMaxVelocity;
+	public function new(color:Int, x:Int = 0, y:Int = 0, size:Int = Registry.particlesPerEmitter) {
 		super(x, y, size);
 		
-		gravity = 200;
-		lifespan = 0.25;
+		gravity = Registry.particleGravity;
+		lifespan = Registry.particleLifespan;
 		
 		for (i in 0...size) {
 			var particle:FlxParticle = new FlxParticle();
