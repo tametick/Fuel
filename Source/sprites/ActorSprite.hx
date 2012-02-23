@@ -30,7 +30,6 @@ class ActorSprite extends FlxSprite {
 		loadGraphic(Library.getImage(image), true, true, 8, 8);
 		addAnimation("idle", [spriteIndex]);
 		play("idle");
-		direction = W;
 		
 		if (isImmovable) {
 			immovable = true;
@@ -42,6 +41,7 @@ class ActorSprite extends FlxSprite {
 			centerOffsets();
 			height -= Registry.playerHitboxOffset;
 			offset.y += Registry.playerHitboxOffset;
+			faceRight();
 		}
 		
 		if (owner.weapon != null) {

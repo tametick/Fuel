@@ -12,4 +12,4 @@ class Preloader extends NMEPreloader {
 	}
 }
 
-@:bitmap("loading.png") class Bg extends flash.display.BitmapData {}
+@:bitmap("loading.png") class Bg extends BitmapData {}

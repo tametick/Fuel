@@ -1,9 +1,9 @@
-import data.Library;
 import nme.Lib;
 import org.flixel.FlxGame;
 import sprites.TextSprite;
 import states.GameState;
 import data.Registry;
+import data.Library;
 
 class Fungeon extends FlxGame {
 	public static function main () {
