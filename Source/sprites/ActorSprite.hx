@@ -1,20 +1,34 @@
 package sprites;
 
+import com.eclecticdesignstudio.motion.Actuate;
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
 import data.Registry;
 import data.Library;
-import org.flixel.plugin.photonstorm.FlxWeapon;
 import world.Actor;
 import utils.Direction;
+import world.Weapon;
 
 
 class ActorSprite extends FlxSprite {
+	// fixme - move to registry
+	static var movementKeys = ["RIGHT", "LEFT", "DOWN", "UP"];
+	static var attackKey = ["SPACE"];
+	
 	public var owner:Actor;
 	public var direction:Direction;
 	public var directionIndicator:IndicatorSprite;
+	public var attackEffect:AttackSprite;
+	public var explosionEmitter:EmitterSprite;
+	
+	var isMoving:Bool;
+	var bobCounter:Float;
+	var bobCounterInc:Float;
+	var bobMult:Float;
+	
+	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
@@ -22,89 +36,189 @@ class ActorSprite extends FlxSprite {
 		if (owner.type == PLAYER) {
 			directionIndicator = new IndicatorSprite();
 		}
-		
+		attackEffect = new AttackSprite();
+				
 		maxVelocity = Registry.maxVelocity;
 		drag = Registry.drag;
 		
-		
-		loadGraphic(Library.getImage(image), true, true, 8, 8);
+		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
 		addAnimation("idle", [spriteIndex]);
 		play("idle");
-		direction = W;
 		
-		if (isImmovable)
+		if (isImmovable) {
 			immovable = true;
-		
-		if (owner.type == PLAYER) {
-			// make the player's hitbox a bit smaller to ease navigation
-			width -= Registry.playerHitboxOffset;
-			centerOffsets();
-			height -= Registry.playerHitboxOffset;
-			offset.y += Registry.playerHitboxOffset;
 		}
 		
-		if (owner.weapon != null) {
-			owner.weapon.setParent(this, "x", "y");
-			owner.weapon.makePixelBullet(10);
-			owner.weapon.setBulletOffset(Math.round(width/2)-1, Math.round(height/2)-1);
-			
-			// fixme - calculate from dext
-			owner.weapon.setFireRate(300);
-			
-			// fixme - calculate from range
-			owner.weapon.setBulletLifeSpan(500);
+		faceRight();
+		
+		explosionEmitter = new EmitterSprite(Registry.explosionColor);
+		
+		bobCounter = -1.0;
+		bobCounterInc = 0.04;
+		bobMult = 1;
+	}
+	
+	function getWeaponSprite():WeaponSprite {
+		return owner.weapon.sprite;
+	}
+	
+	function startMoving(dx:Int, dy:Int) {
+		isMoving = true;
+		bobCounter = -1.0;
+		Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x+dx*Registry.tileSize), y: roundedTilePosition(this.y+dy*Registry.tileSize) } ).onComplete(stopped);
+	}
+	
+	override public function draw():Void {
+		var oldX:Float = x;
+		var oldY:Float = y;
+		if(alive && health>0 && !FlxG.paused) {
+			if ( isMoving ) {
+				var offset:Float = Math.sin(bobCounter) * bobMult;
+				y -= offset;
+				bobCounter += bobCounterInc;
+			}/* else if ( isDodging ) {
+				var offset:Float = dodgeCounter;
+				if ( offset > 10 ) 
+					offset = 10 - (dodgeCounter - 10);
+				if ( offset < 0 ) 
+					offset = 0;
+				switch (dodgeDir) {
+					case 0:
+						y += offset;
+					case 1:
+						x -= offset;
+					case 2:
+						y -= offset;
+					case 3:
+						x += offset;
+				}
+			}*/
+		} else {
+			bobCounter = -1.0;
 		}
+		
+		super.draw();
+	/*	if (isDodging ) {
+			x = oldX;
+			y = oldY;
+		}*/
+	}
+	
+	public function playAttackEffect(type:WeaponType) {
+		switch(type) {
+			case SPEAR:
+				directionIndicator.visible = false;
+				attackEffect.play("MELEE", true);
+				Actuate.timer(0.5).onComplete(showIndicator);
+		}
+	}
+	
+	function showIndicator() {
+		directionIndicator.visible = true;
 	}
 	
 	override public function update() {
 		super.update();
 		
+		switch (direction) {
+			case N:
+				attackEffect.x = x;
+				attackEffect.y = y - Registry.tileSize;
+			case E:
+				attackEffect.x = x + Registry.tileSize;
+				attackEffect.y = y ;
+			case S:
+				attackEffect.x = x;
+				attackEffect.y = y + Registry.tileSize + 1;
+			case W:
+				attackEffect.x = x - Registry.tileSize - 1;
+				attackEffect.y = y;
+		}
+		
 		if (owner == Registry.player) {
-			if (FlxG.keys.RIGHT) {
-				velocity.x += Registry.playerAcceleration;
-				facing = FlxObject.RIGHT;				
-				direction = E;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Registry.bulletSpeed);
-			}
-			if (FlxG.keys.LEFT) {
-				velocity.x -= Registry.playerAcceleration;
-				facing = FlxObject.LEFT;
-				direction = W;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Registry.bulletSpeed);
-			}
-			if (FlxG.keys.DOWN) {
-				velocity.y += Registry.playerAcceleration;
-				direction = S;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_DOWN, Registry.bulletSpeed);
-			}
-			if (FlxG.keys.UP) {
-				velocity.y -= Registry.playerAcceleration;
-				direction = N;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_UP, Registry.bulletSpeed);
-			}
-			if (FlxG.keys.SPACE) {
-				owner.weapon.fire();
-			}
-			
-			
 			// show the attack direction
-			switch (direction) {
-				case N:
-					directionIndicator.x = x;
-					directionIndicator.y = y - Registry.tileSize;
-				case E:
-					directionIndicator.x = x + Registry.tileSize;
-					directionIndicator.y = y;
-				case S:
-					directionIndicator.x = x;
-					directionIndicator.y = y + Registry.tileSize;
-				case W:
-					directionIndicator.x = x - Registry.tileSize;
-					directionIndicator.y = y;
+			directionIndicator.play(Type.enumConstructor(direction));
+			directionIndicator.x = attackEffect.x;
+			directionIndicator.y = attackEffect.y;
+			
+			if(!isMoving) {				
+				if (FlxG.keys.pressed(movementKeys[0])) {
+					// right
+					if(Registry.level.get(Std.int(owner.tileX+0.5)+1,Std.int(owner.tileY+0.5))==0) {
+						startMoving(1,0);
+						faceRight();
+					}
+				} else if (FlxG.keys.pressed(movementKeys[1])) {
+					// left
+					if(Registry.level.get(Std.int(owner.tileX+0.5)-1,Std.int(owner.tileY+0.5))==0) {
+						startMoving(-1,0);
+						faceLeft();
+					}
+				} else if (FlxG.keys.pressed(movementKeys[2])) {
+					// down
+					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)+1)==0) {
+						startMoving(0,1);
+						faceDown();
+					}
+				} else if (FlxG.keys.pressed(movementKeys[3])) {
+					// up
+					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)-1)==0) {
+						startMoving(0,-1);
+						faceUp();
+					}
+				}
+			}
+			
+			if (FlxG.keys.justPressed(attackKey[0])) {
+				owner.weapon.fire();
 			}
 			
 		} else {
 			// enemy movement
+		}
+	}
+	
+	inline function roundedTilePosition(p:Float):Int {
+		return Math.round(p/Registry.tileSize-0.5)*Registry.tileSize + Std.int(Registry.tileSize/2);
+	}
+	
+	public function stopped() {
+		isMoving = false;
+		x = roundedTilePosition(x);
+		y = roundedTilePosition(y);
+	}
+	
+	function faceRight() {
+		facing = FlxObject.RIGHT;
+		direction = E;
+		if(owner.weapon!=null) {
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_RIGHT, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.RIGHT;
+		}
+	}
+	
+	function faceLeft() {
+		facing = FlxObject.LEFT;
+		direction = W;
+		if (owner.weapon != null) {
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_LEFT, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.LEFT;
+		}
+	}
+	
+	function faceDown()	{
+		direction = S;
+		if (owner.weapon != null) { 
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_DOWN, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.LEFT;
+		}
+	}
+	
+	function faceUp() {
+		direction = N;
+		if (owner.weapon != null) {
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_UP, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.RIGHT;
 		}
 	}
 }

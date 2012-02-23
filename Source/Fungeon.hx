@@ -1,16 +1,16 @@
-import data.Library;
 import nme.Lib;
 import org.flixel.FlxGame;
-import sprites.TextLayer;
+import sprites.TextSprite;
 import states.GameState;
 import data.Registry;
+import data.Library;
 
 class Fungeon extends FlxGame {
 	public static function main () {
 		
 		Lib.current.addChild (new Fungeon());
 		
-		Registry.textLayer = new TextLayer();
+		Registry.textLayer = new TextSprite();
 		Lib.current.addChild (Registry.textLayer);
 		
 		var interlace = Library.getBitmapData(INTERLACE);

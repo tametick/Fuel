@@ -70,7 +70,7 @@ class FlxWeapon
 	
 	//	When firing from a parent sprites position (i.e. Space Invaders)
 	private var fireFromParent:Bool;
-	private var parent:Dynamic;
+	public var parent:Dynamic;
 	private var parentXVariable:String;
 	private var parentYVariable:String;
 	private var positionOffset:FlxPoint;
@@ -462,7 +462,6 @@ class FlxWeapon
 		if (parentRef != null)
 		{
 			fireFromParent = true;
-			trace("fireFromParent = " + fireFromParent);
 			
 			parent = parentRef;
 			

@@ -1,10 +1,12 @@
 package sprites;
 
+import com.eclecticdesignstudio.motion.Actuate;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import org.flixel.FlxTilemap;
+import org.flixel.plugin.photonstorm.baseTypes.Bullet;
 import world.Actor;
 import world.ActorFactory;
 import world.Level;
@@ -35,6 +37,7 @@ class MapSprite extends FlxTilemap {
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), FlxTilemap.imgAuto, 0, 0, FlxTilemap.AUTO);
 	}
 	
+		
 	function getBulletSprites():Array<FlxGroup> {
 		// only calculated when creating new level
 		if (bulletSprites != null) {
@@ -44,7 +47,7 @@ class MapSprite extends FlxTilemap {
 		var bulletSprites = [];
 		for (a in owner.actors) {
 			if (a.weapon != null) {
-				bulletSprites.push(a.weapon.group);
+				bulletSprites.push(a.weapon.sprite.group);
 			}
 		}
 		return bulletSprites;
@@ -92,12 +95,34 @@ class MapSprite extends FlxTilemap {
 		super.update();
 		
 		// physics stuff
-		FlxG.collide(this, actorSprites);
-		FlxG.collide(this, bulletSpritesAsSingleGroup);
-		FlxG.collide(this, itemSprites);
+		FlxG.collide(this, bulletSpritesAsSingleGroup, hitWall);
 		FlxG.collide(actorSprites, actorSprites);
-		FlxG.collide(actorSprites, bulletSpritesAsSingleGroup);
 		FlxG.overlap(actorSprites, itemSprites, overlap);
+		
+		for (actor in actorSprites.members) {
+			var a = cast(actor, ActorSprite);
+			var w = a.owner.weapon.sprite;
+			if (w != null) {
+				var groupOfOthers = new FlxGroup();
+				groupOfOthers.members = Utils.allExcept(actorSprites.members, a);
+				FlxG.collide(groupOfOthers, w.group, hitActor);
+			}
+		}
+	}
+	
+	public function hitWall(m:MapSprite, i:Bullet) {
+		var e = cast(i.weapon.parent, ActorSprite).explosionEmitter;
+		Registry.gameState.add(e);
+		e.x = i.x;
+		e.y = i.y;
+		for(p in 0...e.maxSize) {
+			e.emitParticle();
+		}
+		i.kill();
+	}
+	
+	public function hitActor(a:ActorSprite, i:Bullet) {
+		trace(a, i);
 	}
 	
 	public function overlap(a:ActorSprite, i:ActorSprite) {
@@ -118,13 +143,14 @@ class MapSprite extends FlxTilemap {
 				
 			case DOOR_CLOSE:
 				if(i.x>a.x) {
-					a.x = i.x - Registry.tileSize - 1;
+					a.x = i.x - Registry.tileSize;
 				} else {
-					a.x = i.x + Registry.tileSize + 1;
+					a.x = i.x + Registry.tileSize;
 				}
 			
 			case DOOR_OPEN:
 				// this should probably be repalced with STAIRS or something
+				Actuate.stop(Registry.player.sprite);
 				Registry.gameState.newLevel();
 				
 			default:

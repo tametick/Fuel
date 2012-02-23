@@ -1,9 +1,10 @@
 package world;
+
+import sprites.ActorSprite;
 import data.Registry;
 import data.Library;
-import org.flixel.plugin.photonstorm.FlxWeapon;
-import sprites.ActorSprite;
 import world.Actor;
+import world.Weapon;
 
 class ActorFactory {
 	public static function newActor(type:ActorType, ?x:Float=1, ?y:Float=1):Actor {
@@ -16,7 +17,7 @@ class ActorFactory {
 			case PLAYER:
 				sheet = HUMANS;
 				index = 2;
-				a.weapon = new FlxWeapon("spear");
+				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
 			case LEVER_CLOSE:
 				sheet = FURNITURE2;
 				index = 0;
@@ -34,7 +35,9 @@ class ActorFactory {
 		}
 		
 		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, isImmovable);
-		
+		if(a.weapon!=null) {
+			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
+		}
 		return a;
 	}	
 }

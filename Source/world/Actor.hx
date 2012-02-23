@@ -1,14 +1,12 @@
 package world;
 
-import data.Registry;
-import org.flixel.plugin.photonstorm.FlxWeapon;
 import sprites.ActorSprite;
+import data.Registry;
 
 class Actor {
 	public var type:ActorType;
 	public var sprite:ActorSprite;
-	public var weapon:FlxWeapon;
-	public var range:Float;
+	public var weapon:Weapon;
 	
 	public var items:Array<Actor>;
 	public var tileX(getX, setX):Float;
@@ -19,7 +17,6 @@ class Actor {
 	public function new(type:ActorType) {
 		this.type = type;
 		items = [];
-		range = 1;
 		parts = new IntHash<Part>();
 	}
 
@@ -43,13 +40,11 @@ class Actor {
 	}
 	
 	function setX(x:Float):Float {
-		var offset = (type==PLAYER? Registry.playerHitboxOffset:0);
-		sprite.x = x * Registry.tileSize+Std.int(offset/2);
+		sprite.x = x * Registry.tileSize;
 		return getX();
 	}
 	function setY(y:Float):Float {
-		var offset = (type==PLAYER? Registry.playerHitboxOffset:0);
-		sprite.y = y * Registry.tileSize+offset;
+		sprite.y = y * Registry.tileSize;
 		return getY();
 	}
 	

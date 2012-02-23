@@ -1,8 +1,9 @@
 package states;
 
+import com.eclecticdesignstudio.motion.Actuate;
+import com.eclecticdesignstudio.motion.easing.Linear;
 import nme.Lib;
 import nme.text.TextField;
-import org.flixel.FlxBasic;
 import org.flixel.FlxGroup;
 import org.flixel.FlxState;
 import org.flixel.plugin.photonstorm.FlxGridOverlay;
@@ -25,7 +26,9 @@ class GameState extends FlxState {
 		}
 		Registry.gameState = this;
 		
-		add(FlxGridOverlay.create(Std.int(Registry.tileSize/2), Std.int(Registry.tileSize/2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
+		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
+		
+		Actuate.defaultEase = Linear.easeNone;
 		
 		newLevel();
 	}

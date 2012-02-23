@@ -23,6 +23,12 @@ class Utils {
 		return null;
 	}
 	
+	public static function allExcept<T>(a:Array<T>, i:T):Array<T> {
+		var aa = a.copy();
+		aa.remove(i);
+		return aa;
+	}
+	
 	inline public static function get<T>(map:Array<T>, width:Int, x:Int, y:Int):T {
 		return map[y * width + x];
 	}
