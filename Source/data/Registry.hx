@@ -1,7 +1,7 @@
 package data;
 
 import org.flixel.FlxPoint;
-import sprites.TextLayer;
+import sprites.TextSprite;
 import states.GameState;
 import world.Actor;
 import world.Level;
@@ -12,6 +12,7 @@ class Registry {
 	public static inline var levelWidth = 13;
 	public static inline var levelHeight = 9;
 	public static inline var tileSize = 8;
+	public static inline var fontSize = 32;
 	
 	public static inline var playerHitboxOffset = 2;
 
@@ -22,7 +23,7 @@ class Registry {
 	
 	public static inline var font = "eight2empire";
 	
-	public static var textLayer:TextLayer;
+	public static var textLayer:TextSprite;
 	public static var gameState:GameState;
 	
 	public static var level:Level;

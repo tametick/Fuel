@@ -84,25 +84,19 @@ class ActorSprite extends FlxSprite {
 			// fixme - use tweening for full-tile movement
 			if (FlxG.keys.RIGHT) {
 				velocity.x += Registry.playerAcceleration;
-				facing = FlxObject.RIGHT;
-				direction = E;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Math.round(Registry.bulletSpeed+velocity.x));
+				faceRight();
 			}
 			if (FlxG.keys.LEFT) {
 				velocity.x -= Registry.playerAcceleration;
-				facing = FlxObject.LEFT;
-				direction = W;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Math.round(Registry.bulletSpeed-velocity.x));
+				faceLeft();
 			}
 			if (FlxG.keys.DOWN) {
 				velocity.y += Registry.playerAcceleration;
-				direction = S;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_DOWN, Math.round(Registry.bulletSpeed+velocity.y));
+				faceDown();
 			}
 			if (FlxG.keys.UP) {
 				velocity.y -= Registry.playerAcceleration;
-				direction = N;
-				owner.weapon.setBulletDirection(FlxWeapon.BULLET_UP, Math.round(Registry.bulletSpeed-velocity.y));
+				faceUp();
 			}
 			if (FlxG.keys.SPACE) {
 				owner.weapon.fire();
@@ -111,5 +105,27 @@ class ActorSprite extends FlxSprite {
 		} else {
 			// enemy movement
 		}
+	}
+	
+	function faceRight() {
+		facing = FlxObject.RIGHT;
+		direction = E;
+		owner.weapon.setBulletDirection(FlxWeapon.BULLET_RIGHT, Math.round(Registry.bulletSpeed+velocity.x));
+	}
+	
+	function faceLeft() {
+		facing = FlxObject.LEFT;
+		direction = W;
+		owner.weapon.setBulletDirection(FlxWeapon.BULLET_LEFT, Math.round(Registry.bulletSpeed-velocity.x));
+	}
+	
+	function faceDown()	{
+		direction = S;
+		owner.weapon.setBulletDirection(FlxWeapon.BULLET_DOWN, Math.round(Registry.bulletSpeed+velocity.y));
+	}
+	
+	function faceUp() {
+		direction = N;
+		owner.weapon.setBulletDirection(FlxWeapon.BULLET_UP, Math.round(Registry.bulletSpeed-velocity.y));
 	}
 }
