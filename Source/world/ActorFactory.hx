@@ -36,7 +36,7 @@ class ActorFactory {
 		
 		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, isImmovable);
 		if(a.weapon!=null) {
-			a.weapon.sprite.setParent(a.sprite, "x", "y");
+			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
 		}
 		return a;
 	}	

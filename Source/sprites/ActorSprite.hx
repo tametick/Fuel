@@ -43,18 +43,6 @@ class ActorSprite extends FlxSprite {
 			faceRight();
 		}
 		
-		// fixme - move to weapon factory
-		if (owner.weapon != null) {
-			weaponSprite.makePixelBullet(Registry.bulletsPerWeapon);
-			weaponSprite.setBulletOffset(Math.round(width/2)-1, Math.round(height/2)-1);
-			
-			// fixme - calculate from dext
-			weaponSprite.setFireRate(300);
-			
-			// fixme - calculate from range
-			weaponSprite.setBulletLifeSpan(500);
-		}
-		
 		explosionEmitter = new EmitterSprite(Registry.explosionColor);
 	}
 	
@@ -134,22 +122,22 @@ class ActorSprite extends FlxSprite {
 	function faceRight() {
 		facing = FlxObject.RIGHT;
 		direction = E;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_RIGHT, Math.round(Registry.bulletSpeed+velocity.x));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_RIGHT, Math.round(Registry.bulletSpeed));
 	}
 	
 	function faceLeft() {
 		facing = FlxObject.LEFT;
 		direction = W;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_LEFT, Math.round(Registry.bulletSpeed-velocity.x));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_LEFT, Math.round(Registry.bulletSpeed));
 	}
 	
 	function faceDown()	{
 		direction = S;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_DOWN, Math.round(Registry.bulletSpeed+velocity.y));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_DOWN, Math.round(Registry.bulletSpeed));
 	}
 	
 	function faceUp() {
 		direction = N;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_UP, Math.round(Registry.bulletSpeed-velocity.y));
+		weaponSprite.setBulletDirection(WeaponSprite.BULLET_UP, Math.round(Registry.bulletSpeed));
 	}
 }

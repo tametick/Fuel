@@ -14,6 +14,15 @@ class WeaponFactory {
 				w.range = Registry.rangeShort;
 		}
 		
+		var color = 0xffffffff;
+		w.sprite.makePixelBullet(Registry.bulletsPerWeapon, 2, 2, color);
+		
+		// fixme - calculate from dext
+		w.sprite.setFireRate(300);
+		
+		// fixme - calculate from range
+		w.sprite.setBulletLifeSpan(500);
+		
 		return w;
 	}
 }
