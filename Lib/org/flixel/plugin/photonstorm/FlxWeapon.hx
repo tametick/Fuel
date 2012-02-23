@@ -462,7 +462,6 @@ class FlxWeapon
 		if (parentRef != null)
 		{
 			fireFromParent = true;
-			trace("fireFromParent = " + fireFromParent);
 			
 			parent = parentRef;
 			
