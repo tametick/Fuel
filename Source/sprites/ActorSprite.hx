@@ -1,5 +1,6 @@
 package sprites;
 
+import com.eclecticdesignstudio.motion.Actuate;
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import org.flixel.FlxSprite;
@@ -16,6 +17,8 @@ class ActorSprite extends FlxSprite {
 	public var directionIndicator:IndicatorSprite;
 	public var explosionEmitter:EmitterSprite;
 	
+	var isMoving:Bool;
+	
 	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
@@ -28,7 +31,7 @@ class ActorSprite extends FlxSprite {
 		maxVelocity = Registry.maxVelocity;
 		drag = Registry.drag;
 		
-		loadGraphic(Library.getImage(image), true, true, 8, 8);
+		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
 		addAnimation("idle", [spriteIndex]);
 		play("idle");
 		
@@ -37,11 +40,6 @@ class ActorSprite extends FlxSprite {
 		}
 		
 		if (owner.type == PLAYER) {
-			// make the player's hitbox a bit smaller to ease navigation
-			width -= Registry.playerHitboxOffset;
-			centerOffsets();
-			height -= Registry.playerHitboxOffset;
-			offset.y += Registry.playerHitboxOffset;
 			faceRight();
 		}
 		
@@ -87,21 +85,24 @@ class ActorSprite extends FlxSprite {
 			
 			
 			// fixme - use tweening for full-tile movement
-			if (FlxG.keys.RIGHT) {
-				velocity.x += Registry.playerAcceleration;
-				faceRight();
-			}
-			if (FlxG.keys.LEFT) {
-				velocity.x -= Registry.playerAcceleration;
-				faceLeft();
-			}
-			if (FlxG.keys.DOWN) {
-				velocity.y += Registry.playerAcceleration;
-				faceDown();
-			}
-			if (FlxG.keys.UP) {
-				velocity.y -= Registry.playerAcceleration;
-				faceUp();
+			if(!isMoving) {
+				if (FlxG.keys.RIGHT) {
+					isMoving = true;
+					Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x+Registry.tileSize) } ).onComplete(stopped);
+					faceRight();
+				}
+				if (FlxG.keys.LEFT) {
+					Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x-Registry.tileSize) } ).onComplete(stopped);
+					faceLeft();
+				}
+				if (FlxG.keys.DOWN) {
+					Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y+Registry.tileSize) } ).onComplete(stopped);
+					faceDown();
+				}
+				if (FlxG.keys.UP) {
+					Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y-Registry.tileSize) } ).onComplete(stopped);
+					faceUp();
+				}
 			}
 			if (FlxG.keys.SPACE) {
 				owner.weapon.fire();
@@ -110,6 +111,16 @@ class ActorSprite extends FlxSprite {
 		} else {
 			// enemy movement
 		}
+	}
+	
+	inline function roundedTilePosition(p:Float):Int {
+		return Math.round(p/Registry.tileSize-0.5)*Registry.tileSize + Std.int(Registry.tileSize/2);
+	}
+	
+	public function stopped() {
+		isMoving = false;
+		x = roundedTilePosition(x);
+		y = roundedTilePosition(y);
 	}
 	
 	function faceRight() {

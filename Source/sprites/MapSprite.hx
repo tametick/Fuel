@@ -1,5 +1,6 @@
 package sprites;
 
+import com.eclecticdesignstudio.motion.Actuate;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxPath;
@@ -144,13 +145,14 @@ class MapSprite extends FlxTilemap {
 				
 			case DOOR_CLOSE:
 				if(i.x>a.x) {
-					a.x = i.x - Registry.tileSize - 1;
+					a.x = i.x - Registry.tileSize;
 				} else {
-					a.x = i.x + Registry.tileSize + 1;
+					a.x = i.x + Registry.tileSize;
 				}
 			
 			case DOOR_OPEN:
 				// this should probably be repalced with STAIRS or something
+				Actuate.stop(Registry.player.sprite);
 				Registry.gameState.newLevel();
 				
 			default:

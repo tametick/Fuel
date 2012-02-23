@@ -15,7 +15,7 @@
 	<classpath name="Lib" />
 	
 	<haxelib name="nme" />
-	<!--<haxelib name="actuate" /> -->
+	<haxelib name="actuate" />
 	
 	<assets path="Assets" rename="assets" include="*" />
 	
