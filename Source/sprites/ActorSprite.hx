@@ -9,6 +9,7 @@ import data.Registry;
 import data.Library;
 import world.Actor;
 import utils.Direction;
+import world.Weapon;
 
 
 class ActorSprite extends FlxSprite {
@@ -19,6 +20,7 @@ class ActorSprite extends FlxSprite {
 	public var owner:Actor;
 	public var direction:Direction;
 	public var directionIndicator:IndicatorSprite;
+	public var attackEffect:AttackSprite;
 	public var explosionEmitter:EmitterSprite;
 	
 	var isMoving:Bool;
@@ -34,6 +36,7 @@ class ActorSprite extends FlxSprite {
 		if (owner.type == PLAYER) {
 			directionIndicator = new IndicatorSprite();
 		}
+		attackEffect = new AttackSprite();
 				
 		maxVelocity = Registry.maxVelocity;
 		drag = Registry.drag;
@@ -46,9 +49,7 @@ class ActorSprite extends FlxSprite {
 			immovable = true;
 		}
 		
-		if (owner.type == PLAYER) {
-			faceRight();
-		}
+		faceRight();
 		
 		explosionEmitter = new EmitterSprite(Registry.explosionColor);
 		
@@ -103,27 +104,42 @@ class ActorSprite extends FlxSprite {
 		}*/
 	}
 	
+	public function playAttackEffect(type:WeaponType) {
+		switch(type) {
+			case SPEAR:
+				directionIndicator.visible = false;
+				attackEffect.play("MELEE", true);
+				Actuate.timer(0.5).onComplete(showIndicator);
+		}
+	}
+	
+	function showIndicator() {
+		directionIndicator.visible = true;
+	}
+	
 	override public function update() {
 		super.update();
+		
+		switch (direction) {
+			case N:
+				attackEffect.x = x;
+				attackEffect.y = y - Registry.tileSize;
+			case E:
+				attackEffect.x = x + Registry.tileSize;
+				attackEffect.y = y ;
+			case S:
+				attackEffect.x = x;
+				attackEffect.y = y + Registry.tileSize + 1;
+			case W:
+				attackEffect.x = x - Registry.tileSize - 1;
+				attackEffect.y = y;
+		}
 		
 		if (owner == Registry.player) {
 			// show the attack direction
 			directionIndicator.play(Type.enumConstructor(direction));
-			switch (direction) {
-				case N:
-					directionIndicator.x = x;
-					directionIndicator.y = y - Registry.tileSize;
-				case E:
-					directionIndicator.x = x + Registry.tileSize;
-					directionIndicator.y = y ;
-				case S:
-					directionIndicator.x = x;
-					directionIndicator.y = y + Registry.tileSize + 1;
-				case W:
-					directionIndicator.x = x - Registry.tileSize - 1;
-					directionIndicator.y = y;
-			}
-			
+			directionIndicator.x = attackEffect.x;
+			directionIndicator.y = attackEffect.y;
 			
 			if(!isMoving) {				
 				if (FlxG.keys.pressed(movementKeys[0])) {
@@ -153,7 +169,7 @@ class ActorSprite extends FlxSprite {
 				}
 			}
 			
-			if (FlxG.keys.pressed(attackKey[0])) {
+			if (FlxG.keys.justPressed(attackKey[0])) {
 				owner.weapon.fire();
 			}
 			
@@ -175,22 +191,34 @@ class ActorSprite extends FlxSprite {
 	function faceRight() {
 		facing = FlxObject.RIGHT;
 		direction = E;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_RIGHT, Math.round(Registry.bulletSpeed));
+		if(owner.weapon!=null) {
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_RIGHT, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.RIGHT;
+		}
 	}
 	
 	function faceLeft() {
 		facing = FlxObject.LEFT;
 		direction = W;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_LEFT, Math.round(Registry.bulletSpeed));
+		if (owner.weapon != null) {
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_LEFT, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.LEFT;
+		}
 	}
 	
 	function faceDown()	{
 		direction = S;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_DOWN, Math.round(Registry.bulletSpeed));
+		if (owner.weapon != null) { 
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_DOWN, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.LEFT;
+		}
 	}
 	
 	function faceUp() {
 		direction = N;
-		weaponSprite.setBulletDirection(WeaponSprite.BULLET_UP, Math.round(Registry.bulletSpeed));
+		if (owner.weapon != null) {
+			weaponSprite.setBulletDirection(WeaponSprite.BULLET_UP, Math.round(Registry.bulletSpeed));
+			attackEffect.facing = FlxObject.RIGHT;
+		}
 	}
 }

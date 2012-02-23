@@ -12,5 +12,4 @@ class IndicatorSprite extends FlxSprite {
 		addAnimation("W", [2]);
 		addAnimation("E", [3]);
 	}
-	
 }
