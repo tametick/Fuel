@@ -11,10 +11,6 @@ class Weapon {
 	public function new(owner:Actor, type:WeaponType) {
 		this.owner = owner;
 		this.type = type;
-		
-		// fixme = weapon factory
-		sprite = new WeaponSprite(Type.enumConstructor(type));
-		range = 1;
 	}
 	
 	public function fire() {

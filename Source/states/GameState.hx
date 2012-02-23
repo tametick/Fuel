@@ -2,7 +2,6 @@ package states;
 
 import nme.Lib;
 import nme.text.TextField;
-import org.flixel.FlxBasic;
 import org.flixel.FlxGroup;
 import org.flixel.FlxState;
 import org.flixel.plugin.photonstorm.FlxGridOverlay;

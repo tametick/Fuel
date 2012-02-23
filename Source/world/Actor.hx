@@ -1,8 +1,7 @@
 package world;
 
-import data.Registry;
-import org.flixel.plugin.photonstorm.FlxWeapon;
 import sprites.ActorSprite;
+import data.Registry;
 
 class Actor {
 	public var type:ActorType;

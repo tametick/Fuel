@@ -14,7 +14,8 @@ class ActorSprite extends FlxSprite {
 	public var owner:Actor;
 	public var direction:Direction;
 	public var directionIndicator:IndicatorSprite;
-	public var explosionEmitter:ExplosionEmitter;
+	public var explosionEmitter:EmitterSprite;
+	
 	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
@@ -56,7 +57,7 @@ class ActorSprite extends FlxSprite {
 			weaponSprite.setBulletLifeSpan(500);
 		}
 		
-		explosionEmitter = new ExplosionEmitter();
+		explosionEmitter = new EmitterSprite(0xFFFFFF);
 	}
 	
 	function getWeaponSprite():WeaponSprite {

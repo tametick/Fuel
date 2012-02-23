@@ -1,8 +1,8 @@
 package world;
 
-import data.Registry;
 import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
+import data.Registry;
 import world.Actor;
 import utils.Utils;
 

@@ -1,8 +1,10 @@
 package world;
+
+import sprites.ActorSprite;
 import data.Registry;
 import data.Library;
-import sprites.ActorSprite;
 import world.Actor;
+import world.Weapon;
 
 class ActorFactory {
 	public static function newActor(type:ActorType, ?x:Float=1, ?y:Float=1):Actor {
@@ -15,7 +17,7 @@ class ActorFactory {
 			case PLAYER:
 				sheet = HUMANS;
 				index = 2;
-				a.weapon = new Weapon(a, SPEAR);
+				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
 			case LEVER_CLOSE:
 				sheet = FURNITURE2;
 				index = 0;

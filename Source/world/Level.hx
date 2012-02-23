@@ -1,12 +1,11 @@
 package world;
 
 import nme.display.BitmapData;
-import org.flixel.FlxObject;
 import org.flixel.FlxPoint;
+import sprites.MapSprite;
 import data.Registry;
 import data.Library;
 import utils.Utils;
-import sprites.MapSprite;
 
 class Level {	
 	public var mapSprite:MapSprite;
