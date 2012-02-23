@@ -13,13 +13,28 @@ class Actor {
 	public var items:Array<Actor>;
 	public var tileX(getX, setX):Float;
 	public var tileY(getY, setY):Float;
-	
+
+	var parts:IntHash<Part>;
+
 	public function new(type:ActorType) {
 		this.type = type;
 		items = [];
 		range = 1;
+		parts = new IntHash<Part>();
 	}
-	
+
+	function as(kind:Kind):Part {
+		return parts.get(Type.enumIndex(kind));
+	}
+
+	function addPart(part:Part) {
+		parts.set(Type.enumIndex(part.getKind()), part);
+	}
+
+	function removePart(part:Part) {
+		parts.remove(Type.enumIndex(part.getKind()));
+	}
+
 	function getX():Float {
 		return sprite.x / Registry.tileSize;
 	}

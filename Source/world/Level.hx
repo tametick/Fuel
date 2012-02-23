@@ -16,12 +16,7 @@ class Level {
 	
 	public var sprites(getSprites, null):Array<Dynamic>;
 	public var actors(getActors, null):Array<Actor>;
-
-	// Actors are just ints used to lookup in the parts list,
-	// all the actual logic is in actor parts.
-	public var nextActor:Int;
-	public var parts:IntHash<IntHash<Part>>;
-  
+	
 	public var player:Actor;
 	public var enemies:Array<Actor>;
 	public var items:Array<Actor>;
@@ -37,7 +32,6 @@ class Level {
 		items = [];
 		start = new FlxPoint();
 		finish = new FlxPoint();
-		parts = new IntHash<IntHash<Part>>();
 	}
 	
 	public function init() {
@@ -61,32 +55,6 @@ class Level {
 		return sprites;
 	}
 	
-	function newActor():Int {
-		var result = nextActor;
-		nextActor++;
-		parts.set(result, new IntHash<Part>());
-		return result;
-	}
-
-	inline function getParts(actor:Int):IntHash<Part> {
-		var result = parts.get(actor);
-		if (result == null) throw "Actor not found";
-		return result;
-	}
-
-	function actorAs(actor:Int, kind:Kind) {
-		return getParts(actor).get(Type.enumIndex(kind));
-	}
-
-	function addPart(actor:Int, part:Part) {
-		getParts(actor).set(Type.enumIndex(part.getKind()), part);
-	}
-
-	function deleteActor(actor:Int) {
-		// TODO: Notify components of removal
-		parts.remove(actor);
-	}
-
 	public inline function get(x:Int, y:Int):Int {
 		return Utils.get(tiles,width,x,y);
 	}
