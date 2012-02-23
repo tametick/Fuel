@@ -12,12 +12,19 @@ import utils.Direction;
 
 
 class ActorSprite extends FlxSprite {
+	// fixme - move to registry
+	static var movementKeys = ["RIGHT", "LEFT", "DOWN", "UP"];
+	static var attackKey = ["SPACE"];
+	
 	public var owner:Actor;
 	public var direction:Direction;
 	public var directionIndicator:IndicatorSprite;
 	public var explosionEmitter:EmitterSprite;
 	
 	var isMoving:Bool;
+	var bobCounter:Float;
+	var bobCounterInc:Float;
+	var bobMult:Float;
 	
 	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
@@ -27,7 +34,7 @@ class ActorSprite extends FlxSprite {
 		if (owner.type == PLAYER) {
 			directionIndicator = new IndicatorSprite();
 		}
-		
+				
 		maxVelocity = Registry.maxVelocity;
 		drag = Registry.drag;
 		
@@ -44,10 +51,56 @@ class ActorSprite extends FlxSprite {
 		}
 		
 		explosionEmitter = new EmitterSprite(Registry.explosionColor);
+		
+		bobCounter = -1.0;
+		bobCounterInc = 0.04;
+		bobMult = 1;
 	}
 	
 	function getWeaponSprite():WeaponSprite {
 		return owner.weapon.sprite;
+	}
+	
+	function startMoving(dx:Int, dy:Int) {
+		isMoving = true;
+		bobCounter = -1.0;
+		Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x+dx*Registry.tileSize), y: roundedTilePosition(this.y+dy*Registry.tileSize) } ).onComplete(stopped);
+	}
+	
+	override public function draw():Void {
+		var oldX:Float = x;
+		var oldY:Float = y;
+		if(alive && health>0 && !FlxG.paused) {
+			if ( isMoving ) {
+				var offset:Float = Math.sin(bobCounter) * bobMult;
+				y -= offset;
+				bobCounter += bobCounterInc;
+			}/* else if ( isDodging ) {
+				var offset:Float = dodgeCounter;
+				if ( offset > 10 ) 
+					offset = 10 - (dodgeCounter - 10);
+				if ( offset < 0 ) 
+					offset = 0;
+				switch (dodgeDir) {
+					case 0:
+						y += offset;
+					case 1:
+						x -= offset;
+					case 2:
+						y -= offset;
+					case 3:
+						x += offset;
+				}
+			}*/
+		} else {
+			bobCounter = -1.0;
+		}
+		
+		super.draw();
+	/*	if (isDodging ) {
+			x = oldX;
+			y = oldY;
+		}*/
 	}
 	
 	override public function update() {
@@ -59,48 +112,48 @@ class ActorSprite extends FlxSprite {
 			switch (direction) {
 				case N:
 					directionIndicator.x = x;
-					directionIndicator.y = y - Registry.tileSize - 2;
+					directionIndicator.y = y - Registry.tileSize;
 				case E:
 					directionIndicator.x = x + Registry.tileSize;
-					directionIndicator.y = y - 1;
+					directionIndicator.y = y ;
 				case S:
 					directionIndicator.x = x;
-					directionIndicator.y = y + Registry.tileSize;
+					directionIndicator.y = y + Registry.tileSize + 1;
 				case W:
 					directionIndicator.x = x - Registry.tileSize - 1;
-					directionIndicator.y = y - 1;
+					directionIndicator.y = y;
 			}
 			
 			
-			// fixme - use tweening for full-tile movement
-			if(!isMoving) {
-				if (FlxG.keys.RIGHT) {
+			if(!isMoving) {				
+				if (FlxG.keys.pressed(movementKeys[0])) {
+					// right
 					if(Registry.level.get(Std.int(owner.tileX+0.5)+1,Std.int(owner.tileY+0.5))==0) {
-						isMoving = true;
-						Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x+Registry.tileSize) } ).onComplete(stopped);
+						startMoving(1,0);
 						faceRight();
 					}
-				} else if (FlxG.keys.LEFT) {
+				} else if (FlxG.keys.pressed(movementKeys[1])) {
+					// left
 					if(Registry.level.get(Std.int(owner.tileX+0.5)-1,Std.int(owner.tileY+0.5))==0) {
-						isMoving = true;
-						Actuate.tween(this, 0.2, { x: roundedTilePosition(this.x-Registry.tileSize) } ).onComplete(stopped);
+						startMoving(-1,0);
 						faceLeft();
 					}
-				} else if (FlxG.keys.DOWN) {
+				} else if (FlxG.keys.pressed(movementKeys[2])) {
+					// down
 					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)+1)==0) {
-						isMoving = true;
-						Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y+Registry.tileSize) } ).onComplete(stopped);
+						startMoving(0,1);
 						faceDown();
 					}
-				} else if (FlxG.keys.UP) {
+				} else if (FlxG.keys.pressed(movementKeys[3])) {
+					// up
 					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)-1)==0) {
-						isMoving = true;
-						Actuate.tween(this, 0.2, { y: roundedTilePosition(this.y-Registry.tileSize) } ).onComplete(stopped);
+						startMoving(0,-1);
 						faceUp();
 					}
 				}
 			}
-			if (FlxG.keys.SPACE) {
+			
+			if (FlxG.keys.pressed(attackKey[0])) {
 				owner.weapon.fire();
 			}
 			
