@@ -1,6 +1,7 @@
 package world;
 
 import org.flixel.FlxPoint;
+import org.flixel.FlxU;
 import sprites.MapSprite;
 import data.Registry;
 import data.Library;
@@ -49,7 +50,18 @@ class Level {
 	}
 	
 	public function updateFov() {
-		// todo
+		var maxDist = 6;
+		var p1 = new FlxPoint(Registry.player.tileX, Registry.player.tileY);
+		var p2 = new FlxPoint();
+		for(y in 0...height) {
+			for (x in 0...width) {
+				p2.x = x;
+				p2.y = y;
+				var d = FlxU.getDistance(p1, p2);
+				var l = Std.int(Math.min(0xFF, d/maxDist * 0xFF));
+				Utils.set(lightMap, width, x, y, l);
+			}
+		}
 		
 		mapSprite.drawFov(lightMap);
 	}

@@ -7,7 +7,7 @@ import world.Actor;
 import world.Level;
 
 class Registry {
-	public static inline var debug = true;
+	public static inline var debug = false;
 	
 	public static inline var screenWidth = 96;
 	public static inline var screenHeight = 64;
