@@ -62,17 +62,18 @@ class Level {
 		mapSprite.setTile(x, y, val);
 	}
 	
-	function existActorAtPoint(x:Int, y:Int):Bool {
+	function getActorAtPoint(x:Int, y:Int):Actor {
 		for (a in actors) {
 			if (Std.int(a.tileX) == x && Std.int(a.tileY) == y) {
-				return true;
+				return a;
 			}
 		}
-		return false;
+		return null;
 	}
 	
-	function isWalkableTile(x:Int , y:Int):Bool {
-		return get(x, y) == 0;
+	public function isWalkable(x:Int , y:Int):Bool {
+		var a = getActorAtPoint(x, y);
+		return get(x, y) == 0 && (a==null || !a.isBlocking);
 	}
 	
 	public function getFreeTile():FlxPoint {
@@ -82,7 +83,7 @@ class Level {
 		do {
 			p.x = ex = Utils.randomIntInRange(1,width-2);
 			p.y = ey = Utils.randomIntInRange(1,height-2);
-		} while (existActorAtPoint(ex, ey) || !isWalkableTile(ex, ey));
+		} while (getActorAtPoint(ex, ey)!=null || !isWalkable(ex, ey));
 		
 		return p;
 	}

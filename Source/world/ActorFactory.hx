@@ -67,14 +67,13 @@ class ActorFactory {
 			case DOOR_CLOSE:
 				sheet = DOORS;
 				index = 2;
-				isImmovable = true;
+				a.isBlocking = true;
 			case DOOR_OPEN:
 				sheet = DOORS;
 				index = 12;
-				isImmovable = true;
 		}
 		
-		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, isImmovable);
+		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
 		if(a.weapon!=null) {
 			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
 		}

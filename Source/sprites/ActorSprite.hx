@@ -164,25 +164,25 @@ class ActorSprite extends FlxSprite {
 			if(!isMoving) {				
 				if (FlxG.keys.pressed(movementKeys[0])) {
 					// right
-					if(Registry.level.get(Std.int(owner.tileX)+1,Std.int(owner.tileY))==0) {
+					if(Registry.level.isWalkable(Std.int(owner.tileX)+1,Std.int(owner.tileY))) {
 						startMoving(1,0);
 						faceRight();
 					}
 				} else if (FlxG.keys.pressed(movementKeys[1])) {
 					// left
-					if(Registry.level.get(Std.int(owner.tileX)-1,Std.int(owner.tileY))==0) {
+					if(Registry.level.isWalkable(Std.int(owner.tileX)-1,Std.int(owner.tileY))) {
 						startMoving(-1,0);
 						faceLeft();
 					}
 				} else if (FlxG.keys.pressed(movementKeys[2])) {
 					// down
-					if(Registry.level.get(Std.int(owner.tileX),Std.int(owner.tileY+1))==0) {
+					if(Registry.level.isWalkable(Std.int(owner.tileX),Std.int(owner.tileY+1))) {
 						startMoving(0,1);
 						faceDown();
 					}
 				} else if (FlxG.keys.pressed(movementKeys[3])) {
 					// up
-					if(Registry.level.get(Std.int(owner.tileX),Std.int(owner.tileY-1))==0) {
+					if(Registry.level.isWalkable(Std.int(owner.tileX),Std.int(owner.tileY-1))) {
 						startMoving(0,-1);
 						faceUp();
 					}

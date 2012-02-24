@@ -28,6 +28,7 @@ class Actor {
 	
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
+	public var isBlocking:Bool;
 	
 	public var weapon:Weapon;
 	var buffs:Hash<Float>;

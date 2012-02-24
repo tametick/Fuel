@@ -137,18 +137,10 @@ class MapSprite extends FlxTilemap {
 				itemSprites.remove(exitDoorSprite);
 				owner.items.remove(exitDoorSprite.owner);
 				var openDoor = ActorFactory.newActor(DOOR_OPEN, exitDoorSprite.owner.tileX, exitDoorSprite.owner.tileY);
-				addItemAndSprite(openDoor);
-				
-				
-			case DOOR_CLOSE:
-				if(i.x>a.x) {
-					a.x = i.x - Registry.tileSize;
-				} else {
-					a.x = i.x + Registry.tileSize;
-				}
-			
+				addItemAndSprite(openDoor);	
+							
+			// fixme - put this check somewhere more appropriate
 			case DOOR_OPEN:
-				// this should probably be repalced with STAIRS or something
 				Actuate.stop(Registry.player.sprite);
 				Registry.gameState.newLevel();
 				
