@@ -10,7 +10,7 @@ import org.flixel.FlxCamera;
 
 class TextSprite extends Sprite {
 	public static var format:TextFormat;
-	public function newText(text:String,x:Int,y:Int):TextField {
+	public function newText(text:String,x:Int,y:Int, color:Int):TextField {
 		var txt = new TextField();
 		var font = Library.getFont();
 		
@@ -18,7 +18,7 @@ class TextSprite extends Sprite {
 			format = new TextFormat(font.fontName, Registry.fontSize, 0);
 		}
 		
-		txt.width = 140;
+		txt.width = Registry.screenWidth*FlxCamera.defaultZoom;
 		txt.embedFonts = true;
 		txt.wordWrap = true;
 		txt.defaultTextFormat = format;
@@ -27,6 +27,9 @@ class TextSprite extends Sprite {
 		txt.x = x * FlxCamera.defaultZoom;
 		txt.y = y * FlxCamera.defaultZoom;
 		txt.mouseEnabled = false;
+		
+		txt.textColor = color;
+		
 		addChild(txt);
 		return txt;
 	}

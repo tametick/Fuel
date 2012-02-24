@@ -26,6 +26,7 @@ class Actor {
 	public var dodge(getDodge, never):Float;
 	
 	public var isPlayer:Bool;
+	public var isAwake:Bool;
 	
 	public var weapon:Weapon;
 	var buffs:Hash<Float>;

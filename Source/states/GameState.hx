@@ -4,6 +4,7 @@ import com.eclecticdesignstudio.motion.Actuate;
 import com.eclecticdesignstudio.motion.easing.Linear;
 import nme.Lib;
 import nme.text.TextField;
+import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxState;
 import org.flixel.plugin.photonstorm.FlxGridOverlay;
@@ -18,19 +19,21 @@ class GameState extends FlxState {
 	
 	override public function create() {
 		currentLevel = 0;
-		guiText = Registry.textLayer.newText("",0,0);
-		guiText.textColor = 0x408080;
-		
-		if (Registry.gameState != null) {
-			Registry.gameState.destroy();
-		}
+		guiText = Registry.textLayer.newText("",0,0, 0x408080);		
 		Registry.gameState = this;
-		
-		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
 		
 		Actuate.defaultEase = Linear.easeNone;
 		
-		newLevel();
+		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
+		newLevel();		
+	}
+	
+	override public function update():Void {
+		//super.update();
+		
+		for (m in members) {
+			m.update();
+		}
 	}
 	
 	override public function destroy() {

@@ -1,7 +1,7 @@
 import nme.Lib;
 import org.flixel.FlxGame;
 import sprites.TextSprite;
-import states.GameState;
+import states.CharSelectState;
 import data.Registry;
 import data.Library;
 
@@ -24,7 +24,7 @@ class Fungeon extends FlxGame {
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.min(ratioX, ratioY);
 		
-		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio, 60, 30);
+		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), CharSelectState, ratio, 60, 30);
 		forceDebugger = true;
 	}
 }

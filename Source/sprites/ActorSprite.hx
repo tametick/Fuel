@@ -129,6 +129,10 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	override public function update() {
+		if (FlxG.state != Registry.gameState)
+			return;
+		
+		
 		if ( isDodging ) {
 			dodgeCounter += 2;
 			if ( dodgeCounter >= 20 ) isDodging = false;
