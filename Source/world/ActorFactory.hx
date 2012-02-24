@@ -14,10 +14,11 @@ class ActorFactory {
 		var isImmovable = false;
 		
 		switch (type) {
-			case PLAYER:
+			case GUARD,WARRIOR,ARCHER,MONK:
 				sheet = HUMANS;
 				index = 2;
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
+				a.isPlayer = true;
 			case LEVER_CLOSE:
 				sheet = FURNITURE2;
 				index = 0;

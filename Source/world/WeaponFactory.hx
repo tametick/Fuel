@@ -10,7 +10,15 @@ class WeaponFactory {
 		w.sprite = new WeaponSprite(Type.enumConstructor(type));
 		
 		switch (type) {
+			case UNARMED:	
+				w.range = Registry.rangeShort;
 			case SPEAR:
+				w.range = Registry.rangeShort;
+			case SWORD:
+				w.range = Registry.rangeShort;
+			case BOW:
+				w.range = Registry.rangeShort;
+			case STAFF:
 				w.range = Registry.rangeShort;
 		}
 		

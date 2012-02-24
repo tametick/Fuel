@@ -33,7 +33,7 @@ class ActorSprite extends FlxSprite {
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
 		this.owner = owner;
-		if (owner.type == PLAYER) {
+		if (owner.isPlayer) {
 			directionIndicator = new IndicatorSprite();
 		}
 		attackEffect = new AttackSprite();
@@ -105,12 +105,14 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function playAttackEffect(type:WeaponType) {
-		switch(type) {
-			case SPEAR:
-				directionIndicator.visible = false;
+		directionIndicator.visible = false;
+		switch(type) {				
+			case UNARMED, SPEAR, SWORD, STAFF:
 				attackEffect.play("MELEE", true);
-				Actuate.timer(0.5).onComplete(showIndicator);
+			case BOW:
+				attackEffect.play("RANGED", true);
 		}
+		Actuate.timer(0.5).onComplete(showIndicator);
 	}
 	
 	function showIndicator() {

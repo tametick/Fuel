@@ -8,6 +8,10 @@ class Weapon {
 	public var sprite:WeaponSprite;
 	public var range:Float;
 	
+	public var damage:Float;
+	public var attackSpeed:Float;
+	public var accuracy:Float;
+	
 	public function new(owner:Actor, type:WeaponType) {
 		this.owner = owner;
 		this.type = type;
@@ -20,5 +24,9 @@ class Weapon {
 }
 
 enum WeaponType {
+	UNARMED;
 	SPEAR;
+	SWORD;
+	BOW;
+	STAFF;
 }

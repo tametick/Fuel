@@ -22,7 +22,7 @@ class LevelFactory {
 		var level = new Level(tilesIndex);
 		
 		if (Registry.player == null) {
-			Registry.player = level.player =  ActorFactory.newActor(PLAYER);
+			Registry.player = level.player =  ActorFactory.newActor(GUARD);
 		} else {
 			level.player = Registry.player;
 		}

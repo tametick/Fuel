@@ -6,18 +6,54 @@ import data.Registry;
 class Actor {
 	public var type:ActorType;
 	public var sprite:ActorSprite;
-	public var weapon:Weapon;
-	
-	public var items:Array<Actor>;
 	public var tileX(getX, setX):Float;
 	public var tileY(getY, setY):Float;
+	
+	public var health(getHealth, setHealth):Float;
+	
+	// base stats
+	public var strength:Float;
+	public var dexterity:Float;
+	public var agility:Float;
+	public var endurance:Float;
+	
+	// derived attributes
+	public var damage:Float;
+	public var maxHealth:Float;
+	public var attackSpeed:Float;
+	public var accuracy:Float;
+	public var walkingSpeed:Float;
+	public var dodge:Float;
+	public var resistance:Float;
+	
+	public var isPlayer:Bool;
+	
+	public var weapon:Weapon;
+	var buffs:Hash<Float>;
 
 	var parts:IntHash<Part>;
 
+	function getBuffed(attribute:String):Float {
+		var buff = buffs.get(attribute);
+		return Reflect.field(this,attribute) + (buff==null?0:buff);
+	} 
+	
+	// we don't want flixel to kill the actorsprite unless its buffed health <= 0
+	function setHealth(h:Float):Float {
+		var buff = buffs.get("health");
+		return sprite.health = h + (buff==null?0:buff);
+	}
+	// however, we want actor.health to return the unbuffed value
+	function getHealth():Float {
+		var buff = buffs.get("health");
+		return sprite.health - (buff==null?0:buff);
+	}
+	
 	public function new(type:ActorType) {
 		this.type = type;
-		items = [];
 		parts = new IntHash<Part>();
+		
+		buffs = new Hash<Float>();
 	}
 
 	function as(kind:Kind):Part {
@@ -47,29 +83,15 @@ class Actor {
 		sprite.y = y * Registry.tileSize;
 		return getY();
 	}
-	
-	public function has(type:ActorType):Bool {
-		for (item in items) {
-			if (item.type == type) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public function remove(type:ActorType) {
-		for (item in items.copy()) {
-			if (item.type == type) {
-				items.remove(item);
-				return;
-			}
-		}
-	}
-
 }
 
 enum ActorType {
-	PLAYER;
+	GUARD;
+	WARRIOR;
+	ARCHER;
+	MONK;
+	
+	
 	LEVER_CLOSE;
 	LEVER_OPEN;
 	DOOR_CLOSE;
