@@ -17,9 +17,10 @@ class Actor {
 	public var agility:Float;
 	public var endurance:Float;
 	
+	
 	// derived attributes
-	public var damage(getDamage, never):Float;
 	public var maxHealth(getMaxHealth, never):Float;
+	public var damage(getDamage, never):Float;
 	public var attackSpeed(getAttackSpeed, never):Float;
 	public var accuracy(getAccuracy, never):Float;
 	public var walkingSpeed(getWalkingSpeed, never):Float;
@@ -37,7 +38,7 @@ class Actor {
 		return (strength + weapon.damage) / 2;
 	}
 	function getMaxHealth():Float {
-		return strength + endurance;
+		return strength + endurance*2;
 	}
 	function getAttackSpeed():Float {
 		// how many attacks per second
@@ -47,7 +48,7 @@ class Actor {
 		return (accuracy + weapon.accuracy) / 2;
 	}
 	function getWalkingSpeed():Float {
-		return agility+endurance;
+		return agility;
 	}
 	function getDodge():Float {
 		return agility+weapon.defense;

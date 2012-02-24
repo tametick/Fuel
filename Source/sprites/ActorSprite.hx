@@ -67,7 +67,7 @@ class ActorSprite extends FlxSprite {
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
 		bobCounter = -1.0;
-		var duration = 1/(owner.walkingSpeed*2);
+		var duration = 1/(owner.walkingSpeed);
 		Actuate.tween(this, duration, { x: roundedTilePosition(this.x+dx*Registry.tileSize), y: roundedTilePosition(this.y+dy*Registry.tileSize) } ).onComplete(stopped);
 	}
 	

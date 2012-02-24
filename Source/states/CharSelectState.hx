@@ -52,15 +52,15 @@ class CharSelectState extends FlxState {
 	override public function update():Void {
 		super.update();
 		
-		if (FlxG.keys.justPressed("ONE")) {
+		if (FlxG.keys.justPressed("ONE") || heroes[0].sprite.overlapsPoint(FlxG.mouse)) {
 			selectedHero = heroes[0].type;
-		} else if (FlxG.keys.justPressed("TWO")) {
+		} else if (FlxG.keys.justPressed("TWO") || heroes[1].sprite.overlapsPoint(FlxG.mouse)) {
 			selectedHero = heroes[1].type;
-		} else if (FlxG.keys.justPressed("THREE")) {
+		} else if (FlxG.keys.justPressed("THREE") || heroes[2].sprite.overlapsPoint(FlxG.mouse)) {
 			selectedHero = heroes[2].type;
-		} else if (FlxG.keys.justPressed("FOUR")) {
+		} else if (FlxG.keys.justPressed("FOUR") || heroes[3].sprite.overlapsPoint(FlxG.mouse)) {
 			selectedHero = heroes[3].type;
-		} else if (FlxG.keys.justPressed("SPACE")) {
+		} if (FlxG.keys.justPressed("SPACE") || FlxG.mouse.justPressed()) {
 			FlxG.mouse.hide();
 			if (Registry.gameState != null) {
 				Registry.gameState.destroy();
