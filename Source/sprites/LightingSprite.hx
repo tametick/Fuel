@@ -17,8 +17,8 @@ class LightingSprite extends Bitmap {
 	}
 	
 	/** set darkness between 0 (fully lighten) and 0xFF (fully dark) */
-	public function setDarknessAtTile(x:Int, y:Int, darkness:Int) {
-		bitmapData.setPixel32(x, y, 0x11000000*darkness);
+	public function setDarknessAtTile(x:Float, y:Float, darkness:Int) {
+		bitmapData.setPixel32(Std.int(x), Std.int(y), 0x11000000*darkness);
 	}
 	
 	public function setDarkness(darkness:Int) {

@@ -7,6 +7,7 @@ import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import org.flixel.FlxTilemap;
 import org.flixel.plugin.photonstorm.baseTypes.Bullet;
+import states.GameState;
 import world.Actor;
 import world.ActorFactory;
 import world.Level;
@@ -37,6 +38,15 @@ class MapSprite extends FlxTilemap {
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), FlxTilemap.imgAuto, 0, 0, FlxTilemap.AUTO);
 	}
 	
+		
+	public function drawFov(lightMap:Array<Int>) {
+		for(y in 0...heightInTiles) {
+			for (x in 0...widthInTiles) {
+				var l = Utils.get(lightMap, widthInTiles, x, y);
+				GameState.lightingLayer.setDarknessAtTile(x, y, l);
+			}
+		}
+	}
 		
 	function getBulletSprites():Array<FlxGroup> {
 		// only calculated when creating new level

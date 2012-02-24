@@ -1,6 +1,5 @@
 package world;
 
-import nme.display.BitmapData;
 import org.flixel.FlxPoint;
 import sprites.MapSprite;
 import data.Registry;
@@ -10,6 +9,7 @@ import utils.Utils;
 class Level {	
 	public var mapSprite:MapSprite;
 	public var tiles:Array<Int>;
+	public var lightMap:Array<Int>;
 	public var width:Int;
 	public var height:Int;
 	
@@ -24,6 +24,10 @@ class Level {
 			
 	public function new(tiles:Array<Int>, ?w:Int = Registry.levelWidth, ?h:Int = Registry.levelHeight) {
 		this.tiles = tiles;
+		lightMap = [];
+		for (t in tiles) {
+			lightMap.push(0);
+		}
 		width = w;
 		height = h;
 		
@@ -42,6 +46,12 @@ class Level {
 		a = a.concat(enemies);
 		a = a.concat(items);
 		return a;
+	}
+	
+	public function updateFov() {
+		// todo
+		
+		mapSprite.drawFov(lightMap);
 	}
 	
 	function getSprites():Array<Dynamic> {

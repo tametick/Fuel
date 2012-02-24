@@ -81,6 +81,9 @@ class LevelFactory {
 		
 		// add all actor sprites to map
 		level.mapSprite.addAllActors();
+		
+		// draw fov around player's starting position
+		level.updateFov();
 		return level;
 	}
 }

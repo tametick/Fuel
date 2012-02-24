@@ -32,7 +32,6 @@ class GameState extends FlxState {
 		newLevel();	
 		
 		lightingLayer.visible = true;
-		//lightingLayer.setDarkness(0xFF);
 	}
 	
 	override public function destroy() {

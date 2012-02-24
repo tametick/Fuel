@@ -207,6 +207,8 @@ class ActorSprite extends FlxSprite {
 		x = roundedTilePosition(x);
 		y = roundedTilePosition(y);
 		
+		Registry.level.updateFov();
+		
 		var mapSprite = Registry.level.mapSprite;
 		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
 	}
