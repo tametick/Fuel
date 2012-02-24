@@ -16,26 +16,45 @@ class ActorFactory {
 		switch (type) {
 			// player classes
 			case MONK:
+				a.isPlayer = true;
 				sheet = HEROES;
 				index = 0;
+				a.strength = 4;
+				a.dexterity = 4;
+				a.agility = 5;
+				a.endurance = 10;
 				a.weapon = WeaponFactory.newWeapon(a, STAFF);
-				a.isPlayer = true;
+				
 			case ARCHER:
+				a.isPlayer = true;
 				sheet = HEROES;
 				index = 1;
+				a.strength = 3;
+				a.dexterity = 8;
+				a.agility = 10;
+				a.endurance = 2;
 				a.weapon = WeaponFactory.newWeapon(a, BOW);
-				a.isPlayer = true;
+				
 			case WARRIOR:
+				a.isPlayer = true;
 				sheet = HEROES;
 				index = 2;
+				a.strength = 6;
+				a.dexterity = 10;
+				a.agility = 3;
+				a.endurance = 4;
 				a.weapon = WeaponFactory.newWeapon(a, SWORD);
-				a.isPlayer = true;
+				
 			case GUARD:
+				a.isPlayer = true;
 				sheet = HEROES;
 				index = 3;
+				a.strength = 10;
+				a.dexterity = 5;
+				a.agility = 2;
+				a.endurance = 6;
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
-				a.isPlayer = true;
-
+				
 			// monsters
 				
 			// level features
