@@ -94,9 +94,10 @@ class MapSprite extends FlxTilemap {
 	override public function update() {
 		super.update();
 		
+		// physics stuff
 		FlxG.collide(this, bulletSpritesAsSingleGroup, hitWall);
 		FlxG.collide(actorSprites, actorSprites);
-		
+		FlxG.overlap(actorSprites, itemSprites, overlap);
 		
 		for (actor in actorSprites.members) {
 			var a = cast(actor, ActorSprite);
@@ -124,7 +125,7 @@ class MapSprite extends FlxTilemap {
 		i.kill();
 	}
 	
-	public function overlapItem(a:ActorSprite, i:ActorSprite) {
+	public function overlap(a:ActorSprite, i:ActorSprite) {
 		switch (i.owner.type) {
 			case LEVER_CLOSE:
 				// switch lever

@@ -138,6 +138,7 @@ class ActorSprite extends FlxSprite {
 			if ( dodgeCounter >= 20 ) isDodging = false;
 		}
 		
+		
 		super.update();
 		
 		switch (direction) {
@@ -206,9 +207,6 @@ class ActorSprite extends FlxSprite {
 		isMoving = false;
 		x = roundedTilePosition(x);
 		y = roundedTilePosition(y);
-		
-		var mapSprite = Registry.level.mapSprite;
-		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
 	}
 	
 	function faceRight() {
