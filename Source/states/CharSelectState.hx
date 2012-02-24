@@ -19,8 +19,6 @@ class CharSelectState extends FlxState {
 		add(FlxGridOverlay.create(Registry.tileSize, Registry.tileSize, -1, -1, false, true, 0xff000000, 0xff5E5E5E));
 		description = Registry.textLayer.newText("", Registry.tileSize*2.5,Registry.tileSize*5, 0xFFFF00);
 		
-		selectedHero = GUARD;
-		
 		var guard = ActorFactory.newActor(GUARD, 2.5, 1);
 		var warrior = ActorFactory.newActor(WARRIOR, 4.5, 1);
 		var archer = ActorFactory.newActor(ARCHER, 6.5, 1);
@@ -45,7 +43,9 @@ class CharSelectState extends FlxState {
 	
 	static function selectHero(type:ActorType):ActorType {
 		selectedHero = type;
-		description.text = Type.enumConstructor(type);
+		if(description!=null) {
+			description.text = Type.enumConstructor(type);
+		}
 		return type;
 	}
 	

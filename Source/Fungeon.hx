@@ -2,8 +2,11 @@ import nme.Lib;
 import org.flixel.FlxGame;
 import sprites.TextSprite;
 import states.CharSelectState;
+import states.GameState;
 import data.Registry;
 import data.Library;
+import world.Actor;
+
 
 class Fungeon extends FlxGame {
 	public static function main () {
@@ -24,7 +27,9 @@ class Fungeon extends FlxGame {
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.min(ratioX, ratioY);
 		
-		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), CharSelectState, ratio, 60, 30);
+		CharSelectState.selectedHero = GUARD;
+		//super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), CharSelectState, ratio, 60, 30);
+		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio, 60, 30);
 		forceDebugger = true;
 	}
 }

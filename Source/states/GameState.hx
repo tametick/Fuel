@@ -4,6 +4,7 @@ import com.eclecticdesignstudio.motion.Actuate;
 import com.eclecticdesignstudio.motion.easing.Linear;
 import nme.Lib;
 import nme.text.TextField;
+import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxState;
@@ -56,18 +57,9 @@ class GameState extends FlxState {
 	function addLevelSprites(level:Level) {
 		for (sprite in level.sprites) {
 			add(sprite);
-			
-			// shift everything half a tile to up & the left,
-			// because the map is 1 tile bigger than screen.
-			if (Std.is(sprite, FlxGroup)) {
-				for(member in cast(sprite.members, Array<Dynamic>)) {
-					member.x -= Registry.tileSize / 2;
-					member.y -= Registry.tileSize / 2;
-				}
-			} else {
-				sprite.x -= Registry.tileSize / 2;
-				sprite.y -= Registry.tileSize / 2;
-			}
 		}
+		// shift everything half a tile up & left,
+		// because the map is 1 tile bigger than screen.
+		FlxG.camera.scroll.y = FlxG.camera.scroll.x = Registry.tileSize / 2;
 	}
 }

@@ -164,25 +164,25 @@ class ActorSprite extends FlxSprite {
 			if(!isMoving) {				
 				if (FlxG.keys.pressed(movementKeys[0])) {
 					// right
-					if(Registry.level.get(Std.int(owner.tileX+0.5)+1,Std.int(owner.tileY+0.5))==0) {
+					if(Registry.level.get(Std.int(owner.tileX)+1,Std.int(owner.tileY))==0) {
 						startMoving(1,0);
 						faceRight();
 					}
 				} else if (FlxG.keys.pressed(movementKeys[1])) {
 					// left
-					if(Registry.level.get(Std.int(owner.tileX+0.5)-1,Std.int(owner.tileY+0.5))==0) {
+					if(Registry.level.get(Std.int(owner.tileX)-1,Std.int(owner.tileY))==0) {
 						startMoving(-1,0);
 						faceLeft();
 					}
 				} else if (FlxG.keys.pressed(movementKeys[2])) {
 					// down
-					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)+1)==0) {
+					if(Registry.level.get(Std.int(owner.tileX),Std.int(owner.tileY+1))==0) {
 						startMoving(0,1);
 						faceDown();
 					}
 				} else if (FlxG.keys.pressed(movementKeys[3])) {
 					// up
-					if(Registry.level.get(Std.int(owner.tileX+0.5),Std.int(owner.tileY+0.5)-1)==0) {
+					if(Registry.level.get(Std.int(owner.tileX),Std.int(owner.tileY-1))==0) {
 						startMoving(0,-1);
 						faceUp();
 					}
@@ -199,7 +199,7 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	inline function roundedTilePosition(p:Float):Int {
-		return Math.round(p/Registry.tileSize-0.5)*Registry.tileSize + Std.int(Registry.tileSize/2);
+		return Math.round(p/Registry.tileSize)*Registry.tileSize;
 	}
 	
 	public function stopped() {
