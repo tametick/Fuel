@@ -7,15 +7,7 @@ import nme.text.Font;
 
 class Library {
 	static var assets:Hash<Dynamic> = new Hash<Dynamic>();
-	public static function getFilename(e:Dynamic):String {
-		return Type.enumConstructor(e).toLowerCase();
-	}
 	
-	static function getClassname(e:Dynamic):String {
-		var n:String = Type.enumConstructor(e).toLowerCase();
-		return "data."+n.charAt(0).toUpperCase() + n.substr(1);
-	}
-
 	public static function getImage(i:Images):Dynamic {
 		var className = getClassname(i)+"Image";
 		return Type.resolveClass(className);
@@ -36,6 +28,15 @@ class Library {
 		}
 		return cast(assets.get(name), Font);
 	}
+	
+	public static function getFilename(e:Dynamic):String {
+		return Type.enumConstructor(e).toLowerCase();
+	}
+	
+	static function getClassname(e:Dynamic):String {
+		var n:String = Type.enumConstructor(e).toLowerCase();
+		return "data."+n.charAt(0).toUpperCase() + n.substr(1);
+	}
 }
 
 // images
@@ -46,6 +47,7 @@ enum Images {
 	FURNITURE1;
 	FURNITURE2;
 	FURNITURE3;
+	HEROES;
 	HUMANS;
 	ATTACKS;
 	ARROWS;
@@ -59,6 +61,7 @@ class FloorImage extends LoadedBitmap { public function new() { super(FLOOR); } 
 class Furniture1Image extends LoadedBitmap { public function new() { super(FURNITURE1); } }
 class Furniture2Image extends LoadedBitmap { public function new() { super(FURNITURE2); } }
 class Furniture3Image extends LoadedBitmap { public function new() { super(FURNITURE3); } }
+class HeroesImage extends LoadedBitmap { public function new() { super(HEROES); } }
 class HumansImage extends LoadedBitmap { public function new() { super(HUMANS); } }
 class AttacksImage extends LoadedBitmap { public function new() { super(ATTACKS); } }
 class ArrowsImage extends LoadedBitmap { public function new() { super(ARROWS); } }

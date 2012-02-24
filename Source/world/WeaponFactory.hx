@@ -17,7 +17,7 @@ class WeaponFactory {
 			case SWORD:
 				w.range = Registry.rangeShort;
 			case BOW:
-				w.range = Registry.rangeShort;
+				w.range = Registry.rangeLong;
 			case STAFF:
 				w.range = Registry.rangeShort;
 		}
