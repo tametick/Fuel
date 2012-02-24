@@ -194,7 +194,7 @@ class ActorSprite extends FlxSprite {
 		facing = FlxObject.RIGHT;
 		direction = E;
 		if(owner.weapon!=null) {
-			weaponSprite.setBulletDirection(WeaponSprite.BULLET_RIGHT, Math.round(Registry.bulletSpeed));
+			weaponSprite.setBulletDirection(WeaponSprite.RIGHT, Math.round(Registry.bulletSpeed));
 			attackEffect.facing = FlxObject.RIGHT;
 		}
 	}
@@ -203,7 +203,7 @@ class ActorSprite extends FlxSprite {
 		facing = FlxObject.LEFT;
 		direction = W;
 		if (owner.weapon != null) {
-			weaponSprite.setBulletDirection(WeaponSprite.BULLET_LEFT, Math.round(Registry.bulletSpeed));
+			weaponSprite.setBulletDirection(WeaponSprite.LEFT, Math.round(Registry.bulletSpeed));
 			attackEffect.facing = FlxObject.LEFT;
 		}
 	}
@@ -211,7 +211,7 @@ class ActorSprite extends FlxSprite {
 	function faceDown()	{
 		direction = S;
 		if (owner.weapon != null) { 
-			weaponSprite.setBulletDirection(WeaponSprite.BULLET_DOWN, Math.round(Registry.bulletSpeed));
+			weaponSprite.setBulletDirection(WeaponSprite.DOWN, Math.round(Registry.bulletSpeed));
 			attackEffect.facing = FlxObject.LEFT;
 		}
 	}
@@ -219,7 +219,7 @@ class ActorSprite extends FlxSprite {
 	function faceUp() {
 		direction = N;
 		if (owner.weapon != null) {
-			weaponSprite.setBulletDirection(WeaponSprite.BULLET_UP, Math.round(Registry.bulletSpeed));
+			weaponSprite.setBulletDirection(WeaponSprite.UP, Math.round(Registry.bulletSpeed));
 			attackEffect.facing = FlxObject.RIGHT;
 		}
 	}

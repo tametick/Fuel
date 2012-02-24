@@ -78,6 +78,13 @@ class ActorFactory {
 		if(a.weapon!=null) {
 			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
 		}
+		
+		if(a.strength!=0 && a.endurance!=0) {
+			a.health = a.maxHealth;
+		} else {
+			a.health = 1;
+		}
+		
 		return a;
 	}	
 }
