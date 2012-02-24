@@ -11,10 +11,13 @@ import org.flixel.FlxState;
 import org.flixel.plugin.photonstorm.FlxGridOverlay;
 import data.Library;
 import data.Registry;
+import sprites.LightingSprite;
 import world.Level;
 import world.LevelFactory;
 
 class GameState extends FlxState {
+	public static var lightingLayer:LightingSprite;
+	
 	var guiText:TextField;
 	var currentLevel:Int;
 	
@@ -26,7 +29,10 @@ class GameState extends FlxState {
 		Actuate.defaultEase = Linear.easeNone;
 		
 		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
-		newLevel();		
+		newLevel();	
+		
+		lightingLayer.visible = true;
+		//lightingLayer.setDarkness(0xFF);
 	}
 	
 	override public function destroy() {
@@ -35,6 +41,7 @@ class GameState extends FlxState {
 		
 		Registry.level = null;
 		Registry.player = null;
+		lightingLayer.visible = false;
 	}
 	
 	public function newLevel() {

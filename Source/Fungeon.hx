@@ -1,5 +1,6 @@
 import nme.Lib;
 import org.flixel.FlxGame;
+import sprites.LightingSprite;
 import sprites.TextSprite;
 import states.CharSelectState;
 import states.GameState;
@@ -10,8 +11,11 @@ import world.Actor;
 
 class Fungeon extends FlxGame {
 	public static function main () {
-		
 		Lib.current.addChild (new Fungeon());
+		
+		GameState.lightingLayer = new LightingSprite();
+		Lib.current.addChild (GameState.lightingLayer);
+		GameState.lightingLayer.visible = false;
 		
 		Registry.textLayer = new TextSprite();
 		Lib.current.addChild (Registry.textLayer);
@@ -27,9 +31,13 @@ class Fungeon extends FlxGame {
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.min(ratioX, ratioY);
 		
-		CharSelectState.selectedHero = GUARD;
-		//super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), CharSelectState, ratio, 60, 30);
-		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio, 60, 30);
-		forceDebugger = true;
+		if(Registry.debug) {
+			CharSelectState.selectedHero = GUARD;
+			super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio, 60, 30);
+			forceDebugger = true;
+		} else {
+			super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), CharSelectState, ratio, 60, 30);
+		}
+		
 	}
 }
