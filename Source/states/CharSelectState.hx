@@ -14,8 +14,11 @@ class CharSelectState extends FlxState {
 	var archer:Actor;
 	var monk:Actor;
 	
+	public static var selectedHero:ActorType;
+	
 	override public function create() {
 		FlxG.mouse.show();
+		selectedHero = GUARD;
 		
 		add(FlxGridOverlay.create(Registry.tileSize, Registry.tileSize, -1, -1, false, true, 0xff000000, 0xff5E5E5E));
 		
@@ -35,13 +38,13 @@ class CharSelectState extends FlxState {
 		super.update();
 		
 		if (FlxG.keys.justPressed("ONE")) {
-			Registry.player = guard;
+			selectedHero = GUARD;
 		} else if (FlxG.keys.justPressed("TWO")) {
-			Registry.player = warrior;
+			selectedHero = WARRIOR;
 		} else if (FlxG.keys.justPressed("THREE")) {
-			Registry.player = archer;
+			selectedHero = ARCHER;
 		} else if (FlxG.keys.justPressed("FOUR")) {
-			Registry.player = monk;
+			selectedHero = MONK;
 		} else if (FlxG.keys.justPressed("SPACE")) {
 			FlxG.mouse.hide();
 			if (Registry.gameState != null) {

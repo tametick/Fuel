@@ -3,6 +3,7 @@ package world;
 import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import data.Registry;
+import states.CharSelectState;
 import world.Actor;
 import utils.Utils;
 
@@ -22,7 +23,7 @@ class LevelFactory {
 		var level = new Level(tilesIndex);
 		
 		if (Registry.player == null) {
-			Registry.player = level.player =  ActorFactory.newActor(GUARD);
+			Registry.player = level.player =  ActorFactory.newActor(CharSelectState.selectedHero);
 		} else {
 			level.player = Registry.player;
 		}

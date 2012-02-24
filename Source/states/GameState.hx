@@ -28,14 +28,6 @@ class GameState extends FlxState {
 		newLevel();		
 	}
 	
-	override public function update():Void {
-		//super.update();
-		
-		for (m in members) {
-			m.update();
-		}
-	}
-	
 	override public function destroy() {
 		super.destroy();
 		Registry.textLayer.removeChild(guiText);
