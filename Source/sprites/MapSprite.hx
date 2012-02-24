@@ -122,7 +122,10 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	public function hitActor(a:ActorSprite, i:Bullet) {
-		trace(a, i);
+		var attacker = cast(i.weapon.parent, ActorSprite).owner;
+		var victim = a.owner;
+		
+		victim.health -= attacker.damage;
 	}
 	
 	public function overlap(a:ActorSprite, i:ActorSprite) {

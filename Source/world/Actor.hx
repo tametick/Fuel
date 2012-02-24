@@ -36,7 +36,7 @@ class Actor {
 		return (strength + weapon.damage) / 2;
 	}
 	function getMaxHealth():Float {
-		return strength + endurance;
+		return (strength + endurance) * 2;
 	}
 	function getAttackSpeed():Float {
 		// how many attacks per second
