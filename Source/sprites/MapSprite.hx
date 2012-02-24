@@ -112,12 +112,7 @@ class MapSprite extends FlxTilemap {
 	
 	public function hitWall(m:MapSprite, i:Bullet) {
 		var e = cast(i.weapon.parent, ActorSprite).explosionEmitter;
-		Registry.gameState.add(e);
-		e.x = i.x;
-		e.y = i.y;
-		for(p in 0...e.maxSize) {
-			e.emitParticle();
-		}
+		e.explode(i.x, i.y);
 		i.kill();
 	}
 	
@@ -125,7 +120,9 @@ class MapSprite extends FlxTilemap {
 		var attacker = cast(i.weapon.parent, ActorSprite).owner;
 		var victim = a.owner;
 		
-		victim.health -= attacker.damage;
+		attacker.hit(victim);
+				
+		i.kill();
 	}
 	
 	public function overlap(a:ActorSprite, i:ActorSprite) {

@@ -36,7 +36,7 @@ class Actor {
 		return (strength + weapon.damage) / 2;
 	}
 	function getMaxHealth():Float {
-		return (strength + endurance) * 2;
+		return strength + endurance;
 	}
 	function getAttackSpeed():Float {
 		// how many attacks per second
@@ -101,6 +101,17 @@ class Actor {
 	function setY(y:Float):Float {
 		sprite.y = y * Registry.tileSize;
 		return getY();
+	}
+	
+	public function hit(victim:Actor) {
+		var isHit = Math.random() < accuracy/(accuracy+victim.dodge);
+		
+		if(isHit) {
+			victim.health -= damage;
+			// emit blood
+		} else {
+			//victim.sprite.showDodge(dir);
+		}
 	}
 }
 

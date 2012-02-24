@@ -20,4 +20,13 @@ class EmitterSprite extends FlxEmitter {
 			add(particle);
 		}
 	}
+	
+	public function explode(pixelX:Float, pixelY:Float) {
+		Registry.gameState.add(this);
+		x = pixelX;
+		y = pixelY;
+		for(p in 0...maxSize) {
+			emitParticle();
+		}
+	}
 }
