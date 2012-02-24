@@ -29,6 +29,6 @@ class WeaponSprite extends FlxWeapon {
 	}
 	
 	override function getFireRate():Int {
-		return 300;
+		return Std.int(owner.owner.attackSpeed*100);
 	}
 }
