@@ -18,13 +18,12 @@ class Actor {
 	public var endurance:Float;
 	
 	// derived attributes
-	public var damage:Float;
-	public var maxHealth:Float;
-	public var attackSpeed:Float;
-	public var accuracy:Float;
-	public var walkingSpeed:Float;
-	public var dodge:Float;
-	public var resistance:Float;
+	public var damage(getDamage, never):Float;
+	public var maxHealth(getMaxHealth, never):Float;
+	public var attackSpeed(getAttackSpeed, never):Float;
+	public var accuracy(getAccuracy, never):Float;
+	public var walkingSpeed(getWalkingSpeed, never):Float;
+	public var dodge(getDodge, never):Float;
 	
 	public var isPlayer:Bool;
 	
@@ -32,7 +31,26 @@ class Actor {
 	var buffs:Hash<Float>;
 
 	var parts:IntHash<Part>;
-
+	
+	function getDamage():Float {
+		return (strength + weapon.damage) / 2;
+	}
+	function getMaxHealth():Float {
+		return strength + endurance;
+	}
+	function getAttackSpeed():Float {
+		return (dexterity + weapon.attackSpeed) / 2;
+	}
+	function getAccuracy():Float {
+		return (accuracy + weapon.accuracy) / 2;
+	}
+	function getWalkingSpeed():Float {
+		return agility;
+	}
+	function getDodge():Float {
+		return agility+endurance;
+	}
+	
 	function getBuffed(attribute:String):Float {
 		var buff = buffs.get(attribute);
 		return Reflect.field(this,attribute) + (buff==null?0:buff);

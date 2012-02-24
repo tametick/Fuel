@@ -6,8 +6,8 @@ class Weapon {
 	public var owner:Actor;
 	public var type:WeaponType;
 	public var sprite:WeaponSprite;
-	public var range:Float;
 	
+	public var range:Float;
 	public var damage:Float;
 	public var attackSpeed:Float;
 	public var accuracy:Float;
