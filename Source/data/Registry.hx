@@ -14,10 +14,7 @@ class Registry {
 	public static inline var tileSize = 8;
 	public static inline var fontSize = 32;
 
-	public static inline var maxVelocity = new FlxPoint(50, 50);
-	public static inline var drag = new FlxPoint(200, 200);
-	public static inline var playerAcceleration = 10;
-	public static inline var bulletSpeed = 50;
+	public static inline var bulletSpeed = 100;
 	public static inline var bulletsPerWeapon = 20;
 	
 	public static inline var rangeShort = 1;

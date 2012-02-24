@@ -38,9 +38,6 @@ class ActorSprite extends FlxSprite {
 		}
 		attackEffect = new AttackSprite();
 				
-		maxVelocity = Registry.maxVelocity;
-		drag = Registry.drag;
-		
 		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
 		addAnimation("idle", [spriteIndex]);
 		play("idle");

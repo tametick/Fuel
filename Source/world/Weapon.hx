@@ -18,8 +18,9 @@ class Weapon {
 	}
 	
 	public function fire() {
-		sprite.fire();
-		owner.sprite.playAttackEffect(type);
+		if(sprite.fire()) {
+			owner.sprite.playAttackEffect(type);
+		}
 	}
 }
 

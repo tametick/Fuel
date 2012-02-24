@@ -39,7 +39,8 @@ class Actor {
 		return strength + endurance;
 	}
 	function getAttackSpeed():Float {
-		return (dexterity + weapon.attackSpeed) / 2;
+		// how many attacks per second
+		return (dexterity + weapon.attackSpeed) / 4;
 	}
 	function getAccuracy():Float {
 		return (accuracy + weapon.accuracy) / 2;
