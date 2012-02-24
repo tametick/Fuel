@@ -37,6 +37,8 @@ class WeaponFactory {
 				w.accuracy = 5;
 		}
 		
+		w.defense = 0;
+		
 		var color = 0xffffffff;
 		w.sprite.makePixelBullet(Registry.bulletsPerWeapon, 2, 2, color);
 		

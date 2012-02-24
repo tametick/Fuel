@@ -11,6 +11,7 @@ class Weapon {
 	public var damage:Float;
 	public var attackSpeed:Float;
 	public var accuracy:Float;
+	public var defense:Float;
 	
 	public function new(owner:Actor, type:WeaponType) {
 		this.owner = owner;

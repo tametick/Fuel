@@ -47,10 +47,10 @@ class Actor {
 		return (accuracy + weapon.accuracy) / 2;
 	}
 	function getWalkingSpeed():Float {
-		return agility;
+		return agility+endurance;
 	}
 	function getDodge():Float {
-		return agility+endurance;
+		return agility+weapon.defense;
 	}
 	
 	function getBuffed(attribute:String):Float {
