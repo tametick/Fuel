@@ -24,6 +24,11 @@ class ActorSprite extends FlxSprite {
 	public var explosionEmitter:EmitterSprite;
 	
 	var isMoving:Bool;
+	
+	var isDodging:Bool;
+	var dodgeDir:Direction;
+	var dodgeCounter:Float;
+	
 	var bobCounter:Float;
 	var bobCounterInc:Float;
 	var bobMult:Float;
@@ -66,6 +71,12 @@ class ActorSprite extends FlxSprite {
 		Actuate.tween(this, duration, { x: roundedTilePosition(this.x+dx*Registry.tileSize), y: roundedTilePosition(this.y+dy*Registry.tileSize) } ).onComplete(stopped);
 	}
 	
+	public function showDodge(Dir:Direction) {
+		isDodging = true;
+		dodgeCounter = 0;
+		dodgeDir = Dir;
+	}
+	
 	override public function draw():Void {
 		var oldX:Float = x;
 		var oldY:Float = y;
@@ -74,32 +85,32 @@ class ActorSprite extends FlxSprite {
 				var offset:Float = Math.sin(bobCounter) * bobMult;
 				y -= offset;
 				bobCounter += bobCounterInc;
-			}/* else if ( isDodging ) {
+			} else if ( isDodging ) {
 				var offset:Float = dodgeCounter;
 				if ( offset > 10 ) 
 					offset = 10 - (dodgeCounter - 10);
 				if ( offset < 0 ) 
 					offset = 0;
 				switch (dodgeDir) {
-					case 0:
+					case S:
 						y += offset;
-					case 1:
+					case W:
 						x -= offset;
-					case 2:
+					case N:
 						y -= offset;
-					case 3:
+					case E:
 						x += offset;
 				}
-			}*/
+			}
 		} else {
 			bobCounter = -1.0;
 		}
 		
 		super.draw();
-	/*	if (isDodging ) {
+		if (isDodging ) {
 			x = oldX;
 			y = oldY;
-		}*/
+		}
 	}
 	
 	public function playAttackEffect(type:WeaponType) {
@@ -118,6 +129,12 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	override public function update() {
+		if ( isDodging ) {
+			dodgeCounter += 2;
+			if ( dodgeCounter >= 20 ) isDodging = false;
+		}
+		
+		
 		super.update();
 		
 		switch (direction) {
