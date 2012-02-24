@@ -7,7 +7,7 @@ import world.Weapon;
 class WeaponFactory {
 	public static function newWeapon(owner:Actor, type:WeaponType):Weapon {
 		var w = new Weapon(owner, type);
-		w.sprite = new WeaponSprite(Type.enumConstructor(type));
+		w.sprite = new WeaponSprite(w, type);
 		
 		switch (type) {
 			case UNARMED:	
@@ -39,11 +39,6 @@ class WeaponFactory {
 		
 		var color = 0xffffffff;
 		w.sprite.makePixelBullet(Registry.bulletsPerWeapon, 2, 2, color);
-		
-		// fixme - calculate from dext
-		w.sprite.setFireRate(300);
-		
-		w.sprite.setBulletLifeSpan(Std.int(  1000/(Registry.bulletSpeed/(w.range*Registry.tileSize))  ));
 		
 		return w;
 	}
