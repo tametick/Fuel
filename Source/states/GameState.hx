@@ -31,6 +31,9 @@ class GameState extends FlxState {
 	override public function destroy() {
 		super.destroy();
 		Registry.textLayer.removeChild(guiText);
+		
+		Registry.level = null;
+		Registry.player = null;
 	}
 	
 	public function newLevel() {
