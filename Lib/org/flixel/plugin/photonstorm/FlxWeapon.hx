@@ -66,7 +66,8 @@ class FlxWeapon
 	
 	private var lastFired:Int;
 	private var nextFire:Int;
-	private var fireRate:Int;
+	private var fireRate(getFireRate, null):Int;
+	function getFireRate():Int { return fireRate; }
 	
 	//	When firing from a parent sprites position (i.e. Space Invaders)
 	private var fireFromParent:Bool;
@@ -80,7 +81,8 @@ class FlxWeapon
 	private var velocity:FlxPoint;
 	
 	public var multiShot:Int;
-	public var bulletLifeSpan:Int;
+	public var bulletLifeSpan(getBulletLifeSpan, null):Int;
+	function getBulletLifeSpan():Int { return bulletLifeSpan; }
 	
 	public var bulletElasticity:Float;
 	
