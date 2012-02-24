@@ -19,7 +19,7 @@ class GameState extends FlxState {
 	
 	override public function create() {
 		currentLevel = 0;
-		guiText = Registry.textLayer.newText("",0,0, 0x408080);		
+		guiText = Registry.textLayer.newText("",0,0, 0x408080);
 		Registry.gameState = this;
 		
 		Actuate.defaultEase = Linear.easeNone;

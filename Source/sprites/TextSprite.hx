@@ -10,7 +10,7 @@ import org.flixel.FlxCamera;
 
 class TextSprite extends Sprite {
 	public static var format:TextFormat;
-	public function newText(text:String,x:Int,y:Int, color:Int):TextField {
+	public function newText(text:String,x:Float,y:Float, color:Int):TextField {
 		var txt = new TextField();
 		var font = Library.getFont();
 		
