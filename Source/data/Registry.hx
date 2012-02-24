@@ -16,6 +16,8 @@ class Registry {
 	public static inline var tileSize = 8;
 	public static inline var fontSize = 32;
 
+	public static inline var fovRange = 6;
+	
 	public static inline var bulletSpeed = 100;
 	public static inline var bulletsPerWeapon = 20;
 	

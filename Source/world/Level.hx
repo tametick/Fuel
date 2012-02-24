@@ -50,7 +50,6 @@ class Level {
 	}
 	
 	public function updateFov() {
-		var maxDist = 6;
 		var p1 = new FlxPoint(Registry.player.tileX, Registry.player.tileY);
 		var p2 = new FlxPoint();
 		for(y in 0...height) {
@@ -58,7 +57,7 @@ class Level {
 				p2.x = x;
 				p2.y = y;
 				var d = FlxU.getDistance(p1, p2);
-				var l = Std.int(Math.min(0xFF, d/maxDist * 0xFF));
+				var l = Std.int(Math.min(0xFF, d/Registry.fovRange * 0xFF));
 				Utils.set(lightMap, width, x, y, l);
 			}
 		}
