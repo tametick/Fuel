@@ -20,8 +20,8 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 0;
 				a.strength = 4;
-				a.dexterity = 4;
-				a.agility = 5;
+				a.dexterity = 3;
+				a.agility = 6;
 				a.endurance = 10;
 				a.weapon = WeaponFactory.newWeapon(a, STAFF);
 				
@@ -30,8 +30,8 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 1;
 				a.strength = 3;
-				a.dexterity = 8;
-				a.agility = 10;
+				a.dexterity = 9;
+				a.agility = 9;
 				a.endurance = 2;
 				a.weapon = WeaponFactory.newWeapon(a, BOW);
 				
@@ -40,18 +40,18 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 2;
 				a.strength = 6;
-				a.dexterity = 10;
-				a.agility = 3;
-				a.endurance = 4;
+				a.dexterity = 9;
+				a.agility = 5;
+				a.endurance = 3;
 				a.weapon = WeaponFactory.newWeapon(a, SWORD);
 				
 			case GUARD:
 				a.isPlayer = true;
 				sheet = HEROES;
 				index = 3;
-				a.strength = 10;
+				a.strength = 8;
 				a.dexterity = 5;
-				a.agility = 2;
+				a.agility = 4;
 				a.endurance = 6;
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
 				

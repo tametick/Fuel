@@ -9,6 +9,7 @@ class Actor {
 	public var tileX(getX, setX):Float;
 	public var tileY(getY, setY):Float;
 	
+	// energy stats
 	public var health(getHealth, setHealth):Float;
 	
 	// base stats
@@ -17,8 +18,7 @@ class Actor {
 	public var agility:Float;
 	public var endurance:Float;
 	
-	
-	// derived attributes
+	// derived stats
 	public var maxHealth(getMaxHealth, never):Float;
 	public var damage(getDamage, never):Float;
 	public var attackSpeed(getAttackSpeed, never):Float;
@@ -26,56 +26,57 @@ class Actor {
 	public var walkingSpeed(getWalkingSpeed, never):Float;
 	public var dodge(getDodge, never):Float;
 	
+	// buffs can affect energy & derived stats
+	var buffs:Dynamic;
+	
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
 	public var isBlocking:Bool;
 	
 	public var weapon:Weapon;
-	var buffs:Hash<Float>;
 
 	var parts:IntHash<Part>;
 	
 	function getDamage():Float {
-		return (strength + weapon.damage) / 2;
+		return (strength + weapon.damage) / 2 + buffs.damage;
 	}
 	function getMaxHealth():Float {
-		return strength + endurance*2;
+		return strength + endurance*2 + buffs.health;
 	}
 	function getAttackSpeed():Float {
-		// how many attacks per second
-		return (dexterity + weapon.attackSpeed) / 4;
+		return (dexterity + weapon.attackSpeed) / 4 + buffs.attackSpeed;
 	}
 	function getAccuracy():Float {
-		return (accuracy + weapon.accuracy) / 2;
+		return (accuracy + weapon.accuracy) / 2 + buffs.accuracy;
 	}
 	function getWalkingSpeed():Float {
-		return agility;
+		return agility/2 + buffs.walkingSpeed;
 	}
 	function getDodge():Float {
-		return agility+weapon.defense;
+		return agility+weapon.defense + buffs.dodge;
 	}
 	
-	function getBuffed(attribute:String):Float {
-		var buff = buffs.get(attribute);
-		return Reflect.field(this,attribute) + (buff==null?0:buff);
-	} 
-	
-	// we don't want flixel to kill the actorsprite unless its buffed health <= 0
+	/* since we don't want flixel to kill the actorsprite unless 
+	   its buffed  health <= 0, we apply the buff in the setter */ 
 	function setHealth(h:Float):Float {
-		var buff = buffs.get("health");
-		return sprite.health = h + (buff==null?0:buff);
+		return sprite.health = h + buffs.health;
 	}
-	// however, we want actor.health to return the unbuffed value
 	function getHealth():Float {
-		var buff = buffs.get("health");
-		return sprite.health - (buff==null?0:buff);
+		return sprite.health;
 	}
 	
 	public function new(type:ActorType) {
 		this.type = type;
 		parts = new IntHash<Part>();
 		
-		buffs = new Hash<Float>();
+		buffs = { 
+			health: 0.0,
+			damage: 0.0,
+			attackSpeed: 0.0,
+			accuracy: 0.0,
+			walkingSpeed: 0.0,
+			dodge: 0.0,
+		};
 	}
 
 	function as(kind:Kind):Part {
