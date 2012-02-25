@@ -119,7 +119,6 @@ class Level {
 	public function removeEnemy(e:Actor) {
 		enemies.remove(e);
 		mapSprite.actorSprites.remove(e.sprite);
-		e.sprite.kill();
 	}
 	
 	public inline function get(x:Int, y:Int):Int {

@@ -28,7 +28,6 @@ class GameState extends FlxState {
 		
 		Actuate.defaultEase = Linear.easeNone;
 		
-		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
 		newLevel();	
 		
 		lightingLayer.visible = true;
@@ -47,15 +46,17 @@ class GameState extends FlxState {
 		currentLevel++;
 		guiText.text = "Level " + currentLevel;
 		
-		if (Registry.level != null) {
-			removeLevelSprites(Registry.level);
-		}
+		// remove old
+		removeAllGameSprites();
+		
+		// add new
+		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
 		Registry.level = LevelFactory.newLevel();
 		addLevelSprites(Registry.level);
 	}
 	
-	function removeLevelSprites(level:Level) {
-		for (sprite in level.sprites) {
+	function removeAllGameSprites() {
+		for (sprite in members) {
 			remove(sprite);
 		}
 	}

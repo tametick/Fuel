@@ -117,14 +117,15 @@ class Actor {
 		var chanceToHit = accuracy / (accuracy + victim.dodge);
 		var isHit = Math.random() < chanceToHit;
 		
-		if(isHit) {
-			victim.health -= damage;
+		if (isHit) {
 			// emit blood
+			
+			// the hurt function kills the sprite if needed
+			victim.sprite.hurt(damage);
 			
 			if (victim.health <= 0) {
 				victim.kill();
 			}
-
 		} else {
 			//victim.sprite.showDodge(dir);
 		}
