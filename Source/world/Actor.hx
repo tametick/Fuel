@@ -127,7 +127,15 @@ class Actor {
 				victim.kill();
 			}
 		} else {
-			//victim.sprite.showDodge(dir);
+			if(Math.round(victim.tileX)<Math.round(tileX)) {
+				victim.sprite.showDodge(W);
+			} else if (Math.round(victim.tileX) > Math.round(tileX)) {
+				victim.sprite.showDodge(E);
+			} else if(Math.round(victim.tileY)< Math.round(tileY)) {
+				victim.sprite.showDodge(N);
+			} else if (Math.round(victim.tileY) > Math.round(tileY)) {
+				victim.sprite.showDodge(S);
+			}
 		}
 	}
 	

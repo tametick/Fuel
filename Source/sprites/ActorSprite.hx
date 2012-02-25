@@ -99,13 +99,13 @@ class ActorSprite extends FlxSprite {
 					offset = 0;
 				switch (dodgeDir) {
 					case S:
-						y += offset;
+						y += offset/2;
 					case W:
-						x -= offset;
+						x -= offset/2;
 					case N:
-						y -= offset;
+						y -= offset/2;
 					case E:
-						x += offset;
+						x += offset/2;
 				}
 			}
 		} else {
@@ -127,7 +127,7 @@ class ActorSprite extends FlxSprite {
 			case BOW:
 				attackEffect.play("RANGED", true);
 		}
-		Actuate.timer(0.5).onComplete(showIndicator);
+		Actuate.timer(1).onComplete(showIndicator);
 	}
 	
 	function showIndicator() {
