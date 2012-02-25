@@ -126,11 +126,14 @@ class Actor {
 }
 
 enum ActorType {
+	// player classes
 	GUARD;
 	WARRIOR;
 	ARCHER;
 	MONK;
 	
+	// monsters
+	SPEAR_DUDE;
 	
 	LEVER_CLOSE;
 	LEVER_OPEN;

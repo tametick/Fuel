@@ -31,30 +31,25 @@ class LevelFactory {
 		
 		level.init();
 		
-		var startY:Int;
-		do {
-			startY = Utils.randomIntInRange(1, level.height - 2);
-		} while (level.get(1, startY) == 1);
-		
-		level.start = new FlxPoint(1, startY);
-		var greatestDist = 0;
-		var yOfGreatestDist = 0;
-		var finish = new FlxPoint(level.width-2, 0);
-		for (y in 1...level.height - 1) {
-			finish.y = y;
-			var path = level.mapSprite.findTilePath(level.start, finish);
-			if (path!=null && path.nodes.length>greatestDist) {
-				greatestDist = path.nodes.length;
-				yOfGreatestDist = y;
-			}
-		}
-		finish = null;
-			
-		level.finish = new FlxPoint(level.width - 2, yOfGreatestDist);	
-		
+		setStart(level);
 		level.player.tileX = level.start.x;
 		level.player.tileY = level.start.y;
+		level.finish = new FlxPoint(level.width - 2, getExitY(level));
 		
+		addLever(level);
+		addExit(level);
+		addEntryDoor(level);
+		
+		// add all actor sprites to map
+		level.mapSprite.addAllActors();
+		
+		// draw fov around player's starting position
+		GameState.lightingLayer.setDarkness(0xFF);
+		level.updateFov();
+		return level;
+	}
+	
+	static function addLever(level:Level) {
 		// get a free tile that is distant from both the start and the finish points
 		var freeTile:FlxPoint;
 		var pathToStart:FlxPath;
@@ -67,25 +62,43 @@ class LevelFactory {
 		} while (pathToStart.nodes.length < minDist || pathToFinish.nodes.length < minDist);
 		// add lever
 		level.items.push(ActorFactory.newActor(LEVER_CLOSE, freeTile.x, freeTile.y));
-		
-		// add exit
+	}
+	
+	static private function addExit(level:Level) {
 		level.set(Std.int(level.finish.x + 1), Std.int(level.finish.y), 0);
 		var exitDoor = ActorFactory.newActor(DOOR_CLOSE, level.finish.x + 1, level.finish.y);
 		level.items.push(exitDoor);
 		level.mapSprite.exitDoorSprite = exitDoor.sprite;
+	}
+	
+	static private function setStart(level:Level) {
+		var startY:Int;
+		do {
+			startY = Utils.randomIntInRange(1, level.height - 2);
+		} while (level.get(1, startY) == 1);
 		
+		level.start = new FlxPoint(1, startY);
+	}
+	
+	static private function getExitY(level:Level) {
+		var greatestDist = 0;
+		var yOfGreatestDist = 0;
+		var finish = new FlxPoint(level.width-2, 0);
+		for (y in 1...level.height - 1) {
+			finish.y = y;
+			var path = level.mapSprite.findTilePath(level.start, finish);
+			if (path!=null && path.nodes.length>greatestDist) {
+				greatestDist = path.nodes.length;
+				yOfGreatestDist = y;
+			}
+		}
+		return yOfGreatestDist;
+	}
+	
+	static private function addEntryDoor(level:Level) {
 		// add closed entry door
 		level.set(Std.int(level.start.x - 1), Std.int(level.start.y), 0);
 		var entryDoor = ActorFactory.newActor(DOOR_CLOSE, level.start.x - 1, level.start.y);
 		level.items.push(entryDoor);
-		
-		
-		// add all actor sprites to map
-		level.mapSprite.addAllActors();
-		
-		// draw fov around player's starting position
-		GameState.lightingLayer.setDarkness(0xFF);
-		level.updateFov();
-		return level;
 	}
 }
