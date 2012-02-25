@@ -22,7 +22,7 @@ class LightingSprite extends Bitmap {
 	}
 	
 	public function getDarknessAtTile(x:Float, y:Float) {
-		return Math.floor((bitmapData.getPixel32(Std.int(x), Std.int(y)) >> 24) & 255);
+		return bitmapData.getPixel32(Std.int(x), Std.int(y)) >>> 24;
 	}
 	
 	public function setDarkness(darkness:Int) {
