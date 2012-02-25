@@ -65,6 +65,10 @@ class GameState extends FlxState {
 		for (sprite in level.sprites) {
 			add(sprite);
 		}
+		
+		for (mob in level.mobs) {
+			add(mob.sprite.healthBar);
+		}
 		// shift everything half a tile up & left,
 		// because the map is 1 tile bigger than screen.
 		FlxG.camera.scroll.y = FlxG.camera.scroll.x = Registry.tileSize / 2;

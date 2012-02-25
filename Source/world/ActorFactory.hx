@@ -62,7 +62,7 @@ class ActorFactory {
 				a.strength = 2;
 				a.dexterity = 2;
 				a.agility = 2;
-				a.endurance = 1;
+				a.endurance = 4;
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
 				a.isBlocking = true;
 				

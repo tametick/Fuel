@@ -1,6 +1,7 @@
 package sprites;
 
 import com.eclecticdesignstudio.motion.Actuate;
+import org.flixel.plugin.photonstorm.FlxBar;
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import org.flixel.FlxSprite;
@@ -16,13 +17,16 @@ import world.Weapon;
 class ActorSprite extends FlxSprite {
 	public var owner:Actor;
 	public var direction:Direction;
+	
+	public var healthBar:FlxBar;
 	public var directionIndicator:IndicatorSprite;
 	public var attackEffect:AttackSprite;
 	public var explosionEmitter:EmitterSprite;
 	
-	var isMoving:Bool;
 	
+	var isMoving:Bool;
 	var isDodging:Bool;
+	
 	var dodgeDir:Direction;
 	var dodgeCounter:Float;
 	
@@ -51,6 +55,11 @@ class ActorSprite extends FlxSprite {
 		faceRight();
 		
 		explosionEmitter = new EmitterSprite(Registry.explosionColor);
+		
+		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 8, 1, this, "health");
+		healthBar.trackParent(0, 8);
+		healthBar.setRange(0, owner.maxHealth);
+		healthBar.killOnEmpty = true;
 		
 		bobCounter = 1.0;
 		bobCounterInc = 0.04;

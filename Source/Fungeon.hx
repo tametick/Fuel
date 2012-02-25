@@ -33,7 +33,7 @@ class Fungeon extends FlxGame {
 		var ratio:Float = Math.min(ratioX, ratioY);
 		
 		if(Registry.debug) {
-			CharSelectState.selectedHero = GUARD;
+			CharSelectState.selectedHero = ARCHER;
 			super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio, 60, 30);
 			forceDebugger = true;
 		} else {

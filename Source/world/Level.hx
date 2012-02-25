@@ -17,6 +17,7 @@ class Level {
 	
 	public var sprites(getSprites, null):Array<Dynamic>;
 	public var actors(getActors, null):Array<Actor>;
+	public var mobs(getMobs, null):Array<Actor>;
 	
 	public var player:Actor;
 	public var enemies:Array<Actor>;
@@ -45,9 +46,14 @@ class Level {
 		mapSprite = new MapSprite(this);
 	}
 	
-	function getActors():Array<Actor> {
+	function getMobs():Array<Actor> {
 		var a = [player];
 		a = a.concat(enemies);
+		return a;
+	}
+	
+	function getActors():Array<Actor> {
+		var a = getMobs();
 		a = a.concat(items);
 		return a;
 	}
