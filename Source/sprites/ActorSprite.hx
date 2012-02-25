@@ -14,10 +14,6 @@ import world.Weapon;
 
 
 class ActorSprite extends FlxSprite {
-	// fixme - move to registry
-	static var movementKeys = ["RIGHT", "LEFT", "DOWN", "UP"];
-	static var attackKey = ["SPACE"];
-	
 	public var owner:Actor;
 	public var direction:Direction;
 	public var directionIndicator:IndicatorSprite;
@@ -163,22 +159,22 @@ class ActorSprite extends FlxSprite {
 			directionIndicator.y = attackEffect.y;
 			
 			if(!isMoving) {				
-				if (FlxG.keys.pressed(movementKeys[0])) {
+				if (FlxG.keys.pressed(Registry.movementKeys[0])) {
 					faceRight();
 					if(Registry.level.isWalkable(Std.int(owner.tileX)+1,Std.int(owner.tileY))) {
 						startMoving(1,0);
 					}
-				} else if (FlxG.keys.pressed(movementKeys[1])) {
+				} else if (FlxG.keys.pressed(Registry.movementKeys[1])) {
 					faceLeft();
 					if(Registry.level.isWalkable(Std.int(owner.tileX)-1,Std.int(owner.tileY))) {
 						startMoving(-1,0);
 					}
-				} else if (FlxG.keys.pressed(movementKeys[2])) {
+				} else if (FlxG.keys.pressed(Registry.movementKeys[2])) {
 					faceDown();
 					if(Registry.level.isWalkable(Std.int(owner.tileX),Std.int(owner.tileY+1))) {
 						startMoving(0,1);
 					}
-				} else if (FlxG.keys.pressed(movementKeys[3])) {
+				} else if (FlxG.keys.pressed(Registry.movementKeys[3])) {
 					faceUp();
 					if(Registry.level.isWalkable(Std.int(owner.tileX),Std.int(owner.tileY-1))) {
 						startMoving(0,-1);
@@ -186,7 +182,7 @@ class ActorSprite extends FlxSprite {
 				}
 			}
 			
-			if (FlxG.keys.justPressed(attackKey[0])) {
+			if (FlxG.keys.justPressed(Registry.attackKey[0])) {
 				owner.weapon.fire();
 			}
 			
