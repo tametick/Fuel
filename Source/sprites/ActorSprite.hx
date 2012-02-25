@@ -22,6 +22,7 @@ class ActorSprite extends FlxSprite {
 	public var directionIndicator:IndicatorSprite;
 	public var attackEffect:AttackSprite;
 	public var explosionEmitter:EmitterSprite;
+	public var bloodEmitter:EmitterSprite;
 	
 	
 	var isMoving:Bool;
@@ -55,6 +56,7 @@ class ActorSprite extends FlxSprite {
 		faceRight();
 		
 		explosionEmitter = new EmitterSprite(Registry.explosionColor);
+		bloodEmitter = new EmitterSprite(Registry.bloodColor);
 		
 		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 7, 1, this, "health");
 		healthBar.trackParent(0, 8);

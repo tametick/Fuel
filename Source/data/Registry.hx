@@ -35,6 +35,7 @@ class Registry {
 	public static inline var particlesMaxVelocity = new FlxPoint(25, 25);
 	
 	public static inline var explosionColor = 0xFFFFFF;
+	public static inline var bloodColor = 0xFF0000;
 	
 	
 	public static inline var font = "eight2empire";

@@ -113,13 +113,11 @@ class Actor {
 		return new FlxPoint(getX(), getY());
 	}
 	
-	public function hit(victim:Actor) {
+	public function hit(victim:Actor):Bool {
 		var chanceToHit = accuracy / (accuracy + victim.dodge);
 		var isHit = Math.random() < chanceToHit;
 		
 		if (isHit) {
-			// emit blood
-			
 			// the hurt function kills the sprite if needed
 			victim.sprite.hurt(damage);
 			
@@ -137,6 +135,8 @@ class Actor {
 				victim.sprite.showDodge(S);
 			}
 		}
+		
+		return isHit;
 	}
 	
 	public function kill() {

@@ -129,22 +129,27 @@ class MapSprite extends FlxTilemap {
 		}
 	}
 	
-	public function hitWall(m:MapSprite, i:Bullet) {
-		var e = cast(i.weapon.parent, ActorSprite).explosionEmitter;
-		e.explode(i.x, i.y);
-		i.kill();
+	public function hitWall(m:MapSprite, b:Bullet) {
+		var e = cast(b.weapon.parent, ActorSprite).explosionEmitter;
+		e.explode(b.x, b.y);
+		b.kill();
 	}
 	
-	public function hitActor(a:ActorSprite, i:Bullet) {
-		var attacker = cast(i.weapon.parent, ActorSprite).owner;
+	public function hitActor(a:ActorSprite, b:Bullet) {
+		var attacker = cast(b.weapon.parent, ActorSprite).owner;
 		var victim = a.owner;
 		
 		if (attacker == victim) {
 			return;
 		}
 		
-		attacker.hit(victim);	
-		i.kill();
+		var isHit = attacker.hit(victim);
+		if (isHit) {
+			var e = a.bloodEmitter;
+			e.explode(a.x+Registry.tileSize/2, a.y+Registry.tileSize/2);
+		}
+		
+		b.kill();
 	}
 	
 	public function overlapItem(a:ActorSprite, i:ActorSprite) {
