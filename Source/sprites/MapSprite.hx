@@ -47,8 +47,12 @@ class MapSprite extends FlxTilemap {
 				var oldDarkness = GameState.lightingLayer.getDarknessAtTile(x, y);
 				var newDarkness = Std.int(normalizedDarkness * 0xff);
 				
+				var setDarkness = function (d:Int) {
+					GameState.lightingLayer.setDarknessAtTile(x, y, d);
+				}
+				
 				if(oldDarkness != newDarkness) {
-					GameState.lightingLayer.setDarknessAtTile(x, y, newDarkness);
+					Actuate.update(setDarkness, 1/(Registry.player.walkingSpeed), [oldDarkness], [newDarkness]);
 				}
 			}
 		}
