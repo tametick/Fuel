@@ -4,6 +4,7 @@ import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import data.Registry;
 import states.CharSelectState;
+import states.GameState;
 import world.Actor;
 import utils.Utils;
 
@@ -83,6 +84,7 @@ class LevelFactory {
 		level.mapSprite.addAllActors();
 		
 		// draw fov around player's starting position
+		GameState.lightingLayer.setDarkness(0xFF);
 		level.updateFov();
 		return level;
 	}
