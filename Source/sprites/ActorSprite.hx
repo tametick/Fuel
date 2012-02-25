@@ -56,7 +56,7 @@ class ActorSprite extends FlxSprite {
 		
 		explosionEmitter = new EmitterSprite(Registry.explosionColor);
 		
-		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 8, 1, this, "health");
+		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 7, 1, this, "health");
 		healthBar.trackParent(0, 8);
 		healthBar.setRange(0, owner.maxHealth);
 		healthBar.killOnEmpty = true;
