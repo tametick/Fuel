@@ -8,6 +8,7 @@ class WeaponFactory {
 	public static function newWeapon(owner:Actor, type:WeaponType):Weapon {
 		var w = new Weapon(owner, type);
 		w.sprite = new WeaponSprite(w, type);
+		var bulletColor = 0;
 		
 		switch (type) {
 			case UNARMED:	
@@ -30,6 +31,7 @@ class WeaponFactory {
 				w.damage = 2;
 				w.attackSpeed = 3;
 				w.accuracy = 4;
+				bulletColor = 0xffFFFF80;
 			case STAFF:
 				w.range = Registry.rangeShort;
 				w.damage = 3;
@@ -39,8 +41,8 @@ class WeaponFactory {
 		
 		w.defense = 0;
 		
-		var color = 0xffffffff;
-		w.sprite.makePixelBullet(Registry.bulletsPerWeapon, 2, 2, color);
+		
+		w.sprite.makePixelBullet(Registry.bulletsPerWeapon, 2, 2, bulletColor);
 		
 		return w;
 	}
