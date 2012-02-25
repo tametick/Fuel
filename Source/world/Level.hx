@@ -10,6 +10,7 @@ import utils.Utils;
 class Level {	
 	public var mapSprite:MapSprite;
 	public var tiles:Array<Int>;
+	public var visibilityMap:Array<Visibility>;
 	public var lightMap:Array<Float>;
 	public var width:Int;
 	public var height:Int;
@@ -26,8 +27,10 @@ class Level {
 	public function new(tiles:Array<Int>, ?w:Int = Registry.levelWidth, ?h:Int = Registry.levelHeight) {
 		this.tiles = tiles;
 		lightMap = [];
+		visibilityMap = [];
 		for (t in tiles) {
 			lightMap.push(0);
+			visibilityMap.push(UNSEEN);
 		}
 		width = w;
 		height = h;
@@ -49,15 +52,53 @@ class Level {
 		return a;
 	}
 	
-	public function updateFov() {
-		var p1 = new FlxPoint(Registry.player.tileX, Registry.player.tileY);
+	public function isInLos(p1, p2):Bool {
+		if (FlxU.getDistance(p1, p2) > Registry.fovRange) {
+			return false;
+		}
+		
+		var line = Utils.getLine(p1, p2, isBlockingSight);
+		
+		return line[line.length - 1].equals(p2);
+	}
+	
+	function updateVisibilityMap() {
+		// naive fov
+		
+		var p1 = Registry.player.tilePoint;
 		var p2 = new FlxPoint();
 		for(y in 0...height) {
 			for (x in 0...width) {
 				p2.x = x;
 				p2.y = y;
-				var d = FlxU.getDistance(p1, p2);
-				var l = Math.min(1, d/Registry.fovRange);
+				if(Utils.get(visibilityMap, width, x, y)==IN_SIGHT)
+					Utils.set(visibilityMap, width, x, y, SEEN);
+				if (isInLos(p1, p2))
+					Utils.set(visibilityMap, width, x, y, IN_SIGHT);
+			}
+		}
+			
+	}
+	
+	public function updateFov() {
+		updateVisibilityMap();
+		
+		var p1 = Registry.player.tilePoint;
+		var p2 = new FlxPoint();
+		for(y in 0...height) {
+			for (x in 0...width) {
+				p2.x = x;
+				p2.y = y;
+				var l;
+				switch(Utils.get(visibilityMap, width, x, y)) {
+					case IN_SIGHT:
+						var d = FlxU.getDistance(p1, p2);
+						l = Math.min(1, d / Registry.fovRange) * 0.8;
+					case SEEN:
+						l = 0.8;
+					case UNSEEN:
+						l = 1;
+				}
 				Utils.set(lightMap, width, x, y, l);
 			}
 		}
@@ -92,6 +133,10 @@ class Level {
 		return null;
 	}
 	
+	public function isBlockingSight(p:FlxPoint):Bool {
+		return get(Std.int(p.x), Std.int(p.y)) != 0;
+	}
+	
 	public function isWalkable(x:Int , y:Int):Bool {
 		var a = getActorAtPoint(x, y);
 		return get(x, y) == 0 && (a==null || !a.isBlocking);
@@ -107,6 +152,11 @@ class Level {
 		} while (getActorAtPoint(ex, ey)!=null || !isWalkable(ex, ey));
 		
 		return p;
-	}
-	
+	}	
+}
+
+enum Visibility {
+	UNSEEN;
+	SEEN;
+	IN_SIGHT;
 }

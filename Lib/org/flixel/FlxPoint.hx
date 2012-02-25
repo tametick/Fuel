@@ -101,4 +101,9 @@ class FlxPoint
 		return FlxU.getClassName(this, true);
 	}
 	
+	public function equals(o:FlxPoint):Bool 
+	{
+		return o.x == x && o.y == y;
+	}
+	
 }

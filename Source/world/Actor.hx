@@ -1,5 +1,6 @@
 package world;
 
+import org.flixel.FlxPoint;
 import sprites.ActorSprite;
 import data.Registry;
 
@@ -8,6 +9,7 @@ class Actor {
 	public var sprite:ActorSprite;
 	public var tileX(getX, setX):Float;
 	public var tileY(getY, setY):Float;
+	public var tilePoint(getPoint, never):FlxPoint;
 	
 	// energy stats
 	public var health(getHealth, setHealth):Float;
@@ -105,6 +107,10 @@ class Actor {
 	function setY(y:Float):Float {
 		sprite.y = y * Registry.tileSize;
 		return getY();
+	}
+	
+	function getPoint():FlxPoint {
+		return new FlxPoint(getX(), getY());
 	}
 	
 	public function hit(victim:Actor) {

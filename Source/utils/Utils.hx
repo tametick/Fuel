@@ -1,4 +1,5 @@
 package utils;
+import org.flixel.FlxPoint;
 
 class Utils {
 	public static function contains<T>(a:Array<T>, i:T):Bool {
@@ -50,5 +51,66 @@ class Utils {
 		if (i > max)
 			return max;
 		return i;
+	}
+	
+	static var line:Array<FlxPoint> = new Array(); 
+	public static function getLine(src:FlxPoint, dest:FlxPoint, isBlocking:FlxPoint->Bool):Array<FlxPoint> {
+		line.splice(0, line.length);
+		var steepness = (dest.x - src.x) / (dest.y - src.y);
+		var x = src.x;
+		var y = src.y;
+		var pos:FlxPoint;
+		if (Math.abs(steepness) < 1) {
+			
+			if(dest.y>y){
+				while (y < dest.y + 1) {
+					pos = new FlxPoint(x, y);
+					line.push(pos);
+					pos = null;
+					if (isBlocking(line[line.length - 1]))
+						break;
+					x += steepness;
+					y++;
+				}
+			} else {
+				while (y > dest.y-1) {
+					pos = new FlxPoint(x, y);
+					line.push(pos);
+					pos = null;
+					if (isBlocking(line[line.length - 1]))
+						break;
+					x -= steepness;
+					y--;
+				}
+			}
+		} else {
+			steepness = 1 / steepness;
+			if(dest.x>x){
+				while (x < dest.x + 1) {
+					pos = new FlxPoint(x, y);
+					line.push(pos);
+					pos = null;
+					if (isBlocking(line[line.length - 1]))
+						break;
+					y += steepness;
+					x++;
+				}
+			} else {
+				while (x > dest.x - 1) {
+					pos = new FlxPoint(x, y);
+					line.push(pos);
+					pos = null;
+					if (isBlocking(line[line.length - 1]))
+						break;
+					y -= steepness;
+					x--;
+				}
+			}
+		}
+		
+		pos = null;
+		isBlocking = null;
+		
+		return line;
 	}
 }
