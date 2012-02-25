@@ -40,6 +40,10 @@ class LevelFactory {
 		addExit(level);
 		addEntryDoor(level);
 		
+		for (e in 0...Registry.enemiesPerLevel) {
+			addEnemy(level, SPEAR_DUDE);
+		}
+		
 		// add all actor sprites to map
 		level.mapSprite.addAllActors();
 		
@@ -47,6 +51,11 @@ class LevelFactory {
 		GameState.lightingLayer.setDarkness(0xFF);
 		level.updateFov();
 		return level;
+	}
+	
+	static function addEnemy(level:Level, type:ActorType) {
+		var freeTile = level.getFreeTile();
+		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
 	}
 	
 	static function addLever(level:Level) {

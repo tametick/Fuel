@@ -9,6 +9,8 @@ import world.Level;
 class Registry {
 	public static inline var debug = false;
 	
+	public static inline var enemiesPerLevel = 10;
+	
 	public static inline var screenWidth = 96;
 	public static inline var screenHeight = 64;
 	public static inline var levelWidth = 13;
