@@ -116,8 +116,7 @@ class Level {
 		var sprites = [mapSprite, 
 				mapSprite.itemSprites,
 				mapSprite.actorSprites,
-				mapSprite.bulletSpritesAsSingleGroup,
-				Registry.player.sprite.directionIndicator];
+				mapSprite.bulletSpritesAsSingleGroup];
 		
 		return sprites;
 	}

@@ -19,7 +19,6 @@ class ActorSprite extends FlxSprite {
 	public var direction:Direction;
 	
 	public var healthBar:FlxBar;
-	public var directionIndicator:IndicatorSprite;
 	public var attackEffect:AttackSprite;
 	public var explosionEmitter:EmitterSprite;
 	public var bloodEmitter:EmitterSprite;
@@ -40,9 +39,6 @@ class ActorSprite extends FlxSprite {
 	public function new(owner:Actor, image:Images, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
 		this.owner = owner;
-		if (owner.isPlayer) {
-			directionIndicator = new IndicatorSprite();
-		}
 		attackEffect = new AttackSprite();
 				
 		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
@@ -122,20 +118,14 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function playAttackEffect(type:WeaponType) {
-		directionIndicator.visible = false;
 		switch(type) {				
 			case UNARMED, SPEAR, SWORD, STAFF:
 				attackEffect.play("MELEE", true);
 			case BOW:
 				attackEffect.play("RANGED", true);
 		}
-		Actuate.timer(1).onComplete(showIndicator);
 	}
-	
-	function showIndicator() {
-		directionIndicator.visible = true;
-	}
-	
+		
 	override public function update() {
 		if (FlxG.state != Registry.gameState)
 			return;
@@ -164,10 +154,6 @@ class ActorSprite extends FlxSprite {
 		}
 		
 		if (owner == Registry.player) {
-			// show the attack direction
-			directionIndicator.play(Type.enumConstructor(direction));
-			directionIndicator.x = attackEffect.x;
-			directionIndicator.y = attackEffect.y;
 			
 			if(!isMoving) {				
 				if (FlxG.keys.pressed(Registry.movementKeys[0])) {
