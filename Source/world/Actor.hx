@@ -44,13 +44,13 @@ class Actor {
 		return strength + endurance*2 + buffs.health;
 	}
 	function getAttackSpeed():Float {
-		return (dexterity + weapon.attackSpeed) / 4 + buffs.attackSpeed;
+		return (dexterity + weapon.attackSpeed) / 4 + buffs.attackSpeed/2;
 	}
 	function getAccuracy():Float {
 		return (accuracy + weapon.accuracy) / 2 + buffs.accuracy;
 	}
 	function getWalkingSpeed():Float {
-		return agility/2 + buffs.walkingSpeed;
+		return agility/2 + buffs.walkingSpeed/2;
 	}
 	function getDodge():Float {
 		return agility+weapon.defense + buffs.dodge;
