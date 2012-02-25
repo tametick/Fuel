@@ -39,11 +39,11 @@ class MapSprite extends FlxTilemap {
 	}
 	
 		
-	public function drawFov(lightMap:Array<Int>) {
+	public function drawFov(lightMap:Array<Float>) {
 		for(y in 0...heightInTiles) {
 			for (x in 0...widthInTiles) {
 				var l = Utils.get(lightMap, widthInTiles, x, y);
-				GameState.lightingLayer.setDarknessAtTile(x, y, l);
+				GameState.lightingLayer.setDarknessAtTile(x, y, Std.int(l*0xff));
 			}
 		}
 	}

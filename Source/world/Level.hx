@@ -10,7 +10,7 @@ import utils.Utils;
 class Level {	
 	public var mapSprite:MapSprite;
 	public var tiles:Array<Int>;
-	public var lightMap:Array<Int>;
+	public var lightMap:Array<Float>;
 	public var width:Int;
 	public var height:Int;
 	
@@ -57,7 +57,7 @@ class Level {
 				p2.x = x;
 				p2.y = y;
 				var d = FlxU.getDistance(p1, p2);
-				var l = Std.int(Math.min(0xFF, d/Registry.fovRange * 0xFF));
+				var l = Math.min(1, d/Registry.fovRange);
 				Utils.set(lightMap, width, x, y, l);
 			}
 		}
