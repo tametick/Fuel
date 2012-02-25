@@ -17,13 +17,14 @@ class CharSelectState extends FlxState {
 		FlxG.mouse.show();
 		
 		add(FlxGridOverlay.create(Registry.tileSize, Registry.tileSize, -1, -1, false, true, 0xff000000, 0xff5E5E5E));
-		description = Registry.textLayer.newText("", Registry.tileSize*2.5,Registry.tileSize*5, 0xFFFF00);
+		description = Registry.textLayer.newText("", Registry.tileSize * 2.5, Registry.tileSize * 5, 0xFFFF00);
 		
 		var guard = ActorFactory.newActor(GUARD, 2.5, 1);
 		var warrior = ActorFactory.newActor(WARRIOR, 4.5, 1);
 		var archer = ActorFactory.newActor(ARCHER, 6.5, 1);
 		var monk = ActorFactory.newActor(MONK, 8.5, 1);
 		heroes = [guard, warrior, archer, monk];
+		selectedHero = heroes[0].type;
 		
 		for (hero in heroes) {
 			add(hero.sprite);
