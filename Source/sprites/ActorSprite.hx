@@ -7,8 +7,9 @@ import org.flixel.FlxSprite;
 import org.flixel.FlxObject;
 import data.Registry;
 import data.Library;
-import world.Actor;
 import utils.Direction;
+import utils.Utils;
+import world.Actor;
 import world.Weapon;
 
 
@@ -55,9 +56,9 @@ class ActorSprite extends FlxSprite {
 		
 		explosionEmitter = new EmitterSprite(Registry.explosionColor);
 		
-		bobCounter = -1.0;
+		bobCounter = 1.0;
 		bobCounterInc = 0.04;
-		bobMult = 1;
+		bobMult = 0.75;
 	}
 	
 	function getWeaponSprite():WeaponSprite {
@@ -82,7 +83,7 @@ class ActorSprite extends FlxSprite {
 		var oldY:Float = y;
 		if(alive && health>0 && !FlxG.paused) {
 			if ( isMoving ) {
-				var offset:Float = Math.sin(bobCounter) * bobMult;
+				var offset:Float = Math.sin(bobCounter)*bobMult;
 				y -= offset;
 				bobCounter += bobCounterInc;
 			} else if ( isDodging ) {

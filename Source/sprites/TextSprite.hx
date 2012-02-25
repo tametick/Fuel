@@ -3,6 +3,7 @@ package sprites;
 import data.Library;
 import data.Registry;
 import nme.display.Sprite;
+import nme.Lib;
 import nme.text.TextField;
 import nme.text.TextFormat;
 import nme.text.TextFieldAutoSize;
@@ -18,7 +19,7 @@ class TextSprite extends Sprite {
 			format = new TextFormat(font.fontName, Registry.fontSize, 0);
 		}
 		
-		txt.width = Registry.screenWidth*FlxCamera.defaultZoom;
+		txt.width = Lib.current.width;
 		txt.embedFonts = true;
 		txt.wordWrap = true;
 		txt.defaultTextFormat = format;

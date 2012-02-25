@@ -21,6 +21,7 @@ class Fungeon extends FlxGame {
 		Lib.current.addChild (Registry.textLayer);
 		
 		var interlace = Library.getBitmapData(INTERLACE);
+		interlace.width = Lib.current.width;
 		Lib.current.addChild(interlace);
 	}
 
