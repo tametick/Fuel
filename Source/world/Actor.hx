@@ -49,7 +49,7 @@ class Actor {
 		return (dexterity + weapon.attackSpeed) / 4 + buffs.attackSpeed/2;
 	}
 	function getAccuracy():Float {
-		return (accuracy + weapon.accuracy) / 2 + buffs.accuracy;
+		return (dexterity + weapon.accuracy) / 2 + buffs.accuracy;
 	}
 	function getWalkingSpeed():Float {
 		return agility/2 + buffs.walkingSpeed/2;
@@ -114,14 +114,24 @@ class Actor {
 	}
 	
 	public function hit(victim:Actor) {
-		var isHit = Math.random() < accuracy/(accuracy+victim.dodge);
+		var chanceToHit = accuracy / (accuracy + victim.dodge);
+		var isHit = Math.random() < chanceToHit;
 		
 		if(isHit) {
 			victim.health -= damage;
 			// emit blood
+			
+			if (victim.health <= 0) {
+				victim.kill();
+			}
+
 		} else {
 			//victim.sprite.showDodge(dir);
 		}
+	}
+	
+	public function kill() {
+		Registry.level.removeEnemy(this);
 	}
 }
 

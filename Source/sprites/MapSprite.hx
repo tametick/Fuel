@@ -116,15 +116,15 @@ class MapSprite extends FlxTilemap {
 		
 		FlxG.collide(this, bulletSpritesAsSingleGroup, hitWall);
 		FlxG.collide(actorSprites, actorSprites);
-		
-		
+				
 		for (actor in actorSprites.members) {
+			if (actor == null)
+				continue;
+			
 			var a = cast(actor, ActorSprite);
-			var w = a.owner.weapon.sprite;
+  			var w = a.owner.weapon.sprite;
 			if (w != null) {
-				var groupOfOthers = new FlxGroup();
-				groupOfOthers.members = Utils.allExcept(actorSprites.members, a);
-				FlxG.collide(groupOfOthers, w.group, hitActor);
+				FlxG.collide(actorSprites, w.group, hitActor);
 			}
 		}
 	}
@@ -139,8 +139,11 @@ class MapSprite extends FlxTilemap {
 		var attacker = cast(i.weapon.parent, ActorSprite).owner;
 		var victim = a.owner;
 		
-		attacker.hit(victim);
-				
+		if (attacker == victim) {
+			return;
+		}
+		
+		attacker.hit(victim);	
 		i.kill();
 	}
 	

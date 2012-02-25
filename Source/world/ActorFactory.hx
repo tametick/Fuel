@@ -59,11 +59,12 @@ class ActorFactory {
 			case SPEAR_DUDE:
 				sheet = HUMANS;
 				index = 1;
-				a.strength = 4;
-				a.dexterity = 4;
-				a.agility = 4;
-				a.endurance = 2;
+				a.strength = 2;
+				a.dexterity = 2;
+				a.agility = 2;
+				a.endurance = 1;
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
+				a.isBlocking = true;
 				
 				
 			// level features
