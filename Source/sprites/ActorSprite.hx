@@ -191,7 +191,7 @@ class ActorSprite extends FlxSprite {
 				}
 			}
 			
-			if (FlxG.keys.justPressed(Registry.attackKey[0])) {
+			if (FlxG.keys.pressed(Registry.attackKey[0])) {
 				owner.weapon.fire();
 			}
 			

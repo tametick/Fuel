@@ -83,7 +83,6 @@ class Level {
 					Utils.set(visibilityMap, width, x, y, IN_SIGHT);
 			}
 		}
-			
 	}
 	
 	public function updateFov(source:FlxPoint) {
@@ -119,6 +118,13 @@ class Level {
 				mapSprite.bulletSpritesAsSingleGroup];
 		
 		return sprites;
+	}
+	
+	
+	public function levelOver() {
+		for (sprite in sprites) {
+			sprite.kill();
+		}
 	}
 	
 	public function removeEnemy(e:Actor) {

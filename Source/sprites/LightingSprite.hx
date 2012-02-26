@@ -18,6 +18,8 @@ class LightingSprite extends Bitmap {
 		height = Registry.levelHeight * Registry.tileSize * FlxCamera.defaultZoom;
 		x = -Registry.tileSize * FlxCamera.defaultZoom / 2;
 		y = -Registry.tileSize * FlxCamera.defaultZoom / 2;
+		
+		setDarkness(0xff);
 	}
 	
 	/** set darkness between 0 (fully lighten) and 0xFF (fully dark) */

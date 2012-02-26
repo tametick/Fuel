@@ -43,6 +43,10 @@ class GameState extends FlxState {
 	}
 	
 	public function newLevel() {
+		if(Registry.level!=null) {
+			Registry.level.levelOver();
+		}
+		
 		currentLevel++;
 		guiText.text = "Level " + currentLevel;
 		
@@ -51,8 +55,14 @@ class GameState extends FlxState {
 		
 		// add new
 		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
+		
 		Registry.level = LevelFactory.newLevel();
 		addLevelSprites(Registry.level);
+		
+		Registry.player.sprite.revive();
+		
+		// draw fov around player's starting position
+		Registry.level.updateFov(Registry.player.tilePoint);
 	}
 	
 	function removeAllGameSprites() {
