@@ -30,11 +30,11 @@ class Utils {
 		return aa;
 	}
 	
-	inline public static function get<T>(map:Array<T>, width:Int, x:Int, y:Int):T {
-		return map[y * width + x];
+	inline public static function get<T>(map:Array<T>, width:Int, x:Float, y:Float):T {
+		return map[Std.int(y) * width + Std.int(x)];
 	}
-	inline public static function set<T>(map:Array<T>, width:Int, x:Int, y:Int, val:T) {
-		map[y * width + x] = val;
+	inline public static function set<T>(map:Array<T>, width:Int, x:Float, y:Float, val:T) {
+		map[Std.int(y) * width + Std.int(x)] = val;
 	}
 	
 	public static function randomInt(max:Int):Int {
