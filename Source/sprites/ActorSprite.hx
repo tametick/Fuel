@@ -71,8 +71,18 @@ class ActorSprite extends FlxSprite {
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
 		bobCounter = -1.0;
-		var duration = 1/(owner.walkingSpeed);
-		Actuate.tween(this, duration, { x: roundedTilePosition(this.x+dx*Registry.tileSize), y: roundedTilePosition(this.y+dy*Registry.tileSize) } ).onComplete(stopped);
+		var duration = 1 / (owner.walkingSpeed);
+		var nextPixelX = getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
+		var nextPixelY = getPositionSnappedToGrid(this.y + dy * Registry.tileSize);
+		var nextTileX = nextPixelX / Registry.tileSize;
+		var nextTileY = nextPixelY / Registry.tileSize;
+		
+		// move
+		Actuate.tween(this, duration, {x: nextPixelX, y: nextPixelY}).onComplete(stopped);
+		// update fov
+		if(owner.isPlayer) {
+			Registry.level.updateFov(new FlxPoint(nextTileX, nextTileY));
+		}
 	}
 	
 	public function showDodge(Dir:Direction) {
@@ -188,18 +198,14 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	inline function roundedTilePosition(p:Float):Int {
+	inline function getPositionSnappedToGrid(p:Float):Int {
 		return Math.round(p/Registry.tileSize)*Registry.tileSize;
 	}
 	
 	public function stopped() {
 		isMoving = false;
-		x = roundedTilePosition(x);
-		y = roundedTilePosition(y);
-		
-		if(owner.isPlayer) {
-			Registry.level.updateFov(owner.tilePoint);
-		}
+		x = getPositionSnappedToGrid(x);
+		y = getPositionSnappedToGrid(y);
 		
 		var mapSprite = Registry.level.mapSprite;
 		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
