@@ -68,11 +68,11 @@ class Level {
 		return line[line.length - 1].equals(p2);
 	}
 	
-	function updateVisibilityMap() {
-		// naive fov
-		
-		var p1 = Registry.player.tilePoint;
+	function updateVisibilityMap(source:FlxPoint) {
+		var p1 = source;
 		var p2 = new FlxPoint();
+		
+		// naive fov
 		for(y in 0...height) {
 			for (x in 0...width) {
 				p2.x = x;
@@ -86,10 +86,10 @@ class Level {
 			
 	}
 	
-	public function updateFov() {
-		updateVisibilityMap();
+	public function updateFov(source:FlxPoint) {
+		updateVisibilityMap(source);
 		
-		var p1 = Registry.player.tilePoint;
+		var p1 = source;
 		var p2 = new FlxPoint();
 		for(y in 0...height) {
 			for (x in 0...width) {

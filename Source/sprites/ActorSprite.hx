@@ -198,7 +198,7 @@ class ActorSprite extends FlxSprite {
 		y = roundedTilePosition(y);
 		
 		if(owner.isPlayer) {
-			Registry.level.updateFov();
+			Registry.level.updateFov(owner.tilePoint);
 		}
 		
 		var mapSprite = Registry.level.mapSprite;
