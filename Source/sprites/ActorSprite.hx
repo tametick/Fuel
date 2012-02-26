@@ -55,13 +55,15 @@ class ActorSprite extends FlxSprite {
 		bloodEmitter = new EmitterSprite(Registry.bloodColor);
 		
 		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 7, 1, this, "health");
-		healthBar.trackParent(0, 8);
+		healthBar.trackParent(0, 7);
 		healthBar.setRange(0, owner.maxHealth);
 		healthBar.killOnEmpty = true;
 		
 		bobCounter = 1.0;
 		bobCounterInc = 0.04;
 		bobMult = 0.75;
+		
+		offset.y = 1;
 	}
 	
 	function getWeaponSprite():WeaponSprite {
