@@ -126,17 +126,17 @@ class Level {
 		mapSprite.actorSprites.remove(e.sprite);
 	}
 	
-	public inline function get(x:Int, y:Int):Int {
+	public inline function get(x:Float, y:Float):Int {
 		return Utils.get(tiles,width,x,y);
 	}
-	public inline function set(x:Int, y:Int, val:Int) {
+	public inline function set(x:Float, y:Float, val:Int) {
 		Utils.set(tiles, width, x, y, val);
-		mapSprite.setTile(x, y, val);
+		mapSprite.setTile(Std.int(x), Std.int(y), val);
 	}
 	
-	function getActorAtPoint(x:Int, y:Int):Actor {
+	function getActorAtPoint(x:Float, y:Float):Actor {
 		for (a in actors) {
-			if (Std.int(a.tileX) == x && Std.int(a.tileY) == y) {
+			if (Std.int(a.tileX) == Std.int(x) && Std.int(a.tileY) == Std.int(y)) {
 				return a;
 			}
 		}
@@ -144,10 +144,10 @@ class Level {
 	}
 	
 	public function isBlockingSight(p:FlxPoint):Bool {
-		return get(Std.int(p.x), Std.int(p.y)) != 0;
+		return get(p.x, p.y) != 0;
 	}
 	
-	public function isWalkable(x:Int , y:Int):Bool {
+	public function isWalkable(x:Float , y:Float):Bool {
 		var a = getActorAtPoint(x, y);
 		return get(x, y) == 0 && (a==null || !a.isBlocking);
 	}

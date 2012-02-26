@@ -74,7 +74,7 @@ class LevelFactory {
 	}
 	
 	static private function addExit(level:Level) {
-		level.set(Std.int(level.finish.x + 1), Std.int(level.finish.y), 0);
+		level.set(level.finish.x + 1, level.finish.y, 0);
 		var exitDoor = ActorFactory.newActor(DOOR_CLOSE, level.finish.x + 1, level.finish.y);
 		level.items.push(exitDoor);
 		level.mapSprite.exitDoorSprite = exitDoor.sprite;
@@ -106,7 +106,7 @@ class LevelFactory {
 	
 	static private function addEntryDoor(level:Level) {
 		// add closed entry door
-		level.set(Std.int(level.start.x - 1), Std.int(level.start.y), 0);
+		level.set(level.start.x - 1, level.start.y, 0);
 		var entryDoor = ActorFactory.newActor(DOOR_CLOSE, level.start.x - 1, level.start.y);
 		level.items.push(entryDoor);
 	}
