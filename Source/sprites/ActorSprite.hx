@@ -12,8 +12,6 @@ import utils.Direction;
 import utils.Utils;
 import world.Actor;
 import world.Weapon;
-import world.Kind;
-import world.StatsPart;
 
 class ActorSprite extends FlxSprite {
 	public var owner:Actor;
@@ -105,9 +103,9 @@ class ActorSprite extends FlxSprite {
 				bobCounter += bobCounterInc;
 			} else if ( isDodging ) {
 				var offset:Float = dodgeCounter;
-				if ( offset > 10 ) 
+				if ( offset > 10 )
 					offset = 10 - (dodgeCounter - 10);
-				if ( offset < 0 ) 
+				if ( offset < 0 )
 					offset = 0;
 				switch (dodgeDir) {
 					case S:
@@ -132,7 +130,7 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function playAttackEffect(type:WeaponType) {
-		switch(type) {				
+		switch(type) {
 			case UNARMED, SPEAR, SWORD, STAFF:
 				attackEffect.play("MELEE", true);
 			case BOW:
@@ -169,7 +167,7 @@ class ActorSprite extends FlxSprite {
 		
 		if (owner == Registry.player) {
 			
-			if(!isMoving) {				
+			if(!isMoving) {
 				if (FlxG.keys.pressed(Registry.movementKeys[0])) {
 					faceRight();
 					if(Registry.level.isWalkable(owner.tileX+1,owner.tileY)) {
@@ -235,7 +233,7 @@ class ActorSprite extends FlxSprite {
 	
 	function faceDown()	{
 		direction = S;
-		if (owner.weapon != null) { 
+		if (owner.weapon != null) {
 			weaponSprite.setBulletDirection(WeaponSprite.DOWN, Math.round(Registry.bulletSpeed));
 			attackEffect.facing = FlxObject.LEFT;
 		}

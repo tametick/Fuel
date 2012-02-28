@@ -1,7 +1,7 @@
 package sprites;
 
-import data.Registry;
 import org.flixel.FlxSprite;
+import data.Registry;
 import data.Library;
 
 class AttackSprite extends FlxSprite {

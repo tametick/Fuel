@@ -1,13 +1,13 @@
 package sprites;
 
-import data.Library;
-import data.Registry;
 import nme.display.Sprite;
 import nme.Lib;
 import nme.text.TextField;
 import nme.text.TextFormat;
 import nme.text.TextFieldAutoSize;
 import org.flixel.FlxCamera;
+import data.Library;
+import data.Registry;
 
 class TextSprite extends Sprite {
 	public static var format:TextFormat;

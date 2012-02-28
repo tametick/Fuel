@@ -7,14 +7,13 @@ import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import org.flixel.FlxTilemap;
 import org.flixel.plugin.photonstorm.baseTypes.Bullet;
+import data.Registry;
+import utils.Utils;
 import states.GameState;
 import world.Actor;
 import world.ActorFactory;
 import world.Level;
-import world.StatsPart;
-import world.Kind;
-import utils.Utils;
-import data.Registry;
+
 
 class MapSprite extends FlxTilemap {
 	public var owner:Level;
@@ -158,29 +157,5 @@ class MapSprite extends FlxTilemap {
 	public function overlapItem(a:ActorSprite, i:ActorSprite) {
 		if (i.owner.triggerable != null)
 			i.owner.triggerable.onBump(a.owner);
-		/*
-		switch (i.owner.type) {
-			case LEVER_CLOSE:
-				// switch lever
-				itemSprites.remove(i);
-				owner.items.remove(i.owner);
-				var openLever = ActorFactory.newActor(LEVER_OPEN, i.owner.tileX, i.owner.tileY);
-				addItemAndSprite(openLever);
-				
-				// open exit door
-				itemSprites.remove(exitDoorSprite);
-				owner.items.remove(exitDoorSprite.owner);
-				var openDoor = ActorFactory.newActor(DOOR_OPEN, exitDoorSprite.owner.tileX, exitDoorSprite.owner.tileY);
-				addItemAndSprite(openDoor);	
-							
-			// fixme - put this check somewhere more appropriate
-			case DOOR_OPEN:
-				Actuate.stop(Registry.player.sprite);
-				Registry.gameState.newLevel();
-				
-			default:
-				
-		}
-		*/
 	}
 }
