@@ -1,12 +1,6 @@
 package world;
 
 
-enum Trigger {
-	Bump;
-	Mechanism;
-}
-
-
 class TriggerablePart implements Part {
 	public var actor:Actor;
 
@@ -16,7 +10,7 @@ class TriggerablePart implements Part {
 
 	public var isBlocking(default,null):Bool;
 
-	public function onBump(bumper:Actor) {
+	public function onBump(agent:Actor) {
 	}
 
 	// Source is the actor that is the immediate cause on the mechanism trigger,
@@ -24,30 +18,8 @@ class TriggerablePart implements Part {
 	// mechanism action.
 	public function onMechanism(source:Actor, agent:Actor) {
 	}
-}
 
-
-class DoorTriggerablePart extends TriggerablePart {
-	var closedIndex:Int;
-	var openIndex:Int;
-
-	public function new(closedIndex:Int, openIndex:Int, isClosed:Bool) {
-		isBlocking = isClosed;
-		this.closedIndex = closedIndex;
-		this.openIndex = openIndex;
-	}
-
-	public override function onMechanism(source:Actor, agent:Actor) {
-		var spriteIndex:Int;
-		if (isBlocking) {
-			isBlocking = false;
-			spriteIndex = openIndex;
-		} else {
-			isBlocking = true;
-			spriteIndex = closedIndex;
-		}
-		if (actor != null) {
-			actor.sprite.setIndex(spriteIndex);
-		}
+	public function new(isBlocking:Bool) {
+		this.isBlocking = isBlocking;
 	}
 }

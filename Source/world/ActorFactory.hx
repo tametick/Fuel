@@ -26,6 +26,7 @@ class ActorFactory {
 					 endurance: 10,
         }));
 				a.weapon = WeaponFactory.newWeapon(a, STAFF);
+				a.addPart(new TriggerablePart(true));
 
 			case ARCHER:
 				a.isPlayer = true;
@@ -38,6 +39,7 @@ class ActorFactory {
            endurance: 2,
         }));
 				a.weapon = WeaponFactory.newWeapon(a, BOW);
+				a.addPart(new TriggerablePart(true));
 
 			case WARRIOR:
 				a.isPlayer = true;
@@ -50,6 +52,7 @@ class ActorFactory {
            endurance: 3,
         }));
 				a.weapon = WeaponFactory.newWeapon(a, SWORD);
+				a.addPart(new TriggerablePart(true));
 
 			case GUARD:
 				a.isPlayer = true;
@@ -62,6 +65,7 @@ class ActorFactory {
            endurance: 6,
         }));
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
+				a.addPart(new TriggerablePart(true));
 
 			// monsters
 			case SPEAR_DUDE:
@@ -74,23 +78,19 @@ class ActorFactory {
            endurance: 4,
         }));
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
-				a.isBlocking = true;
+				a.addPart(new TriggerablePart(true));
 
 
 			// level features
-			case LEVER_CLOSE:
+		  // XXX: Sprite index gets repeated with construction and TriggerablePart.
+			case LEVER:
 				sheet = FURNITURE2;
 				index = 0;
-			case LEVER_OPEN:
-				sheet = FURNITURE2;
-				index = 1;
-			case DOOR_CLOSE:
+				a.addPart(new LeverTriggerablePart(0, 1, null));
+			case DOOR:
 				sheet = DOORS;
 				index = 2;
-				a.isBlocking = true;
-			case DOOR_OPEN:
-				sheet = DOORS;
-				index = 12;
+				a.addPart(new DoorTriggerablePart(2, 12));
 		}
 
 		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);

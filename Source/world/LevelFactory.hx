@@ -36,8 +36,9 @@ class LevelFactory {
 		level.player.tileY = level.start.y;
 		level.finish = new FlxPoint(level.width - 2, getExitY(level));
 		
-		addLever(level);
+		// Exit must be added before we add lever.
 		addExit(level);
+		addLever(level);
 		addEntryDoor(level);
 		
 		for (e in 0...Registry.enemiesPerLevel) {
@@ -66,13 +67,17 @@ class LevelFactory {
 			pathToStart = level.mapSprite.findTilePath(level.start, freeTile);
 			pathToFinish = level.mapSprite.findTilePath(freeTile, level.finish);
 		} while (pathToStart.nodes.length < minDist || pathToFinish.nodes.length < minDist);
-		// add lever
-		level.items.push(ActorFactory.newActor(LEVER_CLOSE, freeTile.x, freeTile.y));
+
+		// Bind lever to exit door.
+		// XXX: Hacky lookup for the exit door actor.
+		var lever = ActorFactory.newActor(LEVER, freeTile.x, freeTile.y);
+		cast(lever.triggerable, LeverTriggerablePart).target = level.mapSprite.exitDoorSprite.owner;
+		level.items.push(lever);
 	}
 	
 	static private function addExit(level:Level) {
 		level.set(level.finish.x + 1, level.finish.y, 0);
-		var exitDoor = ActorFactory.newActor(DOOR_CLOSE, level.finish.x + 1, level.finish.y);
+		var exitDoor = ActorFactory.newActor(DOOR, level.finish.x + 1, level.finish.y);
 		level.items.push(exitDoor);
 		level.mapSprite.exitDoorSprite = exitDoor.sprite;
 	}
@@ -104,7 +109,7 @@ class LevelFactory {
 	static private function addEntryDoor(level:Level) {
 		// add closed entry door
 		level.set(level.start.x - 1, level.start.y, 0);
-		var entryDoor = ActorFactory.newActor(DOOR_CLOSE, level.start.x - 1, level.start.y);
+		var entryDoor = ActorFactory.newActor(DOOR, level.start.x - 1, level.start.y);
 		level.items.push(entryDoor);
 	}
 }

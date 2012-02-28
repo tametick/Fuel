@@ -156,6 +156,9 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	public function overlapItem(a:ActorSprite, i:ActorSprite) {
+		if (i.owner.triggerable != null)
+			i.owner.triggerable.onBump(a.owner);
+		/*
 		switch (i.owner.type) {
 			case LEVER_CLOSE:
 				// switch lever
@@ -178,6 +181,6 @@ class MapSprite extends FlxTilemap {
 			default:
 				
 		}
-		
+		*/
 	}
 }

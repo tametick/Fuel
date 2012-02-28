@@ -32,7 +32,7 @@ class Actor {
 
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
-	public var isBlocking:Bool;
+	public var isBlocking(getIsBlocking, never):Bool;
 
 	public var weapon:Weapon;
 
@@ -76,6 +76,10 @@ class Actor {
 
 	function getPoint():FlxPoint {
 		return new FlxPoint(getX(), getY());
+	}
+
+	function getIsBlocking():Bool {
+		return triggerable != null && triggerable.isBlocking;
 	}
 
 	public function hit(victim:Actor):Bool {
@@ -126,8 +130,6 @@ enum ActorType {
 	// monsters
 	SPEAR_DUDE;
 
-	LEVER_CLOSE;
-	LEVER_OPEN;
-	DOOR_CLOSE;
-	DOOR_OPEN;
+	LEVER;
+	DOOR;
 }
