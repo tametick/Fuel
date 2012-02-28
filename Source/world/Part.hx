@@ -1,5 +1,7 @@
 package world;
 
 interface Part {
-	function getKind():Kind;
+	public var actor:Actor;
+
+	public function getKind():Kind;
 }

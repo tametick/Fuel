@@ -11,6 +11,8 @@ import states.GameState;
 import world.Actor;
 import world.ActorFactory;
 import world.Level;
+import world.StatsPart;
+import world.Kind;
 import utils.Utils;
 import data.Registry;
 
@@ -52,7 +54,12 @@ class MapSprite extends FlxTilemap {
 				}
 				
 				if(oldDarkness != newDarkness) {
-					Actuate.update(setDarkness, 1/(Registry.player.walkingSpeed), [oldDarkness], [newDarkness]);
+					var walkingSpeed = 1.0;
+					var stats = cast(Registry.player.as(Kind.Stats), StatsPart);
+					if (stats != null)
+						walkingSpeed = stats.walkingSpeed;
+					
+					Actuate.update(setDarkness, 1/(walkingSpeed), [oldDarkness], [newDarkness]);
 				}
 			}
 		}

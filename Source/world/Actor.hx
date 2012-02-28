@@ -10,87 +10,33 @@ class Actor {
 	public var tileX(getX, setX):Float;
 	public var tileY(getY, setY):Float;
 	public var tilePoint(getPoint, never):FlxPoint;
-	
-	// energy stats
-	public var health(getHealth, setHealth):Float;
-	
-	// base stats
-	public var strength:Float;
-	public var dexterity:Float;
-	public var agility:Float;
-	public var endurance:Float;
-	
-	// derived stats
-	public var maxHealth(getMaxHealth, never):Float;
-	public var damage(getDamage, never):Float;
-	public var attackSpeed(getAttackSpeed, never):Float;
-	public var accuracy(getAccuracy, never):Float;
-	public var walkingSpeed(getWalkingSpeed, never):Float;
-	public var dodge(getDodge, never):Float;
-	
-	// buffs can affect energy & derived stats
-	var buffs:Dynamic;
-	
+
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
 	public var isBlocking:Bool;
-	
+
 	public var weapon:Weapon;
 
 	var parts:IntHash<Part>;
-	
-	function getDamage():Float {
-		return (strength + weapon.damage) / 2 + buffs.damage;
-	}
-	function getMaxHealth():Float {
-		return strength + endurance*2 + buffs.health;
-	}
-	function getAttackSpeed():Float {
-		return (dexterity + weapon.attackSpeed) / 4 + buffs.attackSpeed/2;
-	}
-	function getAccuracy():Float {
-		return (dexterity + weapon.accuracy) / 2 + buffs.accuracy;
-	}
-	function getWalkingSpeed():Float {
-		return agility/2 + buffs.walkingSpeed/2;
-	}
-	function getDodge():Float {
-		return agility+weapon.defense + buffs.dodge;
-	}
-	
-	/* since we don't want flixel to kill the actorsprite unless 
-	   its buffed  health <= 0, we apply the buff in the setter */ 
-	function setHealth(h:Float):Float {
-		return sprite.health = h + buffs.health;
-	}
-	function getHealth():Float {
-		return sprite.health;
-	}
-	
+
+
 	public function new(type:ActorType) {
 		this.type = type;
 		parts = new IntHash<Part>();
-		
-		buffs = { 
-			health: 0.0,
-			damage: 0.0,
-			attackSpeed: 0.0,
-			accuracy: 0.0,
-			walkingSpeed: 0.0,
-			dodge: 0.0,
-		};
 	}
 
-	function as(kind:Kind):Part {
+	public function as(kind:Kind):Part {
 		return parts.get(Type.enumIndex(kind));
 	}
 
-	function addPart(part:Part) {
+	public function addPart(part:Part) {
+		part.actor = this;
 		parts.set(Type.enumIndex(part.getKind()), part);
 	}
 
-	function removePart(part:Part) {
+	public function removePart(part:Part) {
 		parts.remove(Type.enumIndex(part.getKind()));
+		part.actor = null;
 	}
 
 	function getX():Float {
@@ -99,7 +45,7 @@ class Actor {
 	function getY():Float {
 		return sprite.y / Registry.tileSize;
 	}
-	
+
 	function setX(x:Float):Float {
 		sprite.x = x * Registry.tileSize;
 		return getX();
@@ -108,20 +54,27 @@ class Actor {
 		sprite.y = y * Registry.tileSize;
 		return getY();
 	}
-	
+
 	function getPoint():FlxPoint {
 		return new FlxPoint(getX(), getY());
 	}
-	
+
 	public function hit(victim:Actor):Bool {
-		var chanceToHit = accuracy / (accuracy + victim.dodge);
+		var stats = cast(as(Kind.Stats), StatsPart);
+		var victimStats = cast(victim.as(Kind.Stats), StatsPart);
+
+		// Unstatted actors can't hit or be hit.
+		if (stats == null || victimStats == null)
+			return false;
+
+		var chanceToHit = stats.accuracy / (stats.accuracy + victimStats.dodge);
 		var isHit = Math.random() < chanceToHit;
-		
+
 		if (isHit) {
 			// the hurt function kills the sprite if needed
-			victim.sprite.hurt(damage);
-			
-			if (victim.health <= 0) {
+			victim.sprite.hurt(stats.damage);
+
+			if (victimStats.health <= 0) {
 				victim.kill();
 			}
 		} else {
@@ -135,10 +88,10 @@ class Actor {
 				victim.sprite.showDodge(S);
 			}
 		}
-		
+
 		return isHit;
 	}
-	
+
 	public function kill() {
 		Registry.level.removeEnemy(this);
 	}
@@ -150,10 +103,10 @@ enum ActorType {
 	WARRIOR;
 	ARCHER;
 	MONK;
-	
+
 	// monsters
 	SPEAR_DUDE;
-	
+
 	LEVER_CLOSE;
 	LEVER_OPEN;
 	DOOR_CLOSE;

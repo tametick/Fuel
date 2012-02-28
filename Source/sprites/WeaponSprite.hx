@@ -4,6 +4,8 @@ import org.flixel.plugin.photonstorm.FlxWeapon;
 import data.Registry;
 import world.Actor;
 import world.Weapon;
+import world.Kind;
+import world.StatsPart;
 
 class WeaponSprite extends FlxWeapon {
 	var owner:Weapon;
@@ -29,6 +31,11 @@ class WeaponSprite extends FlxWeapon {
 	}
 	
 	override function getFireRate():Int {
-		return Std.int(1000/owner.owner.attackSpeed);
+		var attackSpeed = 1.0;
+		var stats = cast(owner.owner.as(Kind.Stats), StatsPart);
+		if (stats != null)
+			attackSpeed = stats.attackSpeed;
+		
+		return Std.int(1000/attackSpeed);
 	}
 }

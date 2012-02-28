@@ -12,7 +12,8 @@ import utils.Direction;
 import utils.Utils;
 import world.Actor;
 import world.Weapon;
-
+import world.Kind;
+import world.StatsPart;
 
 class ActorSprite extends FlxSprite {
 	public var owner:Actor;
@@ -56,7 +57,11 @@ class ActorSprite extends FlxSprite {
 		
 		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 7, 1, this, "health");
 		healthBar.trackParent(0, 7);
-		healthBar.setRange(0, owner.maxHealth);
+		var maxHealth = 1.0;
+		var stats = cast(owner.as(Kind.Stats), StatsPart);
+		if (stats != null)
+			maxHealth = stats.maxHealth;
+		healthBar.setRange(0, maxHealth);
 		healthBar.killOnEmpty = true;
 		
 		bobCounter = 1.0;
@@ -73,7 +78,11 @@ class ActorSprite extends FlxSprite {
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
 		bobCounter = -1.0;
-		var duration = 1 / (owner.walkingSpeed);
+		var walkingSpeed = 1.0;
+		var stats = cast(owner.as(Kind.Stats), StatsPart);
+		if (stats != null)
+			walkingSpeed = stats.walkingSpeed;
+		var duration = 1 / (walkingSpeed);
 		var nextPixelX = getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
 		var nextPixelY = getPositionSnappedToGrid(this.y + dy * Registry.tileSize);
 		var nextTileX = nextPixelX / Registry.tileSize;

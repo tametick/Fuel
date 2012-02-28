@@ -12,61 +12,71 @@ class ActorFactory {
 		var index;
 		var sheet:Images;
 		var isImmovable = false;
-		
+
 		switch (type) {
 			// player classes
 			case MONK:
 				a.isPlayer = true;
 				sheet = HEROES;
 				index = 0;
-				a.strength = 4;
-				a.dexterity = 3;
-				a.agility = 6;
-				a.endurance = 10;
+				a.addPart(new StatsPart({
+					 strength: 4,
+           dexterity: 3,
+					 agility: 6,
+					 endurance: 10,
+        }));
 				a.weapon = WeaponFactory.newWeapon(a, STAFF);
-				
+
 			case ARCHER:
 				a.isPlayer = true;
 				sheet = HEROES;
 				index = 1;
-				a.strength = 3;
-				a.dexterity = 9;
-				a.agility = 9;
-				a.endurance = 2;
+				a.addPart(new StatsPart({
+           strength: 3,
+           dexterity: 9,
+           agility: 9,
+           endurance: 2,
+        }));
 				a.weapon = WeaponFactory.newWeapon(a, BOW);
-				
+
 			case WARRIOR:
 				a.isPlayer = true;
 				sheet = HEROES;
 				index = 2;
-				a.strength = 6;
-				a.dexterity = 9;
-				a.agility = 5;
-				a.endurance = 3;
+				a.addPart(new StatsPart({
+           strength: 6,
+           dexterity: 9,
+           agility: 5,
+           endurance: 3,
+        }));
 				a.weapon = WeaponFactory.newWeapon(a, SWORD);
-				
+
 			case GUARD:
 				a.isPlayer = true;
 				sheet = HEROES;
 				index = 3;
-				a.strength = 8;
-				a.dexterity = 5;
-				a.agility = 4;
-				a.endurance = 6;
+				a.addPart(new StatsPart({
+           strength: 8,
+           dexterity: 5,
+           agility: 4,
+           endurance: 6,
+        }));
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
-				
+
 			// monsters
 			case SPEAR_DUDE:
 				sheet = HUMANS;
 				index = 1;
-				a.strength = 2;
-				a.dexterity = 2;
-				a.agility = 2;
-				a.endurance = 4;
+				a.addPart(new StatsPart({
+           strength: 2,
+           dexterity: 2,
+           agility: 2,
+           endurance: 4,
+        }));
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
 				a.isBlocking = true;
-				
-				
+
+
 			// level features
 			case LEVER_CLOSE:
 				sheet = FURNITURE2;
@@ -82,18 +92,21 @@ class ActorFactory {
 				sheet = DOORS;
 				index = 12;
 		}
-		
+
 		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
 		if(a.weapon!=null) {
 			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
 		}
-		
-		if(a.strength!=0 && a.endurance!=0) {
-			a.health = a.maxHealth;
-		} else {
-			a.health = 1;
+
+		var stats = cast(a.as(Kind.Stats), StatsPart);
+		if(stats != null) {
+			if (stats.strength != 0 && stats.endurance != 0) {
+				stats.health = stats.maxHealth;
+			} else {
+				stats.health = 1;
+			}
 		}
-		
+
 		return a;
-	}	
+	}
 }
