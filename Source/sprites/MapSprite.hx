@@ -54,11 +54,7 @@ class MapSprite extends FlxTilemap {
 				}
 				
 				if(oldDarkness != newDarkness) {
-					var walkingSpeed = 1.0;
-					var stats = cast(Registry.player.as(Kind.Stats), StatsPart);
-					if (stats != null)
-						walkingSpeed = stats.walkingSpeed;
-					
+					var walkingSpeed = Registry.player.stats != null ? Registry.player.stats.walkingSpeed : 1.0;
 					Actuate.update(setDarkness, 1/(walkingSpeed), [oldDarkness], [newDarkness]);
 				}
 			}

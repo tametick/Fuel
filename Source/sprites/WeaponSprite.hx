@@ -31,11 +31,7 @@ class WeaponSprite extends FlxWeapon {
 	}
 	
 	override function getFireRate():Int {
-		var attackSpeed = 1.0;
-		var stats = cast(owner.owner.as(Kind.Stats), StatsPart);
-		if (stats != null)
-			attackSpeed = stats.attackSpeed;
-		
+		var attackSpeed = owner.owner.stats != null ? owner.owner.stats.attackSpeed : 1.0;
 		return Std.int(1000/attackSpeed);
 	}
 }

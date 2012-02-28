@@ -98,12 +98,11 @@ class ActorFactory {
 			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
 		}
 
-		var stats = cast(a.as(Kind.Stats), StatsPart);
-		if(stats != null) {
-			if (stats.strength != 0 && stats.endurance != 0) {
-				stats.health = stats.maxHealth;
+		if(a.stats != null) {
+			if (a.stats.strength != 0 && a.stats.endurance != 0) {
+				a.stats.health = a.stats.maxHealth;
 			} else {
-				stats.health = 1;
+				a.stats.health = 1;
 			}
 		}
 

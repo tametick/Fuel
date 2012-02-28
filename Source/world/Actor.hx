@@ -11,6 +11,16 @@ class Actor {
 	public var tileY(getY, setY):Float;
 	public var tilePoint(getPoint, never):FlxPoint;
 
+	public var stats(getStats, setStats):StatsPart;
+	// XXX: Macrofy this boilerplate?
+	private function getStats():StatsPart {
+		return cast(this.as(Kind.Stats), StatsPart);
+	}
+	private function setStats(stats:StatsPart):StatsPart {
+		this.addPart(stats);
+		return stats;
+	}
+
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
 	public var isBlocking:Bool;
@@ -60,8 +70,8 @@ class Actor {
 	}
 
 	public function hit(victim:Actor):Bool {
-		var stats = cast(as(Kind.Stats), StatsPart);
-		var victimStats = cast(victim.as(Kind.Stats), StatsPart);
+		var stats = this.stats;
+		var victimStats = victim.stats;
 
 		// Unstatted actors can't hit or be hit.
 		if (stats == null || victimStats == null)
