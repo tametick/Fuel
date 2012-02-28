@@ -11,14 +11,23 @@ class Actor {
 	public var tileY(getY, setY):Float;
 	public var tilePoint(getPoint, never):FlxPoint;
 
-	public var stats(getStats, setStats):StatsPart;
 	// XXX: Macrofy this boilerplate?
+	public var stats(getStats, setStats):StatsPart;
 	private function getStats():StatsPart {
 		return cast(this.as(Kind.Stats), StatsPart);
 	}
-	private function setStats(stats:StatsPart):StatsPart {
-		this.addPart(stats);
-		return stats;
+	private function setStats(part:StatsPart):StatsPart {
+		this.addPart(part);
+		return part;
+	}
+
+	public var triggerable(getTriggerable, setTriggerable):TriggerablePart;
+	private function getTriggerable():TriggerablePart {
+		return cast(this.as(Kind.Triggerable), TriggerablePart);
+	}
+	private function setTriggerable(part:TriggerablePart):TriggerablePart {
+		this.addPart(part);
+		return part;
 	}
 
 	public var isPlayer:Bool;

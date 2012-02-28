@@ -41,11 +41,10 @@ class ActorSprite extends FlxSprite {
 		super(x, y);
 		this.owner = owner;
 		attackEffect = new AttackSprite();
-				
+
 		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
-		addAnimation("idle", [spriteIndex]);
-		play("idle");
-		
+		setIndex(spriteIndex);
+
 		if (isImmovable) {
 			immovable = true;
 		}
@@ -67,7 +66,12 @@ class ActorSprite extends FlxSprite {
 		
 		offset.y = 1;
 	}
-	
+
+	public function setIndex(index:Int) {
+		addAnimation("idle", [index]);
+		play("idle");
+	}
+
 	function getWeaponSprite():WeaponSprite {
 		return owner.weapon.sprite;
 	}
