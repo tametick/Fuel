@@ -43,7 +43,7 @@ class ActorSprite extends FlxSprite {
 		attackEffect = new AttackSprite();
 
 		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
-		setIndex(spriteIndex);
+		frame = spriteIndex;
 
 		if (isImmovable) {
 			immovable = true;
@@ -65,11 +65,6 @@ class ActorSprite extends FlxSprite {
 		bobMult = 0.75;
 		
 		offset.y = 1;
-	}
-
-	public function setIndex(index:Int) {
-		addAnimation("idle", [index]);
-		play("idle");
 	}
 
 	function getWeaponSprite():WeaponSprite {

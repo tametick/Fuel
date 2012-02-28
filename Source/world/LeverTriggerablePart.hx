@@ -24,7 +24,7 @@ class LeverTriggerablePart extends TriggerablePart {
 		}
 		isOff = false;
 		if (actor != null) {
-			actor.sprite.setIndex(onIndex);
+			actor.sprite.frame = onIndex;
 		}
 	}
 }

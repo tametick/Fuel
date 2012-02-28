@@ -22,7 +22,7 @@ class DoorTriggerablePart extends TriggerablePart {
 			spriteIndex = closedIndex;
 		}
 		if (actor != null) {
-			actor.sprite.setIndex(spriteIndex);
+			actor.sprite.frame = spriteIndex;
 		}
 	}
 
