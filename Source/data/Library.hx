@@ -4,16 +4,17 @@ import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.text.Font;
+import thx.csv.Csv;
 
 class Library {
 	static var assets:Hash<Dynamic> = new Hash<Dynamic>();
 	
-	public static function getImage(i:Images):Dynamic {
+	public static function getImage(i:Image):Dynamic {
 		var className = getClassname(i)+"Image";
 		return Type.resolveClass(className);
 	}
 	
-	public static function getBitmapData(i:Images):Bitmap {
+	public static function getBitmapData(i:Image):Bitmap {
 		var name = getFilename(i);
 		if (!assets.exists(name)){
 			assets.set(name, new LoadedBitmap(i));
@@ -29,6 +30,15 @@ class Library {
 		return cast(assets.get(name), Font);
 	}
 	
+	public static function getDefinition(d:Definition):Dynamic {
+		var name = getFilename(d);
+		if (!assets.exists(name)) {
+			var txt = Assets.getText("assets/" + name + ".txt");
+			assets.set(name, /*Csv.decode(*/ txt /*)*/);
+		}
+		return assets.get(name);
+	}
+	
 	public static function getFilename(e:Dynamic):String {
 		return Type.enumConstructor(e).toLowerCase();
 	}
@@ -39,8 +49,11 @@ class Library {
 	}
 }
 
-// images
-enum Images {
+enum Definition {
+	WEAPONS;
+}
+
+enum Image {
 	DOORS;
 	DUNGEON;
 	FLOOR;

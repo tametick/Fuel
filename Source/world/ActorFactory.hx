@@ -14,7 +14,7 @@ class ActorFactory {
 	public static function newActor(type:ActorType, ?x:Float=1, ?y:Float=1):Actor {
 		var a = new Actor(type);
 		var index;
-		var sheet:Images;
+		var sheet:Image;
 		var isImmovable = false;
 
 		switch (type) {
