@@ -3,11 +3,13 @@ package world;
 import data.Library;
 import data.Registry;
 import sprites.WeaponSprite;
+import thx.csv.Csv;
 import world.Weapon;
 
 class WeaponFactory {
 	public static function newWeapon(owner:Actor, type:WeaponType):Weapon {
 		var defs = Library.getDefinition(WEAPONS);
+		
 		var w = new Weapon(owner, type);
 		w.sprite = new WeaponSprite(w, type);
 		var bulletColor = 0;

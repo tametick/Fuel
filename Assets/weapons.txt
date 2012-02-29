@@ -1,4 +1,4 @@
-name,,damage,,defense,,attackSpeed,,accuracy,range,spritesheet,index
+type,,damage,,defense,,attackSpeed,,accuracy,range,spritesheet,index
 unarmed,0,very low,0,low,4,high,2,low,short
 knife,2,low,1,low,6, very high,3,medium,short
 sword,5,high,3,high,4,high,3,medium,short

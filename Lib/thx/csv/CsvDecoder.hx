@@ -2,7 +2,7 @@ package thx.csv;
 
 import thx.number.NumberParser;
 import thx.culture.Culture;
-import thx.data.IDataHandler;
+
 import thx.error.Error;
 import thx.text.ERegs;
 /**
@@ -23,9 +23,9 @@ class CsvDecoder
 	public var line(default, null) : Int;
 	public var column(default, null) : Int;
 	public var check_type(default, null) : Bool;
-	var handler : IDataHandler;
+	var handler : CsvHandler;
 	
-	public function new(handler : IDataHandler, check_type = true, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r", 
+	public function new(handler : CsvHandler, check_type = true, delimiter = ",", emptytonull = false, newline = "\r\n|\n|\r", 
 						quote = '"', doublequotations = true, trim_whitespace = true)
 	{
 		this.handler = handler;

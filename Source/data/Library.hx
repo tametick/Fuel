@@ -34,7 +34,7 @@ class Library {
 		var name = getFilename(d);
 		if (!assets.exists(name)) {
 			var txt = Assets.getText("assets/" + name + ".txt");
-			assets.set(name, /*Csv.decode(*/ txt /*)*/);
+			assets.set(name, Csv.decode(txt));
 		}
 		return assets.get(name);
 	}
