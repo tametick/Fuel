@@ -1,5 +1,6 @@
-package world;
+package parts;
 
+import world.Actor;
 
 class TriggerablePart implements Part {
 	public var actor:Actor;

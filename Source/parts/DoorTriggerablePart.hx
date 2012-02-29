@@ -1,6 +1,7 @@
-package world;
+package parts;
 
 import data.Registry;
+import world.Actor;
 
 class DoorTriggerablePart extends TriggerablePart {
 	var closedIndex:Int;

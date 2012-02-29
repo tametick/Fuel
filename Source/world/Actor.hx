@@ -3,6 +3,10 @@ package world;
 import org.flixel.FlxPoint;
 import sprites.ActorSprite;
 import data.Registry;
+import parts.StatsPart;
+import parts.TriggerablePart;
+import parts.Part;
+import parts.Kind;
 
 class Actor {
 	public var type:ActorType;

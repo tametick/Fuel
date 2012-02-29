@@ -1,4 +1,6 @@
-package world;
+package parts;
+
+import world.Actor;
 
 class LeverTriggerablePart extends TriggerablePart {
 	var offIndex:Int;

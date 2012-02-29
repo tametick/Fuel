@@ -4,8 +4,8 @@ import org.flixel.plugin.photonstorm.FlxWeapon;
 import data.Registry;
 import world.Actor;
 import world.Weapon;
-import world.Kind;
-import world.StatsPart;
+import parts.StatsPart;
+import parts.Kind;
 
 class WeaponSprite extends FlxWeapon {
 	var owner:Weapon;

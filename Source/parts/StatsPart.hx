@@ -1,4 +1,6 @@
-package world;
+package parts;
+
+import world.Actor;
 
 class StatsPart implements Part {
 	public var actor:Actor;

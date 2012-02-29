@@ -3,6 +3,10 @@ package world;
 import sprites.ActorSprite;
 import data.Registry;
 import data.Library;
+import parts.DoorTriggerablePart;
+import parts.LeverTriggerablePart;
+import parts.StatsPart;
+import parts.TriggerablePart;
 import world.Actor;
 import world.Weapon;
 
@@ -20,11 +24,11 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 0;
 				a.addPart(new StatsPart({
-					 strength: 4,
-           dexterity: 3,
-					 agility: 6,
-					 endurance: 10,
-        }));
+					strength: 4,
+					dexterity: 3,
+					agility: 6,
+					endurance: 10,
+				}));
 				a.weapon = WeaponFactory.newWeapon(a, STAFF);
 				a.addPart(new TriggerablePart(true));
 
@@ -33,11 +37,11 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 1;
 				a.addPart(new StatsPart({
-           strength: 3,
-           dexterity: 9,
-           agility: 9,
-           endurance: 2,
-        }));
+					strength: 3,
+					dexterity: 9,
+					agility: 9,
+					endurance: 2,
+				}));
 				a.weapon = WeaponFactory.newWeapon(a, BOW);
 				a.addPart(new TriggerablePart(true));
 
@@ -46,11 +50,11 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 2;
 				a.addPart(new StatsPart({
-           strength: 6,
-           dexterity: 9,
-           agility: 5,
-           endurance: 3,
-        }));
+					strength: 6,
+					dexterity: 9,
+					agility: 5,
+					endurance: 3,
+				}));
 				a.weapon = WeaponFactory.newWeapon(a, SWORD);
 				a.addPart(new TriggerablePart(true));
 
@@ -59,38 +63,39 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 3;
 				a.addPart(new StatsPart({
-           strength: 8,
-           dexterity: 5,
-           agility: 4,
-           endurance: 6,
-        }));
+					strength: 8,
+					dexterity: 5,
+					agility: 4,
+					endurance: 6,
+				}));
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
 				a.addPart(new TriggerablePart(true));
+
 
 			// monsters
 			case SPEAR_DUDE:
 				sheet = HUMANS;
 				index = 1;
 				a.addPart(new StatsPart({
-           strength: 2,
-           dexterity: 2,
-           agility: 2,
-           endurance: 4,
-        }));
+					strength: 2,
+					dexterity: 2,
+					agility: 2,
+					endurance: 4,
+				}));
 				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
 				a.addPart(new TriggerablePart(true));
 
 
 			// level features
-		  // XXX: Sprite index gets repeated with construction and TriggerablePart.
+			// XXX: Sprite index gets repeated with construction and TriggerablePart.
 			case LEVER:
 				sheet = FURNITURE2;
 				index = 0;
-				a.addPart(new LeverTriggerablePart(0, 1, null));
+				a.addPart(new LeverTriggerablePart(index, 1, null));
 			case DOOR:
 				sheet = DOORS;
 				index = 2;
-				a.addPart(new DoorTriggerablePart(2, 12));
+				a.addPart(new DoorTriggerablePart(index, 12));
 		}
 
 		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
