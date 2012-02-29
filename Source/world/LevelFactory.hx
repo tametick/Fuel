@@ -9,7 +9,7 @@ import world.Actor;
 import utils.Utils;
 
 class LevelFactory {
-	public static function newLevel():Level {
+	public static function newLevel(index:Int):Level {
 		var mazeGenerator = new MazeGenerator(Registry.levelWidth, Registry.levelHeight);
 		mazeGenerator.initMaze();
 		mazeGenerator.createMaze();
@@ -21,7 +21,7 @@ class LevelFactory {
 			}
 		}
 		
-		var level = new Level(tilesIndex);
+		var level = new Level(index, tilesIndex);
 		
 		if (Registry.player == null) {
 			Registry.player = level.player =  ActorFactory.newActor(CharSelectState.selectedHero);

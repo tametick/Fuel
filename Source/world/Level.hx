@@ -19,13 +19,16 @@ class Level {
 	public var actors(getActors, null):Array<Actor>;
 	public var mobs(getMobs, null):Array<Actor>;
 	
+	public var index:Int;
 	public var player:Actor;
 	public var enemies:Array<Actor>;
 	public var items:Array<Actor>;
 	public var start:FlxPoint;
 	public var finish:FlxPoint;
+	
 			
-	public function new(tiles:Array<Int>, ?w:Int = Registry.levelWidth, ?h:Int = Registry.levelHeight) {
+	public function new(index:Int, tiles:Array<Int>, ?w:Int = Registry.levelWidth, ?h:Int = Registry.levelHeight) {
+		this.index = index;
 		this.tiles = tiles;
 		lightMap = [];
 		visibilityMap = [];

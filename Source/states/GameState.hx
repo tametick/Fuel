@@ -19,10 +19,8 @@ class GameState extends FlxState {
 	public static var lightingLayer:LightingSprite;
 	
 	var guiText:TextField;
-	var currentLevel:Int;
 	
 	override public function create() {
-		currentLevel = 0;
 		guiText = Registry.textLayer.newText("",0,0, 0x408080);
 		Registry.gameState = this;
 		
@@ -43,7 +41,9 @@ class GameState extends FlxState {
 	}
 	
 	public function newLevel() {
-		if(Registry.level!=null) {
+		var currentLevel = 0;
+		if (Registry.level != null) {
+			currentLevel = Registry.level.index;
 			Registry.level.levelOver();
 		}
 		
@@ -56,7 +56,7 @@ class GameState extends FlxState {
 		// add new
 		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
 		
-		Registry.level = LevelFactory.newLevel();
+		Registry.level = LevelFactory.newLevel(currentLevel);
 		addLevelSprites(Registry.level);
 		
 		Registry.player.sprite.revive();
