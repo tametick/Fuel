@@ -87,7 +87,7 @@ class ActorFactory {
 
 
 			// level features
-			// XXX: Sprite index gets repeated with construction and TriggerablePart.
+			// fixme: Sprite index gets repeated with construction and TriggerablePart.
 			case LEVER:
 				sheet = FURNITURE2;
 				index = 0;

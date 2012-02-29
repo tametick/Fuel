@@ -70,7 +70,7 @@ class LevelFactory {
 		} while (pathToStart.nodes.length < minDist || pathToFinish.nodes.length < minDist);
 
 		// Bind lever to exit door.
-		// XXX: Hacky lookup for the exit door actor.
+		// fixme: Hacky lookup for the exit door actor.
 		var lever = ActorFactory.newActor(LEVER, freeTile.x, freeTile.y);
 		cast(lever.triggerable, LeverTriggerablePart).target = level.mapSprite.exitDoorSprite.owner;
 		level.items.push(lever);

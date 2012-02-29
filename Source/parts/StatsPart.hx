@@ -63,7 +63,7 @@ class StatsPart implements Part {
 			dodge: 0.0,
 		};
 
-		// XXX: More idiomatic way to do this?
+		// fixme: More idiomatic way to do this?
 		for (field in Reflect.fields(stats)) {
 			if (!Reflect.hasField(this, field))
 				throw "Invalid stat field "+field;

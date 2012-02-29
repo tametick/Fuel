@@ -15,7 +15,7 @@ class Actor {
 	public var tileY(getY, setY):Float;
 	public var tilePoint(getPoint, never):FlxPoint;
 
-	// XXX: Macrofy this boilerplate?
+	// fixme: Macrofy this boilerplate?
 	public var stats(getStats, setStats):StatsPart;
 	private function getStats():StatsPart {
 		return cast(this.as(Kind.Stats), StatsPart);
