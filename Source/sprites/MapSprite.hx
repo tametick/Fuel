@@ -95,7 +95,7 @@ class MapSprite extends FlxTilemap {
 		actorSprites = new FlxGroup();
 		itemSprites = new FlxGroup();
 		for (a in owner.actors) {
-			if(Utils.contains(owner.items,a)) {
+			if(Arrays.exists(owner.items,a)) {
 				itemSprites.add(a.sprite);
 			} else {
 				actorSprites.add(a.sprite);

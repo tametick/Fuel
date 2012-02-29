@@ -1,16 +1,7 @@
 package utils;
 import org.flixel.FlxPoint;
 
-class Utils {
-	public static function contains<T>(a:Array<T>, i:T):Bool {
-		for (item in a) {
-			if (item == i) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+class Utils {	
 	public static function next<T>(a:Array<T>, i:T):T {
 		for (index in 0...a.length) {
 			if (a[index] == i) {
