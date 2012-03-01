@@ -16,22 +16,14 @@ class Actor {
 	public var tilePoint(getPoint, never):FlxPoint;
 
 	// fixme: Macrofy this boilerplate?
-	public var stats(getStats, setStats):StatsPart;
+	public var stats(getStats, null):StatsPart;
 	private function getStats():StatsPart {
 		return as(StatsPart);
 	}
-	private function setStats(part:StatsPart):StatsPart {
-		addPart(part);
-		return part;
-	}
 
-	public var triggerable(getTriggerable, setTriggerable):TriggerablePart;
+	public var triggerable(getTriggerable, null):TriggerablePart;
 	private function getTriggerable():TriggerablePart {
 		var part = as(TriggerablePart);
-		return part;
-	}
-	private function setTriggerable(part:TriggerablePart):TriggerablePart {
-		addPart(part);
 		return part;
 	}
 
@@ -109,7 +101,6 @@ class Actor {
 	}
 
 	public function hit(victim:Actor):Bool {
-		var stats = this.stats;
 		var victimStats = victim.stats;
 
 		// Unstatted actors can't hit or be hit.
