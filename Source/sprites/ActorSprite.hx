@@ -54,7 +54,7 @@ class ActorSprite extends FlxSprite {
 		
 		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 7, 1, this, "health");
 		healthBar.trackParent(0, 7);
-		var maxHealth = owner.stats != null ? owner.stats.maxHealth : 1.0;
+		var maxHealth = owner.stats!=null? owner.stats.maxHealth : 1;
 		healthBar.setRange(0, maxHealth);
 		healthBar.killOnEmpty = true;
 		
@@ -72,7 +72,7 @@ class ActorSprite extends FlxSprite {
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
 		bobCounter = -1.0;
-		var walkingSpeed = owner.stats != null ? owner.stats.walkingSpeed : 1.0;
+		var walkingSpeed = owner.stats.walkingSpeed;
 		var duration = 1 / (walkingSpeed);
 		var nextPixelX = getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
 		var nextPixelY = getPositionSnappedToGrid(this.y + dy * Registry.tileSize);

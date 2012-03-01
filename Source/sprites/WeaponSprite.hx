@@ -25,11 +25,11 @@ class WeaponSprite extends FlxWeapon {
 	}
 
 	override function getBulletLifeSpan():Int {
-		return Std.int(  1000/(Registry.bulletSpeed/(owner.range*Registry.tileSize))  );
+		return Std.int( 1000/(Registry.bulletSpeed/(owner.range*Registry.tileSize)) );
 	}
 	
 	override function getFireRate():Int {
-		var attackSpeed = owner.owner.stats != null ? owner.owner.stats.attackSpeed : 1.0;
+		var attackSpeed = owner.owner.stats.attackSpeed;
 		return Std.int(1000/attackSpeed);
 	}
 }

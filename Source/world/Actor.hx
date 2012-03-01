@@ -15,17 +15,10 @@ class Actor {
 	public var tileY(getY, setY):Float;
 	public var tilePoint(getPoint, never):FlxPoint;
 
-	// fixme: Macrofy this boilerplate?
 	public var stats(getStats, null):StatsPart;
-	private function getStats():StatsPart {
-		return as(StatsPart);
-	}
-
 	public var triggerable(getTriggerable, null):TriggerablePart;
-	private function getTriggerable():TriggerablePart {
-		var part = as(TriggerablePart);
-		return part;
-	}
+	function getStats():StatsPart { return as(StatsPart); }
+	function getTriggerable():TriggerablePart { return as(TriggerablePart); }
 
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
@@ -102,10 +95,6 @@ class Actor {
 
 	public function hit(victim:Actor):Bool {
 		var victimStats = victim.stats;
-
-		// Unstatted actors can't hit or be hit.
-		if (stats == null || victimStats == null)
-			return false;
 
 		var chanceToHit = stats.accuracy / (stats.accuracy + victimStats.dodge);
 		var isHit = Math.random() < chanceToHit;
