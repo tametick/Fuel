@@ -2,9 +2,7 @@ package parts;
 
 import world.Actor;
 
-class StatsPart implements Part {
-	public var actor:Actor;
-
+class StatsPart extends Part {
 	// energy stats
 	public var health(getHealth, setHealth):Float;
 
@@ -69,9 +67,5 @@ class StatsPart implements Part {
 				throw "Invalid stat field "+field;
 			Reflect.setField(this, field, Reflect.field(stats, field));
 		}
-	}
-
-	public function getKind():Kind {
-		return Kind.Stats;
 	}
 }

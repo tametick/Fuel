@@ -19,7 +19,7 @@ class MapSprite extends FlxTilemap {
 	public var owner:Level;
 
 	public var itemSprites:FlxGroup;
-	public var actorSprites:FlxGroup;
+	public var mobSprites:FlxGroup;
 	public var bulletSprites(getBulletSprites, null):Array<FlxGroup>;
 	public var bulletSpritesAsSingleGroup(getBulletSpritesAsSingleGroup, null):FlxGroup;
 	
@@ -92,20 +92,20 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	public function addAllActors() {
-		actorSprites = new FlxGroup();
+		mobSprites = new FlxGroup();
 		itemSprites = new FlxGroup();
 		for (a in owner.actors) {
 			if(Arrays.exists(owner.items,a)) {
 				itemSprites.add(a.sprite);
 			} else {
-				actorSprites.add(a.sprite);
+				mobSprites.add(a.sprite);
 			}
 		}
 	}
 	
 	public function addEnemyAndSprite(e:Actor) {
 		owner.enemies.push(e);
-		actorSprites.add(e.sprite);
+		mobSprites.add(e.sprite);
 	}
 	
 	public function addItemAndSprite(i:Actor) {
@@ -117,16 +117,16 @@ class MapSprite extends FlxTilemap {
 		super.update();
 		
 		FlxG.collide(this, bulletSpritesAsSingleGroup, hitWall);
-		FlxG.collide(actorSprites, actorSprites);
+		FlxG.collide(mobSprites, mobSprites);
 				
-		for (actor in actorSprites.members) {
+		for (actor in mobSprites.members) {
 			if (actor == null)
 				continue;
 			
 			var a = cast(actor, ActorSprite);
   			var w = a.owner.weapon.sprite;
 			if (w != null) {
-				FlxG.collide(actorSprites, w.group, hitActor);
+				FlxG.collide(mobSprites, w.group, hitActor);
 			}
 		}
 	}

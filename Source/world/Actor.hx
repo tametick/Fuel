@@ -6,7 +6,6 @@ import data.Registry;
 import parts.StatsPart;
 import parts.TriggerablePart;
 import parts.Part;
-import parts.Kind;
 
 class Actor {
 	public var type:ActorType;
@@ -18,19 +17,20 @@ class Actor {
 	// fixme: Macrofy this boilerplate?
 	public var stats(getStats, setStats):StatsPart;
 	private function getStats():StatsPart {
-		return cast(this.as(Kind.Stats), StatsPart);
+		return as(StatsPart);
 	}
 	private function setStats(part:StatsPart):StatsPart {
-		this.addPart(part);
+		addPart(part);
 		return part;
 	}
 
 	public var triggerable(getTriggerable, setTriggerable):TriggerablePart;
 	private function getTriggerable():TriggerablePart {
-		return cast(this.as(Kind.Triggerable), TriggerablePart);
+		var part = as(TriggerablePart);
+		return part;
 	}
 	private function setTriggerable(part:TriggerablePart):TriggerablePart {
-		this.addPart(part);
+		addPart(part);
 		return part;
 	}
 
@@ -40,26 +40,35 @@ class Actor {
 
 	public var weapon:Weapon;
 
-	var parts:IntHash<Part>;
-
-
+	var parts:Hash<Part>;
+	
 	public function new(type:ActorType) {
 		this.type = type;
-		parts = new IntHash<Part>();
+		parts = new Hash<Part>();
 	}
 
-	public function as(kind:Kind):Part {
-		return parts.get(Type.enumIndex(kind));
+	public function as(type:Class<Part>):Dynamic {
+		if (Type.getSuperClass(type) != Part) {
+			throw type + " not a direct extending class of " + Part;
+		}
+	
+		var name = Type.getClassName(type);
+		return parts.get(name);
 	}
-
 	public function addPart(part:Part) {
 		part.actor = this;
-		parts.set(Type.enumIndex(part.getKind()), part);
+		parts.set(getPartName(part), part);
 	}
-
 	public function removePart(part:Part) {
-		parts.remove(Type.enumIndex(part.getKind()));
+		parts.remove(getPartName(part));
 		part.actor = null;
+	}
+	function getPartName(part:Part):String {
+		var type:Class<Dynamic>= Type.getClass(part);
+		while (Type.getSuperClass(type) != Part) {
+			type = Type.getSuperClass(type);
+		}
+		return Type.getClassName(type);
 	}
 
 	function getX():Float {
@@ -134,6 +143,7 @@ enum ActorType {
 	// monsters
 	SPEAR_DUDE;
 
+	// map features
 	LEVER;
 	DOOR;
 }

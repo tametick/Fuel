@@ -7,7 +7,7 @@ import data.Registry;
 import data.Library;
 import utils.Utils;
 
-class Level {	
+class Level {
 	public var mapSprite:MapSprite;
 	public var tiles:Array<Int>;
 	public var visibilityMap:Array<Visibility>;
@@ -115,9 +115,9 @@ class Level {
 	}
 	
 	function getSprites():Array<Dynamic> {
-		var sprites = [mapSprite, 
+		var sprites = [mapSprite,
 				mapSprite.itemSprites,
-				mapSprite.actorSprites,
+				mapSprite.mobSprites,
 				mapSprite.bulletSpritesAsSingleGroup];
 		
 		return sprites;
@@ -132,7 +132,7 @@ class Level {
 	
 	public function removeEnemy(e:Actor) {
 		enemies.remove(e);
-		mapSprite.actorSprites.remove(e.sprite);
+		mapSprite.mobSprites.remove(e.sprite);
 	}
 	
 	public inline function get(x:Float, y:Float):Int {
@@ -171,7 +171,7 @@ class Level {
 		} while (getActorAtPoint(ex, ey)!=null || !isWalkable(ex, ey));
 		
 		return p;
-	}	
+	}
 }
 
 enum Visibility {

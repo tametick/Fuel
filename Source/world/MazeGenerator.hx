@@ -3,7 +3,6 @@ package world;
 import flash.geom.Point;
 
 class MazeGenerator {
-
 	static inline var NORTH = "N";
 	static inline var SOUTH = "S";
 	static inline var EAST = "E";

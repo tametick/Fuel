@@ -37,14 +37,11 @@ class LevelFactory {
 		level.player.tileY = level.start.y;
 		level.finish = new FlxPoint(level.width - 2, getExitY(level));
 		
-		// Exit must be added before we add lever.
+		// exit must be added before we add lever.
 		addExit(level);
 		addLever(level);
 		addEntryDoor(level);
-		
-		for (e in 0...Registry.enemiesPerLevel) {
-			addEnemy(level, SPEAR_DUDE);
-		}
+		addEnemies(level);
 		
 		// add all actor sprites to map
 		level.mapSprite.addAllActors();
@@ -112,5 +109,11 @@ class LevelFactory {
 		level.set(level.start.x - 1, level.start.y, 0);
 		var entryDoor = ActorFactory.newActor(DOOR, level.start.x - 1, level.start.y);
 		level.items.push(entryDoor);
+	}
+	
+	static function addEnemies(level:Level) {
+		for (e in 0...Registry.enemiesPerLevel) {
+			addEnemy(level, SPEAR_DUDE);
+		}
 	}
 }

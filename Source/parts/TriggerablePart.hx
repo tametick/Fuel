@@ -2,13 +2,7 @@ package parts;
 
 import world.Actor;
 
-class TriggerablePart implements Part {
-	public var actor:Actor;
-
-	public function getKind():Kind {
-		return Kind.Triggerable;
-	}
-
+class TriggerablePart extends Part {
 	public var isBlocking(default,null):Bool;
 
 	public function onBump(agent:Actor) {

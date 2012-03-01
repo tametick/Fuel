@@ -2,8 +2,7 @@ package parts;
 
 import world.Actor;
 
-interface Part {
+class Part {
 	public var actor:Actor;
-
-	public function getKind():Kind;
+	
 }

@@ -1,9 +1,9 @@
 package world;
 
-import data.Library;
-import data.Registry;
 import sprites.WeaponSprite;
 import thx.csv.Csv;
+import data.Library;
+import data.Registry;
 import world.Weapon;
 
 class WeaponFactory {
