@@ -22,7 +22,6 @@ class ActorSprite extends FlxSprite {
 	public var explosionEmitter:EmitterSprite;
 	public var bloodEmitter:EmitterSprite;
 	
-	
 	var isMoving:Bool;
 	var isDodging:Bool;
 	
@@ -236,7 +235,6 @@ class ActorSprite extends FlxSprite {
 		direction = S;
 		if (owner.weapon != null) {
 			weaponSprite.setBulletDirection(WeaponSprite.DOWN, Math.round(Registry.bulletSpeed));
-			attackEffect.facing = FlxObject.LEFT;
 		}
 	}
 	
@@ -244,7 +242,6 @@ class ActorSprite extends FlxSprite {
 		direction = N;
 		if (owner.weapon != null) {
 			weaponSprite.setBulletDirection(WeaponSprite.UP, Math.round(Registry.bulletSpeed));
-			attackEffect.facing = FlxObject.RIGHT;
 		}
 	}
 }
