@@ -3,6 +3,7 @@ package world;
 import org.flixel.FlxPoint;
 import sprites.ActorSprite;
 import data.Registry;
+import utils.ObjectHash;
 import parts.StatsPart;
 import parts.TriggerablePart;
 import parts.Part;
@@ -39,21 +40,33 @@ class Actor {
 	public var isBlocking(getIsBlocking, never):Bool;
 
 	public var weapon:Weapon;
-
+	
+	var partNameCache:ObjectHash<String>;
 	var parts:Hash<Part>;
 	
 	public function new(type:ActorType) {
 		this.type = type;
 		parts = new Hash<Part>();
+		partNameCache = new ObjectHash<String>();
 	}
 
 	public function as(type:Class<Part>):Dynamic {
+		var cachedName = partNameCache.get(type);
+		if (cachedName != null) {
+			return parts.get(cachedName);
+		}
+	
 		if (Type.getSuperClass(type) != Part) {
 			throw type + " not a direct extending class of " + Part;
 		}
 	
 		var name = Type.getClassName(type);
-		return parts.get(name);
+		var part = parts.get(name);
+		
+		// cache class name to avoid reflection next time
+		partNameCache.set(type, name);
+		
+		return part;
 	}
 	public function addPart(part:Part) {
 		part.actor = this;
