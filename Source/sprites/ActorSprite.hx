@@ -38,8 +38,7 @@ class ActorSprite extends FlxSprite {
 	public function new(owner:Actor, image:Image, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
 		this.owner = owner;
-		attackEffect = new AttackSprite();
-
+		
 		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
 		frame = spriteIndex;
 
@@ -47,22 +46,23 @@ class ActorSprite extends FlxSprite {
 			immovable = true;
 		}
 		
+		if (owner.stats != null) {
+			attackEffect = new AttackSprite();
+			explosionEmitter = new EmitterSprite(Registry.explosionColor);
+			bloodEmitter = new EmitterSprite(Registry.bloodColor);
+
+			healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 7, 1, this, "health");
+			healthBar.trackParent(0, 7);
+			healthBar.setRange(0, owner.stats.maxHealth);
+			healthBar.killOnEmpty = true;
+
+			bobCounter = 1.0;
+			bobCounterInc = 0.04;
+			bobMult = 0.75;
+			offset.y = 1;
+		}
+		
 		faceRight();
-		
-		explosionEmitter = new EmitterSprite(Registry.explosionColor);
-		bloodEmitter = new EmitterSprite(Registry.bloodColor);
-		
-		healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, 7, 1, this, "health");
-		healthBar.trackParent(0, 7);
-		var maxHealth = owner.stats!=null? owner.stats.maxHealth : 1;
-		healthBar.setRange(0, maxHealth);
-		healthBar.killOnEmpty = true;
-		
-		bobCounter = 1.0;
-		bobCounterInc = 0.04;
-		bobMult = 0.75;
-		
-		offset.y = 1;
 	}
 
 	function getWeaponSprite():WeaponSprite {
@@ -149,20 +149,21 @@ class ActorSprite extends FlxSprite {
 		}
 		
 		super.update();
-		
-		switch (direction) {
-			case N:
-				attackEffect.x = x;
-				attackEffect.y = y - Registry.tileSize;
-			case E:
-				attackEffect.x = x + Registry.tileSize;
-				attackEffect.y = y ;
-			case S:
-				attackEffect.x = x;
-				attackEffect.y = y + Registry.tileSize + 1;
-			case W:
-				attackEffect.x = x - Registry.tileSize - 1;
-				attackEffect.y = y;
+		if(attackEffect!=null) {
+			switch (direction) {
+				case N:
+					attackEffect.x = x;
+					attackEffect.y = y - Registry.tileSize;
+				case E:
+					attackEffect.x = x + Registry.tileSize;
+					attackEffect.y = y ;
+				case S:
+					attackEffect.x = x;
+					attackEffect.y = y + Registry.tileSize + 1;
+				case W:
+					attackEffect.x = x - Registry.tileSize - 1;
+					attackEffect.y = y;
+			}
 		}
 		
 		if (owner == Registry.player) {

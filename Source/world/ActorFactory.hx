@@ -104,11 +104,7 @@ class ActorFactory {
 		}
 
 		if(a.stats != null) {
-			if (a.stats.strength != 0 && a.stats.endurance != 0) {
-				a.stats.health = a.stats.maxHealth;
-			} else {
-				a.stats.health = 1;
-			}
+			a.stats.health = a.stats.maxHealth;
 		}
 
 		return a;
