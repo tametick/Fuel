@@ -8,9 +8,11 @@ class TriggerablePart extends Part {
 	public function onBump(agent:Actor) {
 	}
 
-	// Source is the actor that is the immediate cause on the mechanism trigger,
-	// such as a lever, while agent is an intelligent actor that initiated the
-	// mechanism action.
+	/*
+	 * Source is the actor that is the immediate cause on the mechanism trigger,
+	 * such as a lever, while agent is an intelligent actor that initiated the
+	 * mechanism action.
+	 */
 	public function onMechanism(source:Actor, agent:Actor) {
 	}
 
