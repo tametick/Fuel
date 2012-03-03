@@ -76,7 +76,6 @@ class Actor {
 	function getY():Float {
 		return sprite.y / Registry.tileSize;
 	}
-
 	function setX(x:Float):Float {
 		sprite.x = x * Registry.tileSize;
 		return getX();
@@ -85,41 +84,12 @@ class Actor {
 		sprite.y = y * Registry.tileSize;
 		return getY();
 	}
-
 	function getPoint():FlxPoint {
 		return new FlxPoint(getX(), getY());
 	}
 
 	function getIsBlocking():Bool {
 		return triggerable != null && triggerable.isBlocking;
-	}
-
-	public function hit(victim:Actor):Bool {
-		var victimStats = victim.stats;
-
-		var chanceToHit = stats.accuracy / (stats.accuracy + victimStats.dodge);
-		var isHit = Math.random() < chanceToHit;
-
-		if (isHit) {
-			// the hurt function kills the sprite if needed
-			victim.sprite.hurt(stats.damage);
-
-			if (victimStats.health <= 0) {
-				victim.kill();
-			}
-		} else {
-			if(Math.round(victim.tileX)<Math.round(tileX)) {
-				victim.sprite.showDodge(W);
-			} else if (Math.round(victim.tileX) > Math.round(tileX)) {
-				victim.sprite.showDodge(E);
-			} else if(Math.round(victim.tileY)< Math.round(tileY)) {
-				victim.sprite.showDodge(N);
-			} else if (Math.round(victim.tileY) > Math.round(tileY)) {
-				victim.sprite.showDodge(S);
-			}
-		}
-
-		return isHit;
 	}
 
 	public function kill() {

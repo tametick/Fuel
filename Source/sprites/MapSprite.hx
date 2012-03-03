@@ -145,7 +145,7 @@ class MapSprite extends FlxTilemap {
 			return;
 		}
 		
-		var isHit = attacker.hit(victim);
+		var isHit = attacker.weapon.hit(victim);
 		if (isHit) {
 			var e = a.bloodEmitter;
 			e.explode(a.x+Registry.tileSize/2, a.y+Registry.tileSize/2);

@@ -24,6 +24,34 @@ class WeaponPart extends Part{
 			actor.sprite.playAttackEffect(type);
 		}
 	}
+	
+	public function hit(victim:Actor):Bool {
+		var victimStats = victim.stats;
+
+		var chanceToHit = actor.stats.accuracy / (actor.stats.accuracy + victimStats.dodge);
+		var isHit = Math.random() < chanceToHit;
+
+		if (isHit) {
+			// the hurt function kills the sprite if needed
+			victim.sprite.hurt(actor.stats.damage);
+
+			if (victimStats.health <= 0) {
+				victim.kill();
+			}
+		} else {
+			if(Math.round(victim.tileX)<Math.round(actor.tileX)) {
+				victim.sprite.showDodge(W);
+			} else if (Math.round(victim.tileX) > Math.round(actor.tileX)) {
+				victim.sprite.showDodge(E);
+			} else if(Math.round(victim.tileY)< Math.round(actor.tileY)) {
+				victim.sprite.showDodge(N);
+			} else if (Math.round(victim.tileY) > Math.round(actor.tileY)) {
+				victim.sprite.showDodge(S);
+			}
+		}
+
+		return isHit;
+	}
 }
 
 enum WeaponType {
