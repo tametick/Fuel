@@ -3,10 +3,10 @@ package sprites;
 import org.flixel.plugin.photonstorm.FlxWeapon;
 import data.Registry;
 import world.Actor;
-import world.Weapon;
+import parts.WeaponPart;
 
 class WeaponSprite extends FlxWeapon {
-	var owner:Weapon;
+	var owner:WeaponPart;
 	
 	public static var UP(getUp, never):Int;
 	public static var DOWN(getDown, never):Int;
@@ -19,7 +19,7 @@ class WeaponSprite extends FlxWeapon {
 	public static inline function getRight():Int { return FlxWeapon.BULLET_RIGHT; }
 	
 	
-	public function new(owner:Weapon, type:WeaponType, ?parentRef:Dynamic = null, ?xVariable:String = "x", ?yVariable:String = "y") {
+	public function new(owner:WeaponPart, type:WeaponType, ?parentRef:Dynamic = null, ?xVariable:String = "x", ?yVariable:String = "y") {
 		this.owner = owner;
 		super(Type.enumConstructor(type), parentRef, xVariable, yVariable);
 	}
@@ -29,7 +29,7 @@ class WeaponSprite extends FlxWeapon {
 	}
 	
 	override function getFireRate():Int {
-		var attackSpeed = owner.owner.stats.attackSpeed;
+		var attackSpeed = owner.actor.stats.attackSpeed;
 		return Std.int(1000/attackSpeed);
 	}
 }

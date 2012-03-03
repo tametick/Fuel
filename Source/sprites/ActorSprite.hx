@@ -11,7 +11,7 @@ import data.Library;
 import utils.Direction;
 import utils.Utils;
 import world.Actor;
-import world.Weapon;
+import parts.WeaponPart;
 
 class ActorSprite extends FlxSprite {
 	public var owner:Actor;

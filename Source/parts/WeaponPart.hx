@@ -1,9 +1,10 @@
-package world;
+package parts;
 
+import parts.Part;
 import sprites.WeaponSprite;
+import world.Actor;
 
-class Weapon {
-	public var owner:Actor;
+class WeaponPart extends Part{
 	public var type:WeaponType;
 	public var sprite:WeaponSprite;
 	
@@ -13,14 +14,14 @@ class Weapon {
 	public var accuracy:Float;
 	public var defense:Float;
 	
-	public function new(owner:Actor, type:WeaponType) {
-		this.owner = owner;
+	public function new(actor:Actor, type:WeaponType) {
+		this.actor = actor;
 		this.type = type;
 	}
 	
 	public function fire() {
 		if(sprite.fire()) {
-			owner.sprite.playAttackEffect(type);
+			actor.sprite.playAttackEffect(type);
 		}
 	}
 }

@@ -4,13 +4,13 @@ import sprites.WeaponSprite;
 import thx.csv.Csv;
 import data.Library;
 import data.Registry;
-import world.Weapon;
+import parts.WeaponPart;
 
 class WeaponFactory {
-	public static function newWeapon(owner:Actor, type:WeaponType):Weapon {
+	public static function newWeapon(owner:Actor, type:WeaponType):WeaponPart {
 		var defs = Library.getDefinition(WEAPONS);
 		
-		var w = new Weapon(owner, type);
+		var w = new WeaponPart(owner, type);
 		w.sprite = new WeaponSprite(w, type);
 		var bulletColor = 0;
 		

@@ -7,8 +7,9 @@ import parts.DoorTriggerablePart;
 import parts.LeverTriggerablePart;
 import parts.StatsPart;
 import parts.TriggerablePart;
+import parts.WeaponPart;
 import world.Actor;
-import world.Weapon;
+
 
 class ActorFactory {
 	public static function newActor(type:ActorType, ?x:Float=1, ?y:Float=1):Actor {
@@ -29,7 +30,7 @@ class ActorFactory {
 					agility: 6,
 					endurance: 10,
 				}));
-				a.weapon = WeaponFactory.newWeapon(a, STAFF);
+				a.addPart(WeaponFactory.newWeapon(a, STAFF));
 				a.addPart(new TriggerablePart(true));
 
 			case ARCHER:
@@ -42,7 +43,7 @@ class ActorFactory {
 					agility: 9,
 					endurance: 2,
 				}));
-				a.weapon = WeaponFactory.newWeapon(a, BOW);
+				a.addPart(WeaponFactory.newWeapon(a, BOW));
 				a.addPart(new TriggerablePart(true));
 
 			case WARRIOR:
@@ -55,7 +56,7 @@ class ActorFactory {
 					agility: 5,
 					endurance: 3,
 				}));
-				a.weapon = WeaponFactory.newWeapon(a, SWORD);
+				a.addPart(WeaponFactory.newWeapon(a, SWORD));
 				a.addPart(new TriggerablePart(true));
 
 			case GUARD:
@@ -68,7 +69,7 @@ class ActorFactory {
 					agility: 4,
 					endurance: 6,
 				}));
-				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
+				a.addPart(WeaponFactory.newWeapon(a, SPEAR));
 				a.addPart(new TriggerablePart(true));
 
 
@@ -82,7 +83,7 @@ class ActorFactory {
 					agility: 2,
 					endurance: 4,
 				}));
-				a.weapon = WeaponFactory.newWeapon(a, SPEAR);
+				a.addPart(WeaponFactory.newWeapon(a, SPEAR));
 				a.addPart(new TriggerablePart(true));
 
 

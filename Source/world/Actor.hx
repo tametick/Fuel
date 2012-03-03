@@ -7,6 +7,7 @@ import utils.ObjectHash;
 import parts.StatsPart;
 import parts.TriggerablePart;
 import parts.Part;
+import parts.WeaponPart;
 
 class Actor {
 	public var type:ActorType;
@@ -17,14 +18,16 @@ class Actor {
 
 	public var stats(getStats, null):StatsPart;
 	public var triggerable(getTriggerable, null):TriggerablePart;
+	public var weapon(getWeapon, null):WeaponPart;
 	function getStats():StatsPart { return as(StatsPart); }
 	function getTriggerable():TriggerablePart { return as(TriggerablePart); }
+	function getWeapon():WeaponPart { return as(WeaponPart); }
 
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
 	public var isBlocking(getIsBlocking, never):Bool;
 
-	public var weapon:Weapon;
+	
 	
 	var partNameCache:ObjectHash<String>;
 	var parts:Hash<Part>;
