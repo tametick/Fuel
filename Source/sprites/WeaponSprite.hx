@@ -19,9 +19,9 @@ class WeaponSprite extends FlxWeapon {
 	public static inline function getRight():Int { return FlxWeapon.BULLET_RIGHT; }
 	
 	
-	public function new(owner:WeaponPart, type:WeaponType, ?parentRef:Dynamic = null, ?xVariable:String = "x", ?yVariable:String = "y") {
+	public function new(owner:WeaponPart, type:WeaponType) {
 		this.owner = owner;
-		super(Type.enumConstructor(type), parentRef, xVariable, yVariable);
+		super(Type.enumConstructor(type));
 	}
 
 	override function getBulletLifeSpan():Int {
