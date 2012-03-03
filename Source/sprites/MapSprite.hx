@@ -126,7 +126,7 @@ class MapSprite extends FlxTilemap {
 			var a = cast(actor, ActorSprite);
   			var w = a.owner.weapon.sprite;
 			if (w != null) {
-				FlxG.collide(mobSprites, w.group, hitActor);
+				FlxG.overlap(mobSprites, w.group, hitActor);
 			}
 		}
 	}

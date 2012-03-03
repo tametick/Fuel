@@ -23,7 +23,7 @@ class Registry {
 
 	public static inline var fovRange = 6;
 	
-	public static inline var bulletSpeed = 100;
+	public static inline var bulletSpeed = 300;
 	public static inline var bulletsPerWeapon = 10;
 	
 	public static inline var rangeShort = 1;
