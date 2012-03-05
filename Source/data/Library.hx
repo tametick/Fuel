@@ -4,7 +4,7 @@ import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.text.Font;
-import thx.csv.Csv;
+//import thx.csv.Csv;
 
 class Library {
 	static var assets:Hash<Dynamic> = new Hash<Dynamic>();
@@ -34,7 +34,8 @@ class Library {
 		var name = getFilename(d);
 		if (!assets.exists(name)) {
 			var txt = Assets.getText("assets/" + name + ".txt");
-			assets.set(name, Csv.decode(txt));
+			//assets.set(name, Csv.decode(txt));
+			assets.set(name, txt);
 		}
 		return assets.get(name);
 	}

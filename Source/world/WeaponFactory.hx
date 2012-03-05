@@ -1,7 +1,6 @@
 package world;
 
 import sprites.WeaponSprite;
-import thx.csv.Csv;
 import data.Library;
 import data.Registry;
 import parts.WeaponPart;

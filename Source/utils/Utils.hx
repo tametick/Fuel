@@ -1,7 +1,7 @@
 package utils;
 import org.flixel.FlxPoint;
 
-class Utils {	
+class Utils {
 	public static function next<T>(a:Array<T>, i:T):T {
 		for (index in 0...a.length) {
 			if (a[index] == i) {
@@ -44,7 +44,7 @@ class Utils {
 		return i;
 	}
 	
-	static var line:Array<FlxPoint> = new Array(); 
+	static var line:Array<FlxPoint> = new Array();
 	public static function getLine(src:FlxPoint, dest:FlxPoint, isBlocking:FlxPoint->Bool):Array<FlxPoint> {
 		line.splice(0, line.length);
 		var steepness = (dest.x - src.x) / (dest.y - src.y);
@@ -103,5 +103,18 @@ class Utils {
 		isBlocking = null;
 		
 		return line;
+	}
+
+	public static function exists<T>(arr : Array<T>, ?value : T, ?f : T -> Bool) {
+		if (null != f) {
+			for (v in arr)
+				if (f(v))
+					return true;
+		} else {
+			for (v in arr)
+				if (v == value)
+					return true;
+		}
+		return false;
 	}
 }

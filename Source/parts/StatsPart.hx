@@ -60,10 +60,9 @@ class StatsPart extends Part {
 			walkingSpeed: 0.0,
 			dodge: 0.0,
 		};
-
-		// fixme: More idiomatic way to do this?
+		
 		for (field in Reflect.fields(stats)) {
-			if (!Reflect.hasField(this, field))
+			if (Reflect.field(this, field)==null)
 				throw "Invalid stat field "+field;
 			Reflect.setField(this, field, Reflect.field(stats, field));
 		}
