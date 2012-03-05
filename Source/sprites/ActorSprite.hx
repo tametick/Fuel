@@ -36,6 +36,7 @@ class ActorSprite extends FlxSprite {
 
 	public function new(owner:Actor, image:Image, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
+		updateTileSheet();
 		this.owner = owner;
 		
 		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);

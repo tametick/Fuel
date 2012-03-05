@@ -37,8 +37,8 @@ class MapSprite extends FlxTilemap {
 		this.owner = owner;
 		
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), FlxTilemap.imgAuto, 0, 0, FlxTilemap.AUTO);
+		updateTileSheet();
 	}
-	
 		
 	public function drawFov(lightMap:Array<Float>) {
 		for(y in 0...heightInTiles) {
