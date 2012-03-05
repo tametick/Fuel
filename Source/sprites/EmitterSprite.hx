@@ -1,6 +1,7 @@
 package sprites;
 
 import org.flixel.FlxEmitter;
+import org.flixel.FlxObject;
 import org.flixel.FlxParticle;
 import org.flixel.FlxPoint;
 import data.Registry;
@@ -13,13 +14,25 @@ class EmitterSprite extends FlxEmitter {
 		gravity = Registry.particleGravity;
 		lifespan = Registry.particleLifespan;
 		
-		for (i in 0...size) {
-			var particle:FlxParticle = new FlxParticle();
+		initParticles(color, size);
+	}
+	
+	function initParticles(color:Int, Quantity:Int):FlxEmitter{
+		maxSize = Quantity;
+		var totalFrames:Int = 1;
+		var particle:FlxParticle;
+		var i:Int = 0;
+		while (i < Quantity) {
+			particle = new FlxParticle();
 			particle.makeGraphic(1, 1, 0xFF000000 + color);
-			particle.updateTileSheet();
+			particle.allowCollisions = FlxObject.NONE;
+			particle.exists = false;
 			particle.maxVelocity = maxV;
 			add(particle);
+			particle.updateTileSheet();
+			i++;
 		}
+		return this;
 	}
 	
 	public function explode(pixelX:Float, pixelY:Float) {
