@@ -16,6 +16,7 @@ class EmitterSprite extends FlxEmitter {
 		for (i in 0...size) {
 			var particle:FlxParticle = new FlxParticle();
 			particle.makeGraphic(1, 1, 0xFF000000 + color);
+			particle.updateTileSheet();
 			particle.maxVelocity = maxV;
 			add(particle);
 		}

@@ -36,10 +36,11 @@ class ActorSprite extends FlxSprite {
 
 	public function new(owner:Actor, image:Image, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
-		updateTileSheet();
+
 		this.owner = owner;
 		
 		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
+		updateTileSheet();
 		frame = spriteIndex;
 
 		if (isImmovable) {
@@ -55,6 +56,7 @@ class ActorSprite extends FlxSprite {
 			healthBar.trackParent(0, Registry.tileSize-1);
 			healthBar.setRange(0, owner.stats.maxHealth);
 			healthBar.killOnEmpty = true;
+			healthBar.updateTileSheet();
 
 			bobCounter = 1.0;
 			bobCounterInc = 0.04;
