@@ -24,7 +24,7 @@ class EmitterSprite extends FlxEmitter {
 		var i:Int = 0;
 		while (i < Quantity) {
 			particle = new FlxParticle();
-			particle.makeGraphic(1, 1, 0xFF000000 + color);
+			particle.makeGraphic(2, 2, 0xFF000000 + color);
 			particle.allowCollisions = FlxObject.NONE;
 			particle.exists = false;
 			particle.maxVelocity = maxV;
