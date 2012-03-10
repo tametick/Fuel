@@ -5,6 +5,7 @@ import nme.display.StageAlign;
 import nme.display.StageScaleMode;
 import nme.geom.Rectangle;
 import nme.Lib;
+import nme.ui.Mouse;
 
 
 class Preloader extends NMEPreloader {
@@ -13,12 +14,15 @@ class Preloader extends NMEPreloader {
 		var h = 320;
 		
 		#if flash
+		Lib.fscommand("allowscale", "true");
+		Lib.fscommand("showmenu", "false");
 		Lib.current.stage.showDefaultContextMenu = false;
 		Lib.current.stage.fullScreenSourceRect = new Rectangle(0, 0, w, h);
 		Lib.current.stage.color = 0;
 		#end
 		Lib.current.stage.scaleMode = StageScaleMode.SHOW_ALL;
 		Lib.current.stage.align = StageAlign.TOP;
+		Mouse.hide();
 		
 		var bg:Bitmap = new Bitmap(new Bg(120, 80));
 		bg.width = w;
