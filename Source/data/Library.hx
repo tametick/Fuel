@@ -9,19 +9,11 @@ import nme.text.Font;
 class Library {
 	static var assets:Hash<Dynamic> = new Hash<Dynamic>();
 	
-	public static function getImage(i:Image):Dynamic {
+	public static function getImage(i:Image):Class<Dynamic> {
 		var className = getClassname(i)+"Image";
 		return Type.resolveClass(className);
 	}
-	
-	public static function getBitmapData(i:Image):Bitmap {
-		var name = getFilename(i);
-		if (!assets.exists(name)){
-			assets.set(name, new LoadedBitmap(i));
-		}
-		return cast(assets.get(name), Bitmap);
-	}
-	
+		
 	public static function getFont():Font {
 		var name = Registry.font;
 		if (!assets.exists(name)){
@@ -29,17 +21,7 @@ class Library {
 		}
 		return cast(assets.get(name), Font);
 	}
-	
-	public static function getDefinition(d:Definition):Dynamic {
-		var name = getFilename(d);
-		if (!assets.exists(name)) {
-			var txt = Assets.getText("assets/" + name + ".txt");
-			//assets.set(name, Csv.decode(txt));
-			assets.set(name, txt);
-		}
-		return assets.get(name);
-	}
-	
+		
 	public static function getFilename(e:Dynamic):String {
 		return Type.enumConstructor(e).toLowerCase();
 	}
@@ -77,3 +59,4 @@ class Furniture3Image extends LoadedBitmap { public function new() { super(FURNI
 class HeroesImage extends LoadedBitmap { public function new() { super(HEROES); } }
 class HumansImage extends LoadedBitmap { public function new() { super(HUMANS); } }
 class AttacksImage extends LoadedBitmap { public function new() { super(ATTACKS); } }
+class InterlaceImage extends LoadedBitmap { public function new() { super(INTERLACE); } }

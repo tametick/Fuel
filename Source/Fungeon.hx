@@ -6,6 +6,7 @@ import states.CharSelectState;
 import states.GameState;
 import data.Registry;
 import data.Library;
+import data.LoadedBitmap;
 import world.Actor;
 
 
@@ -20,7 +21,7 @@ class Fungeon extends FlxGame {
 		Registry.textLayer = new TextSprite();
 		Lib.current.addChild (Registry.textLayer);
 		
-		var interlace = Library.getBitmapData(INTERLACE);
+		var interlace = cast(Type.createInstance(Library.getImage(INTERLACE),[]), LoadedBitmap);
 		interlace.width = Lib.current.width;
 		Lib.current.addChild(interlace);
 	}
