@@ -32,6 +32,7 @@ class Level {
 		this.tiles = tiles;
 		lightMap = [];
 		visibilityMap = [];
+		
 		for (t in tiles) {
 			lightMap.push(0);
 			if(Registry.debug) {
@@ -94,6 +95,7 @@ class Level {
 		var maxY = Std.int(Utils.clampToRange(p1.y+Registry.fovRange+1,0,height));
 		var minX = Std.int(Utils.clampToRange(p1.x-Registry.fovRange,0,width));
 		var maxX = Std.int(Utils.clampToRange(p1.x+Registry.fovRange+1,0,width));
+		
 		// mark current fov
 		for(yy in minY...maxY) {
 			for (xx in minX...maxX) {

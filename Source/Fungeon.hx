@@ -1,4 +1,5 @@
 import nme.Lib;
+import org.flixel.FlxCamera;
 import org.flixel.FlxGame;
 import sprites.LightingSprite;
 import sprites.TextSprite;
