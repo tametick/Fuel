@@ -203,7 +203,7 @@ class FlxExtendedSprite extends FlxSprite
 	 * @param	Y				The initial Y position of the sprite.
 	 * @param	SimpleGraphic	The graphic you want to display (OPTIONAL - for simple stuff only, do NOT use for animated images!).
 	 */
-	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:Class<Bitmap> = null)
+	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:Dynamic = null)
 	{
 		isPressed = false;
 		clickable = false;
@@ -311,7 +311,7 @@ class FlxExtendedSprite extends FlxSprite
 	#if flash
 	public function enableMouseDrag(?lockCenter:Bool = false, ?pixelPerfect:Bool = false, ?alphaThreshold:UInt = 255, ?boundsRect:FlxRect = null, ?boundsSprite:FlxSprite = null):Void
 	#else
-	public function enableMouseDrag(?lockCenter:Bool = false, ?pixelPerfect:Bool = false, ?alphaThreshold:UInt = 255, ?boundsRect:FlxRect = null, ?boundsSprite:FlxSprite = null):Void
+	public function enableMouseDrag(?lockCenter:Bool = false, ?pixelPerfect:Bool = false, ?alphaThreshold:Int = 255, ?boundsRect:FlxRect = null, ?boundsSprite:FlxSprite = null):Void
 	#end
 	{
 		if (FlxG.getPlugin(FlxMouseControl) == null)
@@ -499,7 +499,7 @@ class FlxExtendedSprite extends FlxSprite
 	 */
 	override public function update():Void
 	{
-		if (draggable && isDragged)
+		if (draggable == true && isDragged == true)
 		{
 			updateDrag();
 		}
@@ -509,12 +509,12 @@ class FlxExtendedSprite extends FlxSprite
 			checkForClick();
 		}
 		
-		if (hasGravity)
+		if (hasGravity == true)
 		{
 			updateGravity();
 		}
 		
-		if (hasMouseSpring)
+		if (hasMouseSpring == true)
 		{
 			if (springOnPressed == false)
 			{
@@ -649,14 +649,14 @@ class FlxExtendedSprite extends FlxSprite
 	{
 		//FlxG.mouse.getWorldPosition(null, tempPoint);
 		
-		if (allowHorizontalDrag)
+		if (allowHorizontalDrag == true)
 		{
-			x = Std.int(FlxG.mouse.x) - dragOffsetX;
+			x = Math.floor(FlxG.mouse.x) - dragOffsetX;
 		}
 		
-		if (allowVerticalDrag)
+		if (allowVerticalDrag == true)
 		{
-			y = Std.int(FlxG.mouse.y) - dragOffsetY;
+			y = Math.floor(FlxG.mouse.y) - dragOffsetY;
 		}
 		
 		if (boundsRect != null)
@@ -671,8 +671,8 @@ class FlxExtendedSprite extends FlxSprite
 		
 		if (snapOnDrag)
 		{
-			x = Std.int(Math.floor(x / snapX) * snapX);
-			y = Std.int(Math.floor(y / snapY) * snapY);
+			x = (Math.floor(x / snapX) * snapX);
+			y = (Math.floor(y / snapY) * snapY);
 		}
 	}
 	
@@ -711,7 +711,7 @@ class FlxExtendedSprite extends FlxSprite
 	{
 		isPressed = true;
 		
-		if (clickable && clickOnRelease == false)
+		if (clickable == true && clickOnRelease == false)
 		{
 			clickCounter++;
 		}
@@ -730,17 +730,17 @@ class FlxExtendedSprite extends FlxSprite
 	{
 		isPressed = false;
 		
-		if (isDragged)
+		if (isDragged == true)
 		{
 			stopDrag();
 		}
 		
-		if (clickable && clickOnRelease == true)
+		if (clickable == true && clickOnRelease == true)
 		{
 			clickCounter++;
 		}
 		
-		if (throwable)
+		if (throwable == true)
 		{
 			velocity.x = FlxMouseControl.speedX * throwXFactor;
 			velocity.y = FlxMouseControl.speedY * throwYFactor;
@@ -762,8 +762,8 @@ class FlxExtendedSprite extends FlxSprite
 		
 		if (dragFromPoint == false)
 		{
-			dragOffsetX = Math.floor(Std.int(FlxG.mouse.x) - x);
-			dragOffsetY = Math.floor(Std.int(FlxG.mouse.y) - y);
+			dragOffsetX = Math.floor(Math.floor(FlxG.mouse.x) - x);
+			dragOffsetY = Math.floor(Math.floor(FlxG.mouse.y) - y);
 		}
 		else
 		{
@@ -830,8 +830,8 @@ class FlxExtendedSprite extends FlxSprite
 		
 		if (snapOnRelease)
 		{
-			x = Std.int(Math.floor(x / snapX) * snapX);
-			y = Std.int(Math.floor(y / snapY) * snapY);
+			x = (Math.floor(x / snapX) * snapX);
+			y = (Math.floor(y / snapY) * snapY);
 		}
 	}
 	

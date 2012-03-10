@@ -1,5 +1,6 @@
 package org.flixel.plugin.photonstorm.baseTypes;
 
+import org.flixel.FlxG;
 import org.flixel.plugin.photonstorm.FlxExtendedSprite;
 
 class MouseSpring 
@@ -46,10 +47,6 @@ class MouseSpring
 	 */
 	public function new(sprite:FlxExtendedSprite, ?retainVelocity:Bool = false, ?tension:Float = 0.1, ?friction:Float = 0.95, ?gravity:Float = 0)
 	{
-		tension = 0.1;
-		friction = 0.95;
-		gravity = 0;
-		retainVelocity = false;
 		vx = 0;
 		vy = 0;
 		dx = 0;

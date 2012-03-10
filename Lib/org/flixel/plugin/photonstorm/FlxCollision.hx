@@ -15,15 +15,17 @@
 
 package org.flixel.plugin.photonstorm;
 
-import flash.display.BitmapData;
-import flash.display.Sprite;
-import flash.geom.ColorTransform;
-import flash.geom.Matrix;
-import flash.geom.Point;
-import flash.geom.Rectangle;
-import flash.display.BlendMode;
+import nme.display.BitmapData;
+import nme.display.Sprite;
+import nme.geom.ColorTransform;
+import nme.geom.Matrix;
+import nme.geom.Point;
+import nme.geom.Rectangle;
+import nme.display.BlendMode;
 import org.flixel.FlxCamera;
+import org.flixel.FlxG;
 import org.flixel.FlxGroup;
+import org.flixel.FlxObject;
 import org.flixel.FlxRect;
 import org.flixel.FlxSprite;
 import org.flixel.FlxTileblock;
@@ -50,6 +52,7 @@ class FlxCollision
 	 * A Pixel Perfect Collision check between two FlxSprites.
 	 * It will do a bounds check first, and if that passes it will run a pixel perfect match on the intersecting area.
 	 * Works with rotated, scaled and animated sprites.
+	 * Not working on cpp target (need further investigation) plus it's extremly slow on cpp targets, so I don't recommend you to use it with them.
 	 * 
 	 * @param	contact			The first FlxSprite to test against
 	 * @param	target			The second FlxSprite to test again, sprite order is irrelevant
@@ -109,12 +112,85 @@ class FlxCollision
 		var matrixB:Matrix = new Matrix();
 		matrixB.translate(-(intersect.x - boundsB.x), -(intersect.y - boundsB.y));
 		
+		#if cpp
+		contact.drawFrame();
+		target.drawFrame();
+		#end
+		
 		var testA:BitmapData = contact.framePixels;
 		var testB:BitmapData = target.framePixels;
-		var overlapArea:BitmapData = new BitmapData(Std.int(intersect.width), Std.int(intersect.height), false);
+		var overlapArea:BitmapData = new BitmapData(Math.floor(intersect.width), Math.floor(intersect.height), false);
 		
+		#if flash
 		overlapArea.draw(testA, matrixA, new ColorTransform(1, 1, 1, 1, 255, -255, -255, alphaTolerance), BlendMode.NORMAL);
 		overlapArea.draw(testB, matrixB, new ColorTransform(1, 1, 1, 1, 255, 255, 255, alphaTolerance), BlendMode.DIFFERENCE);
+		#else
+		var overlapWidth:Int = overlapArea.width;
+		var overlapHeight:Int = overlapArea.height;
+		var targetX:Int;
+		var targetY:Int;
+		var pixelColor:Int;
+		var pixelAlpha:Int;
+		var transformedAlpha:Int;
+		var maxX:Int = testA.width + 1;
+		var maxY:Int = testA.height + 1;
+		for (i in 0...(maxX))
+		{
+			targetX = Math.floor(i + matrixA.tx);
+			if (targetX >= 0 && targetX < maxX)
+			{
+				for (j in 0...(maxY))
+				{
+					targetY = Math.floor(j + matrixA.ty);
+					if (targetY >= 0 && targetY < maxY)
+					{
+						pixelColor = testA.getPixel32(i, j);
+						pixelAlpha = (pixelColor >> 24) & 0xFF;
+						if (pixelAlpha >= alphaTolerance)
+						{
+							overlapArea.setPixel32(targetX, targetY, 0xffff0000);
+						}
+						else
+						{
+							overlapArea.setPixel32(targetX, targetY, 0xffffffff);
+						}
+					}
+				}
+			}
+		}
+		
+		maxX = testB.width + 1;
+		maxY = testB.height + 1;
+		var secondColor:Int;
+		for (i in 0...(maxX))
+		{
+			targetX = Math.floor(i + matrixB.tx);
+			if (targetX >= 0 && targetX < maxX)
+			{
+				for (j in 0...(maxY))
+				{
+					targetY = Math.floor(j + matrixB.ty);
+					if (targetY >= 0 && targetY < maxY)
+					{
+						pixelColor = testB.getPixel32(i, j);
+						pixelAlpha = (pixelColor >> 24) & 0xFF;
+						if (pixelAlpha >= alphaTolerance)
+						{
+							secondColor = overlapArea.getPixel32(targetX, targetY);
+							if (secondColor == 0xffff0000)
+							{
+								overlapArea.setPixel32(targetX, targetY, 0xff00ffff);
+							}
+							else
+							{
+								overlapArea.setPixel32(targetX, targetY, 0x00000000);
+							}
+						}
+					}
+				}
+			}
+		}
+		#end
 		
 		//	Developers: If you'd like to see how this works, display it in your game somewhere. Or you can comment it out to save a tiny bit of performance
 		debug = overlapArea;
@@ -154,9 +230,9 @@ class FlxCollision
 			return false;
 		}
 		
+		#if flash
 		//	How deep is pointX/Y within the rect?
 		var test:BitmapData = target.framePixels;
-		
 		if (Std.int(FlxColor.getAlpha(test.getPixel32(Math.floor(pointX - target.x), Math.floor(pointY - target.y)))) >= alphaTolerance)
 		{
 			return true;
@@ -165,6 +241,28 @@ class FlxCollision
 		{
 			return false;
 		}
+		#else
+		var indexX:Int = target.frame * target.frameWidth;
+		var indexY:Int = 0;
+
+		//Handle sprite sheets
+		var widthHelper:Int = (target.flipped != 0) ? target.flipped : target.pixels.width;
+		if(indexX >= widthHelper)
+		{
+			indexY = Math.floor(indexX / widthHelper) * target.frameHeight;
+			indexX %= widthHelper;
+		}
+		
+		//handle reversed sprites
+		if ((target.flipped != 0) && (target.facing == FlxObject.LEFT))
+		{
+			indexX = (target.flipped << 1) - indexX - target.frameWidth;
+		}
+		
+		var pixelColor:Int = target.pixels.getPixel32(Math.floor(indexX + pointX - target.x), Math.floor(indexY + pointY - target.y));
+		var pixelAlpha:Int = (pixelColor >> 24) & 0xFF;
+		return (pixelAlpha >= alphaTolerance);
+		#end
 	}
 	
 	/**
