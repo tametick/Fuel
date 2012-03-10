@@ -34,7 +34,11 @@ class Level {
 		visibilityMap = [];
 		for (t in tiles) {
 			lightMap.push(0);
-			visibilityMap.push(UNSEEN);
+			if(Registry.debug) {
+				visibilityMap.push(IN_SIGHT);
+			} else {
+				visibilityMap.push(UNSEEN);
+			}
 		}
 		width = w;
 		height = h;
@@ -75,15 +79,29 @@ class Level {
 		var p1 = source;
 		var p2 = new FlxPoint();
 		
-		// naive fov
+		// clear previous turn fov
 		for(y in 0...height) {
 			for (x in 0...width) {
 				p2.x = x;
 				p2.y = y;
-				if(Utils.get(visibilityMap, width, x, y)==IN_SIGHT)
+				if(Utils.get(visibilityMap, width, x, y)==IN_SIGHT) {
 					Utils.set(visibilityMap, width, x, y, SEEN);
-				if (isInLos(p1, p2))
-					Utils.set(visibilityMap, width, x, y, IN_SIGHT);
+				}
+			}
+		}
+		
+		var minY = Std.int(Utils.clampToRange(p1.y-Registry.fovRange,0,height));
+		var maxY = Std.int(Utils.clampToRange(p1.y+Registry.fovRange+1,0,height));
+		var minX = Std.int(Utils.clampToRange(p1.x-Registry.fovRange,0,width));
+		var maxX = Std.int(Utils.clampToRange(p1.x+Registry.fovRange+1,0,width));
+		// mark current fov
+		for(yy in minY...maxY) {
+			for (xx in minX...maxX) {
+				p2.x = xx;
+				p2.y = yy;
+				if (isInLos(p1, p2)) {
+					Utils.set(visibilityMap, width, xx, yy, IN_SIGHT);
+				}
 			}
 		}
 	}

@@ -4,7 +4,6 @@ import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.text.Font;
-//import thx.csv.Csv;
 
 class Library {
 	static var assets:Hash<Dynamic> = new Hash<Dynamic>();
