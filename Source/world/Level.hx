@@ -138,7 +138,7 @@ class Level {
 		var sprites = [mapSprite,
 				mapSprite.itemSprites,
 				mapSprite.mobSprites,
-				mapSprite.bulletSpritesAsSingleGroup];
+				mapSprite.bulletSprites];
 		
 		return sprites;
 	}

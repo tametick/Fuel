@@ -20,8 +20,7 @@ class MapSprite extends FlxTilemap {
 
 	public var itemSprites:FlxGroup;
 	public var mobSprites:FlxGroup;
-	public var bulletSprites(getBulletSprites, null):Array<FlxGroup>;
-	public var bulletSpritesAsSingleGroup(getBulletSpritesAsSingleGroup, null):FlxGroup;
+	public var bulletSprites(getBulletSprites, null):FlxGroup;
 	
 	public var exitDoorSprite:ActorSprite;
 
@@ -60,37 +59,21 @@ class MapSprite extends FlxTilemap {
 		}
 	}
 		
-	function getBulletSprites():Array<FlxGroup> {
+	function getBulletSprites():FlxGroup {
 		// only calculated when creating new level
 		if (bulletSprites != null) {
 			return bulletSprites;
 		}
 		
-		var bulletSprites = [];
+		var bulletSprites = new FlxGroup();
 		for (a in owner.actors) {
 			if (a.weapon != null) {
-				bulletSprites.push(a.weapon.sprite.group);
+				bulletSprites.add(a.weapon.sprite.group);
 			}
 		}
 		return bulletSprites;
 	}
-	
-	function getBulletSpritesAsSingleGroup():FlxGroup {
-		// only calculated when creating new level
-		if (bulletSpritesAsSingleGroup != null) {
-			return bulletSpritesAsSingleGroup;
-		}
 		
-		bulletSpritesAsSingleGroup = new FlxGroup();
-		for (bullets in getBulletSprites()) {
-			for (bullet in bullets.members) {
-				bulletSpritesAsSingleGroup.add(bullet);
-			}
-		}
-		
-		return bulletSpritesAsSingleGroup;
-	}
-	
 	public function addAllActors() {
 		mobSprites = new FlxGroup();
 		itemSprites = new FlxGroup();
@@ -116,7 +99,7 @@ class MapSprite extends FlxTilemap {
 	override public function update() {
 		super.update();
 		
-		FlxG.collide(this, bulletSpritesAsSingleGroup, hitWall);
+		FlxG.collide(this, bulletSprites, hitWall);
 		FlxG.collide(mobSprites, mobSprites);
 				
 		for (actor in mobSprites.members) {
