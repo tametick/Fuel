@@ -30,6 +30,10 @@ class Fungeon extends FlxGame {
 	public function new() {
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
+		#if flash
+			// this is only for the projector, becuase of removing the window menu
+			stageHeight += 20;
+		#end
 		var ratioX:Float = stageWidth / Registry.screenWidth;
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.min(ratioX, ratioY);
