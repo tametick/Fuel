@@ -1,5 +1,6 @@
 import nme.Lib;
-import org.flixel.FlxCamera;
+import nme.events.Event;
+import nme.events.KeyboardEvent;
 import org.flixel.FlxGame;
 import sprites.LightingSprite;
 import sprites.TextSprite;
@@ -12,6 +13,7 @@ import world.Actor;
 
 
 class Fungeon extends FlxGame {
+	var removeMenu:Bool;
 	public static function main () {
 		Lib.current.addChild (new Fungeon());
 		
@@ -30,10 +32,15 @@ class Fungeon extends FlxGame {
 	public function new() {
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
+	
 		#if flash
-			// this is only for the projector, becuase of removing the window menu
-			stageHeight += 20;
+		removeMenu = true;
+		// this is only for the projector, becuase of removing the window menu
+		stageHeight += 20;
+		Lib.current.stage.addEventListener(Event.RESIZE, resizeHandler);
+		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, keyboardHandler);
 		#end
+		
 		var ratioX:Float = stageWidth / Registry.screenWidth;
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.min(ratioX, ratioY);
@@ -45,6 +52,22 @@ class Fungeon extends FlxGame {
 		} else {
 			super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), CharSelectState, ratio, 60, 30);
 		}
-		
+	}
+	
+	function resizeHandler(event:Event) {
+		if(removeMenu)
+			Lib.fscommand("showmenu", "false");
+	}
+	
+	function keyboardHandler(event:KeyboardEvent) {
+		switch (event.keyCode) {
+			// F3
+			case 114:
+				if(removeMenu)
+					Lib.fscommand("showmenu", "true");
+				else
+					Lib.fscommand("showmenu", "false");
+				removeMenu = !removeMenu;
+		}
 	}
 }
