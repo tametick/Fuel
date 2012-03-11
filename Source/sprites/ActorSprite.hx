@@ -38,8 +38,7 @@ class ActorSprite extends FlxSprite {
 		super(x, y);
 
 		this.owner = owner;
-		
-		loadGraphic(Library.getImage(image), true, true, Registry.tileSize, Registry.tileSize);
+		loadGraphic(Library.getFilename(image), true, true, Registry.tileSize, Registry.tileSize);
 		updateTileSheet();
 		frame = spriteIndex;
 
