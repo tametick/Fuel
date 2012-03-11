@@ -37,8 +37,9 @@ class Fungeon extends FlxGame {
 		removeMenu = true;
 		// this is only for the projector, becuase of removing the window menu
 		stageHeight += 20;
-		Lib.current.stage.addEventListener(Event.RESIZE, resizeHandler);
-		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, keyboardHandler);
+		Lib.current.stage.addEventListener(Event.RESIZE, resizeHandler,false,0,true);
+		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, keyboardHandler, false, 0, true);
+		resizeHandler(null);
 		#end
 		
 		var ratioX:Float = stageWidth / Registry.screenWidth;

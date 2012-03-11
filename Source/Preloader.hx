@@ -14,12 +14,12 @@ class Preloader extends NMEPreloader {
 		var h = 320;
 		
 		#if flash
-		Lib.current.stage.showDefaultContextMenu = false;
 		Lib.current.stage.fullScreenSourceRect = new Rectangle(0, 0, w, h);
 		Lib.current.stage.color = 0;
 		#end
-		Lib.current.stage.scaleMode = StageScaleMode.SHOW_ALL;
 		Lib.current.stage.align = StageAlign.TOP;
+		//Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+
 		Mouse.hide();
 		
 		var bg:Bitmap = new Bitmap(new Bg(120, 80));
