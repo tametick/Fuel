@@ -14,8 +14,6 @@ class Preloader extends NMEPreloader {
 		var h = 320;
 		
 		#if flash
-		Lib.fscommand("showmenu", "false");
-		Lib.fscommand("allowscale", "true");
 		Lib.current.stage.showDefaultContextMenu = false;
 		Lib.current.stage.fullScreenSourceRect = new Rectangle(0, 0, w, h);
 		Lib.current.stage.color = 0;

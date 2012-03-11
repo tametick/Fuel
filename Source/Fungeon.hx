@@ -55,18 +55,22 @@ class Fungeon extends FlxGame {
 	}
 	
 	function resizeHandler(event:Event) {
-		if(removeMenu)
-			Lib.fscommand("showmenu", "false");
+		if (removeMenu) {
+			Lib.current.stage.showDefaultContextMenu = true;
+			Lib.current.stage.showDefaultContextMenu = false;
+		}
 	}
 	
 	function keyboardHandler(event:KeyboardEvent) {
 		switch (event.keyCode) {
 			// F3
 			case 114:
-				if(removeMenu)
-					Lib.fscommand("showmenu", "true");
-				else
-					Lib.fscommand("showmenu", "false");
+				if(removeMenu){
+					Lib.current.stage.showDefaultContextMenu = true;
+					Lib.current.stage.showDefaultContextMenu = true;
+				} else {
+					Lib.current.stage.showDefaultContextMenu = false;
+				}
 				removeMenu = !removeMenu;
 		}
 	}
