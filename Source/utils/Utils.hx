@@ -1,4 +1,5 @@
 package utils;
+import data.Registry;
 import org.flixel.FlxPoint;
 
 class Utils {
@@ -124,5 +125,13 @@ class Utils {
 			arr = arr.concat(mat[y]);
 		}
 		return arr;
+	}
+	
+	public static inline function getPositionSnappedToGrid(p:Float):Int {
+		return pixelToTile(p)*Registry.tileSize;
+	}
+
+	public static inline function pixelToTile(p:Float):Int {
+		return Math.round(p / Registry.tileSize);
 	}
 }

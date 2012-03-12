@@ -58,8 +58,8 @@ class ActorSprite extends FlxSprite {
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
 		var duration = 1 / (Registry.walkingSpeed);
-		var nextPixelX = getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
-		var nextPixelY = getPositionSnappedToGrid(this.y + dy * Registry.tileSize);
+		var nextPixelX = Utils.getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
+		var nextPixelY = Utils.getPositionSnappedToGrid(this.y + dy * Registry.tileSize);
 		var nextTileX = nextPixelX / Registry.tileSize;
 		var nextTileY = nextPixelY / Registry.tileSize;
 		
@@ -116,14 +116,10 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	inline function getPositionSnappedToGrid(p:Float):Int {
-		return Math.round(p/Registry.tileSize)*Registry.tileSize;
-	}
-	
 	public function stopped() {
 		isMoving = false;
-		x = getPositionSnappedToGrid(x);
-		y = getPositionSnappedToGrid(y);
+		x = Utils.getPositionSnappedToGrid(x);
+		y = Utils.getPositionSnappedToGrid(y);
 		
 		var mapSprite = Registry.level.mapSprite;
 		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);

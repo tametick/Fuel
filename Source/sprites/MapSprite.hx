@@ -112,8 +112,23 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	public function hitWall(m:MapSprite, b:Bullet) {
-		var e = cast(b.weapon.parent, ActorSprite).explosionEmitter;
+		var shooter = cast(b.weapon.parent, ActorSprite);
+		var e = shooter.explosionEmitter;
 		e.explode(b.x, b.y);
+		
+		var tx = Utils.pixelToTile(b.x);
+		var ty = Utils.pixelToTile(b.y);
+		switch (shooter.direction) {
+			case N:
+				ty--;
+			case E:
+			case S:
+			case W:
+				tx--;
+		}
+		
+		owner.set(tx, ty, 0);
+		owner.updateFov(Registry.player.tilePoint);
 		b.kill();
 	}
 	
