@@ -61,7 +61,7 @@ class LevelFactory {
 			do {
 				startY = Utils.randomIntInRange(x, level.height - 2);
 				attempts++;
-			} while (level.get(x, startY) == 1 || attempts > 10);
+			} while (level.get(x, startY) == 1 && attempts < 10);
 
 			// found a valid start point!
 			if(level.get(x, startY) == 0)

@@ -47,8 +47,7 @@ class ActorSprite extends FlxSprite {
 			healthBar.setRange(0, owner.stats.maxHealth);
 			healthBar.killOnEmpty = true;
 			healthBar.updateTileSheet();
-
-			offset.y = 1;
+			healthBar.alpha = 0.5;
 		}
 		
 		faceRight();
