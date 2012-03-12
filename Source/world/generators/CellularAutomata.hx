@@ -22,15 +22,15 @@ class CellularAutomata {
 	 * During initial state, how percent of matrix are walls?
 	 * The closer the value is to 1.0, more wall-e the area is
 	 */
-	static var initWallRatio:Float = 0.5;
+	static var initWallRatio:Float;
 	
 	var floor:Int;
 	var wall:Int;
 	
-	public function new(width:Int, height:Int, ?floor:Int = 1, ?wall:Int = 0) {
+	public function new(width:Int, height:Int, ?floor:Int = 0, ?wall:Int = 1) {
 		this.width = width;
 		this.height = height;
-		numSmoothingIterations = 6;
+		numSmoothingIterations = 1;
 		initWallRatio = 0.5;
 		this.wall = wall;
 		this.floor = floor;
