@@ -14,11 +14,11 @@ class Registry {
 	
 	public static inline var enemiesPerLevel = 10;
 	
-	public static inline var screenWidth = 96;
-	public static inline var screenHeight = 64;
+	public static inline var screenWidth = 240;
+	public static inline var screenHeight = 160;
 	public static inline var levelWidth = 20;
-	public static inline var levelHeight = 20;
-	public static inline var tileSize = 8;
+	public static inline var levelHeight = 40;
+	public static inline var tileSize = 13;
 	public static inline var fontSize = 32;
 
 	public static inline var fovRange = 3;
