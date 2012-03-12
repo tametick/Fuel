@@ -29,6 +29,10 @@ class GameState extends FlxState {
 		Actuate.defaultEase = Linear.easeNone;
 		
 		newLevel();
+		var tileMap = Registry.level.mapSprite;
+		
+		FlxG.camera.follow(Registry.player.sprite, FlxCamera.STYLE_TOPDOWN_TIGHT);
+		FlxG.camera.setBounds(0, 0, tileMap.width, tileMap.height);
 		
 		lightingLayer.visible = true;
 	}
@@ -83,12 +87,19 @@ class GameState extends FlxState {
 		for (mob in level.mobs) {
 			add(mob.sprite.healthBar);
 		}
-		FlxG.camera.follow(Registry.player.sprite,FlxCamera.STYLE_TOPDOWN_TIGHT);
-		FlxG.camera.setBounds(0, 0, level.mapSprite.width, level.mapSprite.height);
 	}
 	
 	override public function draw():Void {
 		super.draw();
 		lightingLayer.updatePosition();
+	}
+	
+	override public function update():Void {
+		FlxG.worldBounds.x = Registry.player.sprite.x  - FlxG.width;
+		FlxG.worldBounds.width = 2 * FlxG.width;
+		FlxG.worldBounds.y = Registry.player.sprite.y  - FlxG.height;
+		FlxG.worldBounds.height = 2 * FlxG.height;
+		
+		super.update();
 	}
 }

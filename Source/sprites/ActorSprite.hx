@@ -105,6 +105,10 @@ class ActorSprite extends FlxSprite {
 			}
 		}
 		
+		if(owner.weapon!=null) {
+			owner.weapon.sprite.setBulletBounds(FlxG.worldBounds);
+		}
+		
 		if (owner == Registry.player) {
 			
 			if(!isMoving) {
