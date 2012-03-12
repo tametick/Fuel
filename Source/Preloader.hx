@@ -10,8 +10,8 @@ import nme.ui.Mouse;
 
 class Preloader extends NMEPreloader {
 	public function new() {
-		var w= 480;
-		var h = 320;
+		var w= Lib.current.stage.stageWidth;
+		var h = Lib.current.stage.stageHeight;
 		
 		#if flash
 		Lib.current.stage.fullScreenSourceRect = new Rectangle(0, 0, w, h);

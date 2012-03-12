@@ -1,7 +1,6 @@
 import nme.display.Bitmap;
-import nme.Lib;
 import nme.events.Event;
-import nme.events.KeyboardEvent;
+import nme.Lib;
 import org.flixel.FlxG;
 import org.flixel.FlxGame;
 import sprites.LightingSprite;
@@ -9,7 +8,6 @@ import sprites.GuiSprite;
 import states.GameState;
 import data.Registry;
 import data.Library;
-import world.Actor;
 
 
 class SpaceMiner extends FlxGame {
@@ -39,7 +37,7 @@ class SpaceMiner extends FlxGame {
 		removeMenu = true;
 		// this is only for the projector, becuase of removing the window menu
 		stageHeight += 20;
-		Lib.current.stage.addEventListener(Event.RESIZE, resizeHandler,false,0,true);
+		Lib.current.stage.addEventListener(Event.RESIZE, resizeHandler, false, 0, true);
 		resizeHandler(null);
 		#end
 		

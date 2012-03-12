@@ -10,7 +10,7 @@ class Registry {
 	public static inline var debug = true;
 	
 	public static inline var movementKeys = ["RIGHT", "LEFT", "DOWN", "UP"];
-	public static inline var attackKey = ["SPACE"];
+	public static inline var attackKey = ["CONTROL"];
 	
 	public static inline var enemiesPerLevel = 10;
 	
