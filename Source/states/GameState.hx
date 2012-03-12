@@ -56,7 +56,9 @@ class GameState extends FlxState {
 		removeAllGameSprites();
 		
 		// add new
-		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2), -1, -1, false, true, 0xff000000, 0xff5E5E5E));
+		add(FlxGridOverlay.create(Std.int(Registry.tileSize / 2), Std.int(Registry.tileSize / 2),
+			Registry.tileSize * Registry.levelWidth , Registry.tileSize * Registry.levelHeight,
+			false, true, 0xff000000, 0xff5E5E5E));
 		
 		Registry.level = LevelFactory.newLevel(currentLevel);
 		addLevelSprites(Registry.level);

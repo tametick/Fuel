@@ -16,8 +16,8 @@ class Registry {
 	
 	public static inline var screenWidth = 96;
 	public static inline var screenHeight = 64;
-	public static inline var levelWidth = 13;
-	public static inline var levelHeight = 9;
+	public static inline var levelWidth = 40;
+	public static inline var levelHeight = 75;
 	public static inline var tileSize = 8;
 	public static inline var fontSize = 32;
 
