@@ -4,7 +4,6 @@ import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import addons.FlxCaveGenerator;
 import data.Registry;
-import parts.LeverTriggerablePart;
 import states.GameState;
 import world.Actor;
 import utils.Utils;
@@ -33,7 +32,7 @@ class LevelFactory {
 		
 		// exit must be added before we add lever.
 		//addExit(level);
-		addLever(level);
+		
 		addEntryDoor(level);
 		addEnemies(level);
 		
@@ -47,26 +46,7 @@ class LevelFactory {
 		var freeTile = level.getFreeTile();
 		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
 	}
-	
-	static function addLever(level:Level) {
-		// get a free tile that is distant from both the start and the finish points
-		var freeTile:FlxPoint;
-		var pathToStart:FlxPath;
-		var pathToFinish:FlxPath;
-		var minDist = Math.max(Registry.levelWidth, Registry.levelHeight);
-		do {
-			freeTile = level.getFreeTile();
-			pathToStart = level.mapSprite.findTilePath(level.start, freeTile);
-			pathToFinish = level.mapSprite.findTilePath(freeTile, level.finish);
-		} while (pathToStart.nodes.length < minDist || pathToFinish.nodes.length < minDist);
-
-		// Bind lever to exit door.
-		// fixme: Hacky lookup for the exit door actor.
-		var lever = ActorFactory.newActor(LEVER, freeTile.x, freeTile.y);
-		cast(lever.triggerable, LeverTriggerablePart).target = level.mapSprite.exitDoorSprite.owner;
-		level.items.push(lever);
-	}
-	
+		
 	static private function addExit(level:Level) {
 		level.set(level.finish.x + 1, level.finish.y, 0);
 		var exitDoor = ActorFactory.newActor(DOOR, level.finish.x + 1, level.finish.y);

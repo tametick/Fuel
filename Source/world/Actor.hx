@@ -99,15 +99,11 @@ class Actor {
 
 enum ActorType {
 	// player classes
-	GUARD;
-	WARRIOR;
 	ARCHER;
-	MONK;
 
 	// monsters
 	SPEAR_DUDE;
 
 	// map features
-	LEVER;
 	DOOR;
 }
