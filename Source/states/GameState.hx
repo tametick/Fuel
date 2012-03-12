@@ -7,7 +7,9 @@ import nme.text.TextField;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
+import org.flixel.FlxRect;
 import org.flixel.FlxState;
+import org.flixel.FlxU;
 import org.flixel.plugin.photonstorm.FlxGridOverlay;
 import data.Library;
 import data.Registry;
@@ -80,6 +82,10 @@ class GameState extends FlxState {
 			add(mob.sprite.healthBar);
 		}
 		FlxG.camera.follow(Registry.player.sprite);
+		var w = FlxG.camera.width;
+		var h = FlxG.camera.height;
+		var helper = FlxU.max(w, h) / 4;
+		FlxG.camera.deadzone = new FlxRect(w/4, h/2 + Registry.tileSize/2, w/2, 0);
 	}
 	
 	override public function draw():Void {
