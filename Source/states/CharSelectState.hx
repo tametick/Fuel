@@ -17,7 +17,7 @@ class CharSelectState extends FlxState {
 		FlxG.mouse.show();
 		
 		add(FlxGridOverlay.create(Registry.tileSize, Registry.tileSize, -1, -1, false, true, 0xff000000, 0xff5E5E5E));
-		description = Registry.textLayer.newText("", Registry.tileSize * 2.5, Registry.tileSize * 5, 0xFFFF00);
+		description = Registry.guiLayer.newText("", Registry.tileSize * 2.5, Registry.tileSize * 5, 0xFFFF00);
 		
 		var guard = ActorFactory.newActor(GUARD, 2.5, 1);
 		var warrior = ActorFactory.newActor(WARRIOR, 4.5, 1);
@@ -32,7 +32,7 @@ class CharSelectState extends FlxState {
 	}
 	
 	override public function destroy():Void {
-		Registry.textLayer.removeChild(description);
+		Registry.guiLayer.removeChild(description);
 		description = null;
 		for (hero in heroes) {
 			remove(hero.sprite);

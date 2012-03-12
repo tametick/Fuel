@@ -9,7 +9,7 @@ import org.flixel.FlxCamera;
 import data.Library;
 import data.Registry;
 
-class TextSprite extends Sprite {
+class GuiSprite extends Sprite {
 	public static var format:TextFormat;
 	public function newText(text:String,x:Float,y:Float, color:Int):TextField {
 		var txt = new TextField();

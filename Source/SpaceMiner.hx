@@ -4,7 +4,7 @@ import nme.events.Event;
 import nme.events.KeyboardEvent;
 import org.flixel.FlxGame;
 import sprites.LightingSprite;
-import sprites.TextSprite;
+import sprites.GuiSprite;
 import states.CharSelectState;
 import states.GameState;
 import data.Registry;
@@ -21,8 +21,8 @@ class SpaceMiner extends FlxGame {
 		Lib.current.addChild (GameState.lightingLayer);
 		GameState.lightingLayer.visible = false;
 		
-		Registry.textLayer = new TextSprite();
-		Lib.current.addChild (Registry.textLayer);
+		Registry.guiLayer = new GuiSprite();
+		Lib.current.addChild (Registry.guiLayer);
 		
 		var interlace = new Bitmap(Library.getImage(INTERLACE));
 		interlace.width = Lib.current.width;

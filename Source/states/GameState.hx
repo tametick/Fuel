@@ -21,7 +21,7 @@ class GameState extends FlxState {
 	var guiText:TextField;
 	
 	override public function create() {
-		guiText = Registry.textLayer.newText("",0,0, 0x408080);
+		guiText = Registry.guiLayer.newText("",0,0, 0x408080);
 		Registry.gameState = this;
 		
 		Actuate.defaultEase = Linear.easeNone;
@@ -33,7 +33,7 @@ class GameState extends FlxState {
 	
 	override public function destroy() {
 		super.destroy();
-		Registry.textLayer.removeChild(guiText);
+		Registry.guiLayer.removeChild(guiText);
 		
 		Registry.level = null;
 		Registry.player = null;
