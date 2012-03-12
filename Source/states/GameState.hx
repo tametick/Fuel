@@ -81,11 +81,8 @@ class GameState extends FlxState {
 		for (mob in level.mobs) {
 			add(mob.sprite.healthBar);
 		}
-		FlxG.camera.follow(Registry.player.sprite);
-		var w = FlxG.camera.width;
-		var h = FlxG.camera.height;
-		var helper = FlxU.max(w, h) / 4;
-		FlxG.camera.deadzone = new FlxRect(w/4, h/2 + Registry.tileSize/2, w/2, 0);
+		FlxG.camera.follow(Registry.player.sprite,FlxCamera.STYLE_TOPDOWN_TIGHT);
+		FlxG.camera.setBounds(0, 0, level.mapSprite.width, level.mapSprite.height);
 	}
 	
 	override public function draw():Void {
