@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	
-	<app title="SpaceMiner" file="fungeon" main="SpaceMiner" version="1" />
+	<app title="SpaceMiner" file="spaceminer" main="SpaceMiner" version="1" />
 	
 	<set name="PRELOADER_NAME" value="Preloader"/>
 	<set name="SWF_VERSION" value="11" />

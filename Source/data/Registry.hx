@@ -7,7 +7,7 @@ import world.Actor;
 import world.Level;
 
 class Registry {
-	public static inline var debug = true;
+	public static inline var debug = false;
 	
 	public static inline var movementKeys = ["RIGHT", "LEFT", "DOWN", "UP"];
 	public static inline var attackKey = ["CONTROL"];
@@ -21,7 +21,7 @@ class Registry {
 	public static inline var tileSize = 8;
 	public static inline var fontSize = 32;
 
-	public static inline var fovRange = 6;
+	public static inline var fovRange = 3;
 	
 	public static inline var bulletSpeed = 300;
 	public static inline var bulletsPerWeapon = 10;

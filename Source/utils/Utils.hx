@@ -44,9 +44,9 @@ class Utils {
 		return i;
 	}
 	
-	static var line:Array<FlxPoint> = new Array();
-	public static function getLine(src:FlxPoint, dest:FlxPoint, isBlocking:FlxPoint->Bool):Array<FlxPoint> {
-		line.splice(0, line.length);
+	static var line:List<FlxPoint> = new List();
+	public static function getLine(src:FlxPoint, dest:FlxPoint, isBlocking:FlxPoint->Bool):List<FlxPoint> {
+		line.clear();
 		var steepness = (dest.x - src.x) / (dest.y - src.y);
 		var x = src.x;
 		var y = src.y;
@@ -56,20 +56,20 @@ class Utils {
 			if(dest.y>y){
 				while (y < dest.y + 1) {
 					pos = new FlxPoint(x, y);
-					line.push(pos);
-					pos = null;
-					if (isBlocking(line[line.length - 1]))
+					line.add(pos);
+					if (isBlocking(pos))
 						break;
+					pos = null;
 					x += steepness;
 					y++;
 				}
 			} else {
 				while (y > dest.y-1) {
 					pos = new FlxPoint(x, y);
-					line.push(pos);
-					pos = null;
-					if (isBlocking(line[line.length - 1]))
+					line.add(pos);
+					if (isBlocking(pos))
 						break;
+					pos = null;
 					x -= steepness;
 					y--;
 				}
@@ -79,20 +79,20 @@ class Utils {
 			if(dest.x>x){
 				while (x < dest.x + 1) {
 					pos = new FlxPoint(x, y);
-					line.push(pos);
-					pos = null;
-					if (isBlocking(line[line.length - 1]))
+					line.add(pos);
+					if (isBlocking(pos))
 						break;
+					pos = null;
 					y += steepness;
 					x++;
 				}
 			} else {
 				while (x > dest.x - 1) {
 					pos = new FlxPoint(x, y);
-					line.push(pos);
-					pos = null;
-					if (isBlocking(line[line.length - 1]))
+					line.add(pos);
+					if (isBlocking(pos))
 						break;
+					pos = null;
 					y -= steepness;
 					x--;
 				}

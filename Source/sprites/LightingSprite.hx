@@ -20,7 +20,7 @@ class LightingSprite extends Bitmap {
 		setDarkness(0xff);
 	}
 	
-	public inline function updatePosition() {
+	public function updatePosition() {
 		if (FlxG.camera == null)
 			return;
 		x = -FlxG.camera.scroll.x * FlxCamera.defaultZoom;

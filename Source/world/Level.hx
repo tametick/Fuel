@@ -73,7 +73,7 @@ class Level {
 		
 		var line = Utils.getLine(p1, p2, isBlockingSight);
 		
-		return line[line.length - 1].equals(p2);
+		return line.last().intEquals(p2);
 	}
 	
 	function updateVisibilityMap(source:FlxPoint) {
