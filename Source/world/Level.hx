@@ -177,6 +177,9 @@ class Level {
 	}
 	
 	public function isWalkable(x:Float , y:Float):Bool {
+		if (x < 0 || y < 0 || x >= width || y >= height)
+			return false;
+	
 		var a = getActorAtPoint(x, y);
 		return get(x, y) == 0 && (a==null || !a.isBlocking);
 	}

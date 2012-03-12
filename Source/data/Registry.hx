@@ -30,6 +30,7 @@ class Registry {
 	public static inline var rangeShort = 1;
 	public static inline var rangeLong = fovRange+2;
 	
+	public static inline var particleRotation = -720;
 	public static inline var particleLifespan = 0.25;
 	public static inline var particleGravity = 200;
 	public static inline var particlesPerEmitter = 20;

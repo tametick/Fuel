@@ -19,8 +19,7 @@ class EmitterSprite extends FlxEmitter {
 	
 	function initParticles(color:Int, Quantity:Int):FlxEmitter{
 		maxSize = Quantity;
-		setRotation( -720, -720);
-		var totalFrames:Int = 1;
+		setRotation(Registry.particleRotation, Registry.particleRotation);
 		var particle:FlxParticle;
 		var i:Int = 0;
 		while (i < Quantity) {
