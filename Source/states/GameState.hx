@@ -26,7 +26,7 @@ class GameState extends FlxState {
 		
 		Actuate.defaultEase = Linear.easeNone;
 		
-		newLevel();	
+		newLevel();
 		
 		lightingLayer.visible = true;
 	}
@@ -79,8 +79,11 @@ class GameState extends FlxState {
 		for (mob in level.mobs) {
 			add(mob.sprite.healthBar);
 		}
-		// shift everything half a tile up & left,
-		// because the map is 1 tile bigger than screen.
-		FlxG.camera.scroll.y = FlxG.camera.scroll.x = Registry.tileSize / 2;
+		FlxG.camera.follow(Registry.player.sprite);
+	}
+	
+	override public function draw():Void {
+		super.draw();
+		lightingLayer.updatePosition();
 	}
 }

@@ -23,15 +23,6 @@ class ActorSprite extends FlxSprite {
 	public var bloodEmitter:EmitterSprite;
 	
 	var isMoving:Bool;
-	var isDodging:Bool;
-	
-	var dodgeDir:Direction;
-	var dodgeCounter:Float;
-	
-	var bobCounter:Float;
-	var bobCounterInc:Float;
-	var bobMult:Float;
-	
 	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
 	public function new(owner:Actor, image:Image, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
@@ -57,9 +48,6 @@ class ActorSprite extends FlxSprite {
 			healthBar.killOnEmpty = true;
 			healthBar.updateTileSheet();
 
-			bobCounter = 1.0;
-			bobCounterInc = 0.04;
-			bobMult = 0.75;
 			offset.y = 1;
 		}
 		
@@ -72,7 +60,6 @@ class ActorSprite extends FlxSprite {
 	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		bobCounter = -1.0;
 		var walkingSpeed = owner.stats.walkingSpeed;
 		var duration = 1 / (walkingSpeed);
 		var nextPixelX = getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
@@ -88,48 +75,6 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	public function showDodge(Dir:Direction) {
-		isDodging = true;
-		dodgeCounter = 0;
-		dodgeDir = Dir;
-	}
-	
-	override public function draw():Void {
-		var oldX:Float = x;
-		var oldY:Float = y;
-		if(alive && health>0 && !FlxG.paused) {
-			if ( isMoving ) {
-				var offset:Float = Math.sin(bobCounter)*bobMult;
-				y -= offset;
-				bobCounter += bobCounterInc;
-			} else if ( isDodging ) {
-				var offset:Float = dodgeCounter;
-				if ( offset > 10 )
-					offset = 10 - (dodgeCounter - 10);
-				if ( offset < 0 )
-					offset = 0;
-				switch (dodgeDir) {
-					case S:
-						y += offset/2;
-					case W:
-						x -= offset/2;
-					case N:
-						y -= offset/2;
-					case E:
-						x += offset/2;
-				}
-			}
-		} else {
-			bobCounter = -1.0;
-		}
-		
-		super.draw();
-		if (isDodging ) {
-			x = oldX;
-			y = oldY;
-		}
-	}
-	
 	public function playAttackEffect(type:WeaponType) {
 		switch(type) {
 			case UNARMED, SPEAR, SWORD, STAFF:
@@ -142,13 +87,7 @@ class ActorSprite extends FlxSprite {
 	override public function update() {
 		if (FlxG.state != Registry.gameState)
 			return;
-		
-		
-		if ( isDodging ) {
-			dodgeCounter += 2;
-			if ( dodgeCounter >= 20 ) isDodging = false;
-		}
-		
+				
 		super.update();
 		if(attackEffect!=null) {
 			switch (direction) {

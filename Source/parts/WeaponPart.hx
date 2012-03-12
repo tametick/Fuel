@@ -34,22 +34,11 @@ class WeaponPart extends Part{
 		if (isHit) {
 			// the hurt function kills the sprite if needed
 			victim.sprite.hurt(actor.stats.damage);
-
 			if (victimStats.health <= 0) {
 				victim.kill();
 			}
-		} else {
-			if(Math.round(victim.tileX)<Math.round(actor.tileX)) {
-				victim.sprite.showDodge(W);
-			} else if (Math.round(victim.tileX) > Math.round(actor.tileX)) {
-				victim.sprite.showDodge(E);
-			} else if(Math.round(victim.tileY)< Math.round(actor.tileY)) {
-				victim.sprite.showDodge(N);
-			} else if (Math.round(victim.tileY) > Math.round(actor.tileY)) {
-				victim.sprite.showDodge(S);
-			}
 		}
-
+		
 		return isHit;
 	}
 }
