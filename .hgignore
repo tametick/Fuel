@@ -1,5 +1,3 @@
 syntax: glob
 Export/
 *.ttf.hash
-fungeon/*
-tmp/*

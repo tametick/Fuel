@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="fungeon.nmml" />
+    <movie path="spaceminer.nmml" />
     <movie fps="30" />
     <movie width="480" />
     <movie height="320" />
@@ -22,7 +22,7 @@
   <build>
     <option directives="" />
     <option flashStrict="True" />
-    <option mainClass="Fungeon" />
+    <option mainClass="SpaceMiner" />
     <option enabledebug="True" />
     <option additional="" />
   </build>

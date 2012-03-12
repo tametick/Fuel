@@ -12,10 +12,10 @@ import data.Library;
 import world.Actor;
 
 
-class Fungeon extends FlxGame {
+class SpaceMiner extends FlxGame {
 	var removeMenu:Bool;
 	public static function main () {
-		Lib.current.addChild (new Fungeon());
+		Lib.current.addChild (new SpaceMiner());
 		
 		GameState.lightingLayer = new LightingSprite();
 		Lib.current.addChild (GameState.lightingLayer);
