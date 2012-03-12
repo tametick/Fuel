@@ -47,10 +47,11 @@ class SpaceMiner extends FlxGame {
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.min(ratioX, ratioY);
 		
+		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio, 60, 30);
+		
 		if(Registry.debug) {
 			forceDebugger = true;
 		}
-		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio, 60, 30);
 	}
 	
 	public function resizeHandler(event:Event) {
