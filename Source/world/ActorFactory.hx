@@ -4,7 +4,6 @@ import sprites.ActorSprite;
 import data.Registry;
 import data.Library;
 import parts.DoorTriggerablePart;
-import parts.LeverTriggerablePart;
 import parts.StatsPart;
 import parts.TriggerablePart;
 import parts.WeaponPart;
@@ -19,20 +18,6 @@ class ActorFactory {
 		var isImmovable = false;
 
 		switch (type) {
-			// player classes
-			case MONK:
-				a.isPlayer = true;
-				sheet = HEROES;
-				index = 0;
-				a.addPart(new StatsPart({
-					strength: 4,
-					dexterity: 3,
-					agility: 6,
-					endurance: 10,
-				}));
-				a.addPart(WeaponFactory.newWeapon(a, STAFF));
-				a.addPart(new TriggerablePart(true));
-
 			case ARCHER:
 				a.isPlayer = true;
 				sheet = HEROES;
@@ -45,33 +30,6 @@ class ActorFactory {
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, BOW));
 				a.addPart(new TriggerablePart(true));
-
-			case WARRIOR:
-				a.isPlayer = true;
-				sheet = HEROES;
-				index = 2;
-				a.addPart(new StatsPart({
-					strength: 6,
-					dexterity: 9,
-					agility: 5,
-					endurance: 3,
-				}));
-				a.addPart(WeaponFactory.newWeapon(a, SWORD));
-				a.addPart(new TriggerablePart(true));
-
-			case GUARD:
-				a.isPlayer = true;
-				sheet = HEROES;
-				index = 3;
-				a.addPart(new StatsPart({
-					strength: 8,
-					dexterity: 5,
-					agility: 4,
-					endurance: 6,
-				}));
-				a.addPart(WeaponFactory.newWeapon(a, SPEAR));
-				a.addPart(new TriggerablePart(true));
-
 
 			// monsters
 			case SPEAR_DUDE:
@@ -86,12 +44,7 @@ class ActorFactory {
 				a.addPart(WeaponFactory.newWeapon(a, SPEAR));
 				a.addPart(new TriggerablePart(true));
 
-
 			// level features
-			case LEVER:
-				sheet = FURNITURE2;
-				index = 0;
-				a.addPart(new LeverTriggerablePart(index, 1, null));
 			case DOOR:
 				sheet = DOORS;
 				index = 2;
