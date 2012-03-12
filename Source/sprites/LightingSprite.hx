@@ -1,9 +1,11 @@
 package sprites;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
+import nme.events.Event;
 import nme.geom.Rectangle;
 import org.flixel.FlxCamera;
 import data.Registry;
+import org.flixel.FlxG;
 import utils.Utils;
 
 class LightingSprite extends Bitmap {
@@ -16,10 +18,17 @@ class LightingSprite extends Bitmap {
 		}
 		width = Registry.levelWidth * Registry.tileSize * FlxCamera.defaultZoom;
 		height = Registry.levelHeight * Registry.tileSize * FlxCamera.defaultZoom;
-		x = -Registry.tileSize * FlxCamera.defaultZoom / 2;
-		y = -Registry.tileSize * FlxCamera.defaultZoom / 2;
-		
 		setDarkness(0xff);
+		
+		addEventListener(Event.ENTER_FRAME, updatePosition, false, 0, true);
+	}
+	
+	function updatePosition(e:Event) {
+		if (FlxG.camera == null)
+			return;
+	
+		x = -FlxG.camera.scroll.x * FlxCamera.defaultZoom;
+		y = -FlxG.camera.scroll.y * FlxCamera.defaultZoom;
 	}
 	
 	/** set darkness between 0 (fully lighten) and 0xFF (fully dark) */
