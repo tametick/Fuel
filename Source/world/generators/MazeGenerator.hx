@@ -1,4 +1,4 @@
-package world;
+package world.generators;
 
 import flash.geom.Point;
 

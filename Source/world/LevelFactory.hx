@@ -2,23 +2,18 @@ package world;
 
 import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
+import addons.FlxCaveGenerator;
 import data.Registry;
 import states.GameState;
 import world.Actor;
 import utils.Utils;
+import world.generators.CellularAutomata;
 
 class LevelFactory {
 	public static function newLevel(index:Int):Level {
-		var mazeGenerator = new MazeGenerator(Registry.levelWidth, Registry.levelHeight);
-		mazeGenerator.initMaze();
-		mazeGenerator.createMaze();
-		
-		var tilesIndex = [];
-		for (y in 0...Registry.levelHeight) {
-			for (x in 0...Registry.levelWidth) {
-				tilesIndex.push(mazeGenerator.maze[x][y]?1:0);
-			}
-		}
+		var caveGenerator = new CellularAutomata(Registry.levelWidth, Registry.levelHeight);
+		var mat = caveGenerator.getCaveMap();
+		var tilesIndex = Utils.convertMatrixToArray(mat);
 		
 		var level = new Level(index, tilesIndex);
 		

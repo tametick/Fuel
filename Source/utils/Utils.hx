@@ -117,4 +117,12 @@ class Utils {
 		}
 		return false;
 	}
+	
+	public static function convertMatrixToArray(mat:Array<Array<Int>>):Array<Int> {
+		var arr = [];
+		for (y in 0...mat.length)	{
+			arr = arr.concat(mat[y]);
+		}
+		return arr;
+	}
 }
