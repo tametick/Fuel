@@ -23,10 +23,9 @@ class ActorFactory {
 				sheet = HEROES;
 				index = 1;
 				a.addPart(new StatsPart({
-					strength: 3,
-					dexterity: 9,
-					agility: 9,
-					endurance: 2,
+					maxHealth:1,
+					maxGun:1,
+					maxBelt:1
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, BOW));
 				a.addPart(new TriggerablePart(true));
@@ -36,12 +35,9 @@ class ActorFactory {
 				sheet = HUMANS;
 				index = 1;
 				a.addPart(new StatsPart({
-					strength: 2,
-					dexterity: 2,
-					agility: 2,
-					endurance: 4,
+					maxHealth:1,
 				}));
-				a.addPart(WeaponFactory.newWeapon(a, SPEAR));
+				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
 		}
 
@@ -52,6 +48,8 @@ class ActorFactory {
 
 		if(a.stats != null) {
 			a.stats.health = a.stats.maxHealth;
+			a.stats.gun= a.stats.maxGun;
+			a.stats.belt = a.stats.maxBelt;
 		}
 
 		return a;

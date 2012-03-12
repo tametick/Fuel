@@ -50,8 +50,7 @@ class MapSprite extends FlxTilemap {
 				}
 				
 				if(oldDarkness != newDarkness) {
-					var walkingSpeed = Registry.player.stats.walkingSpeed;
-					Actuate.update(setDarkness, 1/(walkingSpeed), [oldDarkness], [newDarkness]);
+					Actuate.update(setDarkness, 1/(Registry.walkingSpeed), [oldDarkness], [newDarkness]);
 				}
 			}
 		}
@@ -126,12 +125,8 @@ class MapSprite extends FlxTilemap {
 			return;
 		}
 		
-		var isHit = attacker.weapon.hit(victim);
-		if (isHit) {
-			var e = a.bloodEmitter;
-			e.explode(a.x+Registry.tileSize/2, a.y+Registry.tileSize/2);
-		}
-		
+		attacker.weapon.hit(victim);
+		a.bloodEmitter.explode(a.x+Registry.tileSize/2, a.y+Registry.tileSize/2);
 		b.kill();
 	}
 	

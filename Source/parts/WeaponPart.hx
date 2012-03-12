@@ -10,9 +10,6 @@ class WeaponPart extends Part{
 	
 	public var range:Float;
 	public var damage:Float;
-	public var attackSpeed:Float;
-	public var accuracy:Float;
-	public var defense:Float;
 	
 	public function new(actor:Actor, type:WeaponType) {
 		this.actor = actor;
@@ -23,28 +20,18 @@ class WeaponPart extends Part{
 		sprite.fire();
 	}
 	
-	public function hit(victim:Actor):Bool {
+	public function hit(victim:Actor) {
 		var victimStats = victim.stats;
 
-		var chanceToHit = actor.stats.accuracy / (actor.stats.accuracy + victimStats.dodge);
-		var isHit = Math.random() < chanceToHit;
-
-		if (isHit) {
-			// the hurt function kills the sprite if needed
-			victim.sprite.hurt(actor.stats.damage);
-			if (victimStats.health <= 0) {
-				victim.kill();
-			}
+		// the hurt function kills the sprite if needed
+		victim.sprite.hurt(actor.stats.damage);
+		if (victimStats.health <= 0) {
+			victim.kill();
 		}
-		
-		return isHit;
 	}
 }
 
 enum WeaponType {
 	UNARMED;
-	SPEAR;
-	SWORD;
 	BOW;
-	STAFF;
 }

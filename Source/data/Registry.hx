@@ -22,12 +22,13 @@ class Registry {
 	public static inline var fontSize = 32;
 
 	public static inline var fovRange = 3;
+	public static inline var walkingSpeed = 5;
 	
 	public static inline var bulletSpeed = 300;
 	public static inline var bulletsPerWeapon = 10;
 	
 	public static inline var rangeShort = 1;
-	public static inline var rangeLong = 10;
+	public static inline var rangeLong = fovRange+2;
 	
 	public static inline var particleLifespan = 0.25;
 	public static inline var particleGravity = 200;
