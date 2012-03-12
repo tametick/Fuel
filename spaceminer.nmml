@@ -9,7 +9,7 @@
 	<!--
 	<window background="0x000000" width="480" height="320" fps="30" orientation="portrait"/>
 	-->
-	<window background="0x000000" width="480" height="300" fps="30" orientation="portrait"/>
+	<window background="0x000000" width="720" height="460" fps="30" orientation="portrait"/>
 	
 	<set name="BUILD_DIR" value="Export" />
 	<setenv name="no_console" value="1" />

@@ -18,7 +18,6 @@ class ActorSprite extends FlxSprite {
 	public var direction:Direction;
 	
 	public var healthBar:FlxBar;
-	public var attackEffect:AttackSprite;
 	public var explosionEmitter:EmitterSprite;
 	public var bloodEmitter:EmitterSprite;
 	
@@ -38,7 +37,6 @@ class ActorSprite extends FlxSprite {
 		}
 		
 		if (owner.stats != null) {
-			attackEffect = new AttackSprite();
 			explosionEmitter = new EmitterSprite(Registry.explosionColor);
 			bloodEmitter = new EmitterSprite(Registry.bloodColor);
 
@@ -73,37 +71,12 @@ class ActorSprite extends FlxSprite {
 			Registry.level.updateFov(new FlxPoint(nextTileX, nextTileY));
 		}
 	}
-	
-	public function playAttackEffect(type:WeaponType) {
-		switch(type) {
-			case UNARMED, SPEAR, SWORD, STAFF:
-				attackEffect.play("MELEE", true);
-			case BOW:
-				attackEffect.play("RANGED", true);
-		}
-	}
-		
+			
 	override public function update() {
 		if (FlxG.state != Registry.gameState)
 			return;
 				
 		super.update();
-		if(attackEffect!=null) {
-			switch (direction) {
-				case N:
-					attackEffect.x = x;
-					attackEffect.y = y - Registry.tileSize;
-				case E:
-					attackEffect.x = x + Registry.tileSize;
-					attackEffect.y = y ;
-				case S:
-					attackEffect.x = x;
-					attackEffect.y = y + Registry.tileSize + 1;
-				case W:
-					attackEffect.x = x - Registry.tileSize - 1;
-					attackEffect.y = y;
-			}
-		}
 		
 		if(owner.weapon!=null) {
 			owner.weapon.sprite.setBulletBounds(FlxG.worldBounds);
@@ -162,7 +135,6 @@ class ActorSprite extends FlxSprite {
 		direction = E;
 		if(owner.weapon!=null) {
 			weaponSprite.setBulletDirection(WeaponSprite.RIGHT, Math.round(Registry.bulletSpeed));
-			attackEffect.facing = FlxObject.RIGHT;
 		}
 	}
 	
@@ -171,7 +143,6 @@ class ActorSprite extends FlxSprite {
 		direction = W;
 		if (owner.weapon != null) {
 			weaponSprite.setBulletDirection(WeaponSprite.LEFT, Math.round(Registry.bulletSpeed));
-			attackEffect.facing = FlxObject.LEFT;
 		}
 	}
 	

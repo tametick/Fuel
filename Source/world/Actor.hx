@@ -103,7 +103,4 @@ enum ActorType {
 
 	// monsters
 	SPEAR_DUDE;
-
-	// map features
-	DOOR;
 }

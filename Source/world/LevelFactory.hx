@@ -49,9 +49,9 @@ class LevelFactory {
 		
 	static private function addExit(level:Level) {
 		level.set(level.finish.x + 1, level.finish.y, 0);
-		var exitDoor = ActorFactory.newActor(DOOR, level.finish.x + 1, level.finish.y);
-		level.items.push(exitDoor);
-		level.mapSprite.exitDoorSprite = exitDoor.sprite;
+		//var exitDoor = ActorFactory.newActor(DOOR, level.finish.x + 1, level.finish.y);
+		//level.items.push(exitDoor);
+		//level.mapSprite.exitDoorSprite = exitDoor.sprite;
 	}
 	
 	static private function setStart(level:Level) {
@@ -89,8 +89,8 @@ class LevelFactory {
 	static private function addEntryDoor(level:Level) {
 		// add closed entry door
 		level.set(level.start.x - 1, level.start.y, 0);
-		var entryDoor = ActorFactory.newActor(DOOR, level.start.x - 1, level.start.y);
-		level.items.push(entryDoor);
+		//var entryDoor = ActorFactory.newActor(DOOR, level.start.x - 1, level.start.y);
+		//level.items.push(entryDoor);
 	}
 	
 	static function addEnemies(level:Level) {

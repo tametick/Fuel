@@ -26,21 +26,10 @@ class Library {
 	
 }
 
-enum Definition {
-	WEAPONS;
-}
-
 enum Image {
-	DOORS;
-	DUNGEON;
-	FLOOR;
-	FURNITURE1;
-	FURNITURE2;
-	FURNITURE3;
 	HEROES;
 	HUMANS;
-	ATTACKS;
 	
-	INTERLACE;
-	MENU;
+	INTERLACE_SMALL;
+	INTERLACE_BIG;
 }

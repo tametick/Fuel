@@ -20,9 +20,7 @@ class WeaponPart extends Part{
 	}
 	
 	public function fire() {
-		if(sprite.fire()) {
-			actor.sprite.playAttackEffect(type);
-		}
+		sprite.fire();
 	}
 	
 	public function hit(victim:Actor):Bool {

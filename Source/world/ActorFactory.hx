@@ -43,12 +43,6 @@ class ActorFactory {
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, SPEAR));
 				a.addPart(new TriggerablePart(true));
-
-			// level features
-			case DOOR:
-				sheet = DOORS;
-				index = 2;
-				a.addPart(new DoorTriggerablePart(index, 12));
 		}
 
 		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);

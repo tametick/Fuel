@@ -21,8 +21,6 @@ class MapSprite extends FlxTilemap {
 	public var itemSprites:FlxGroup;
 	public var mobSprites:FlxGroup;
 	public var bulletSprites(getBulletSprites, null):FlxGroup;
-	
-	public var exitDoorSprite:ActorSprite;
 
 	public function findTilePath(start:FlxPoint, end:FlxPoint):FlxPath {
 		var s = new FlxPoint(start.x*_tileWidth, start.y*_tileHeight);
