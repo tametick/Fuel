@@ -4,7 +4,6 @@ import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import data.Registry;
 import parts.LeverTriggerablePart;
-import states.CharSelectState;
 import states.GameState;
 import world.Actor;
 import utils.Utils;
@@ -25,7 +24,7 @@ class LevelFactory {
 		var level = new Level(index, tilesIndex);
 		
 		if (Registry.player == null) {
-			Registry.player = level.player =  ActorFactory.newActor(CharSelectState.selectedHero);
+			Registry.player = level.player =  ActorFactory.newActor(ActorType.ARCHER);
 		} else {
 			level.player = Registry.player;
 		}
