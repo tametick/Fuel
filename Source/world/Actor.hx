@@ -96,9 +96,9 @@ class Actor {
 		Registry.level.removeEnemy(this);
 	}
 	
-	public function isOnGround() {
+	public function isOnGround(?dx:Int=0,?dy:Int=0) {
 		var l = Registry.level;
-		return tileY == l.height - 1  ||  l.get(tileX, tileY+1) != 0;
+		return tileY+dy == l.height - 1  ||  l.get(tileX+dx, tileY+dy+1) != 0;
 	}
 }
 

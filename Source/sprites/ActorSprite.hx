@@ -57,7 +57,7 @@ class ActorSprite extends FlxSprite {
 	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		if(owner.isOnGround())
+		if(owner.isOnGround(dx,dy))
 			play("run");
 		else
 			play("fly");
