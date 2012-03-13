@@ -29,6 +29,7 @@ class Library {
 enum Image {
 	CHARACTER;
 	FLOOR_WALKER;
+	LEVEL;
 	
 	INTERLACE_SMALL;
 	INTERLACE_BIG;

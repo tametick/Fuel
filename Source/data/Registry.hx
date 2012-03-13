@@ -16,8 +16,8 @@ class Registry {
 	
 	public static inline var screenWidth = 240;
 	public static inline var screenHeight = 160;
-	public static inline var levelWidth = 20;
-	public static inline var levelHeight = 40;
+	public static inline var levelWidth = 19;
+	public static inline var levelHeight = 19;
 	public static inline var tileSize = 13;
 	public static inline var fontSize = 32;
 
@@ -36,7 +36,7 @@ class Registry {
 	public static inline var particlesPerEmitter = 20;
 	public static inline var particlesMaxVelocity = new FlxPoint(25, 25);
 	
-	public static inline var explosionColor = 0xFFFFFF;
+	public static inline var explosionColor = 0x6c2d37;
 	public static inline var bloodColor = 0xFF0000;
 	
 	

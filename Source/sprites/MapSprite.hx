@@ -1,6 +1,7 @@
 package sprites;
 
 import com.eclecticdesignstudio.motion.Actuate;
+import data.Library;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxPath;
@@ -32,8 +33,8 @@ class MapSprite extends FlxTilemap {
 	public function new(owner:Level) {
 		super();
 		this.owner = owner;
-		
-		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), FlxTilemap.imgAuto, 0, 0, FlxTilemap.AUTO);
+		var tileGraphics = Library.getFilename(LEVEL);
+		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), tileGraphics, 13, 13, FlxTilemap.OFF);
 		updateTileSheet();
 	}
 		
