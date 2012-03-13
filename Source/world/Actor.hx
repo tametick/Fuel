@@ -95,12 +95,17 @@ class Actor {
 	public function kill() {
 		Registry.level.removeEnemy(this);
 	}
+	
+	public function isOnGround() {
+		var l = Registry.level;
+		return tileY == l.height - 1  ||  l.get(tileX, tileY+1) != 0;
+	}
 }
 
 enum ActorType {
 	// player classes
-	ARCHER;
+	SPACE_MINER;
 
 	// monsters
-	SPEAR_DUDE;
+	WALKER;
 }

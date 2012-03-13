@@ -54,9 +54,14 @@ class ActorSprite extends FlxSprite {
 		return owner.weapon.sprite;
 	}
 	
+	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		play("run");
+		if(owner.isOnGround())
+			play("run");
+		else
+			play("fly");
+			
 		var duration = 1 / (Registry.walkingSpeed);
 		var nextPixelX = Utils.getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
 		var nextPixelY = Utils.getPositionSnappedToGrid(this.y + dy * Registry.tileSize);
@@ -117,7 +122,11 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function stopped() {
-		play("idle");
+		if(owner.isOnGround())
+			play("idle");
+		else
+			play("fly");
+		
 		isMoving = false;
 		x = Utils.getPositionSnappedToGrid(x);
 		y = Utils.getPositionSnappedToGrid(y);

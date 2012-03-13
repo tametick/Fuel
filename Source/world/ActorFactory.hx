@@ -17,7 +17,7 @@ class ActorFactory {
 		var isImmovable = false;
 
 		switch (type) {
-			case ARCHER:
+			case SPACE_MINER:
 				a.isPlayer = true;
 				sheet = CHARACTER;
 				a.addPart(new StatsPart({
@@ -31,10 +31,11 @@ class ActorFactory {
 				a.sprite.addAnimation("idle", [0, 1], 1);
 				a.sprite.addAnimation("run", [2, 3], 10);
 				a.sprite.addAnimation("shoot", [4, 5], 10, false);
+				a.sprite.addAnimation("fly", [6, 7], 10);
 				a.weapon.sprite.setPreFireCallback( function(){a.sprite.play("shoot",true);} );
 
 			// monsters
-			case SPEAR_DUDE:
+			case WALKER:
 				sheet = FLOOR_WALKER;
 				a.addPart(new StatsPart({
 					maxHealth:1,
@@ -43,6 +44,7 @@ class ActorFactory {
 				a.addPart(new TriggerablePart(true));
 				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
 				a.sprite.addAnimation("idle", [0, 1], 1);
+				a.sprite.addAnimation("fly", [6, 7], 10);
 		}
 		a.sprite.play("idle");
 

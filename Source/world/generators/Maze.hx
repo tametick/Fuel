@@ -2,7 +2,7 @@ package world.generators;
 
 import flash.geom.Point;
 
-class MazeGenerator {
+class Maze {
 	static inline var NORTH = "N";
 	static inline var SOUTH = "S";
 	static inline var EAST = "E";
@@ -19,7 +19,7 @@ class MazeGenerator {
 		start = new Point(1, 1);
 	}
 
-	public function initMaze() : Void {
+	public function initMaze() {
 		maze = [];
 		var x : Int = 0;
 		while(x < width) {
@@ -34,7 +34,7 @@ class MazeGenerator {
 		maze[Std.int(start.x)][Std.int(start.y)] = false;
 	}
 
-	public function createMaze() : Void {
+	public function createMaze() {
 		var back : Int;
 		var move : Int;
 		var possibleDirections : String;
@@ -45,16 +45,16 @@ class MazeGenerator {
 		moves.push(posY + (posX * height));
 		while(moves.length>0) {
 			possibleDirections = "";
-			if((posX + 2 < width) && (maze[posX + 2][posY] == true) && (posX + 2 != 0) && (posX + 2 != width - 1))  {
+			if((posX + 2 < width) && maze[posX + 2][posY] && (posX + 2 != 0) && (posX + 2 != width - 1))  {
 				possibleDirections += SOUTH;
 			}
-			if((posX - 2 >= 0) && (maze[posX - 2][posY] == true) && (posX - 2 != 0) && (posX - 2 != width - 1))  {
+			if((posX - 2 >= 0) && maze[posX - 2][posY] && (posX - 2 != 0) && (posX - 2 != width - 1))  {
 				possibleDirections += NORTH;
 			}
-			if((posY - 2 >= 0) && (maze[posX][posY - 2] == true) && (posY - 2 != 0) && (posY - 2 != height - 1))  {
+			if((posY - 2 >= 0) && maze[posX][posY - 2] && (posY - 2 != 0) && (posY - 2 != height - 1))  {
 				possibleDirections += WEST;
 			}
-			if((posY + 2 < height) && (maze[posX][posY + 2] == true) && (posY + 2 != 0) && (posY + 2 != height - 1))  {
+			if((posY + 2 < height) && maze[posX][posY + 2] && (posY + 2 != 0) && (posY + 2 != height - 1))  {
 				possibleDirections += EAST;
 			}
 			if(possibleDirections.length > 0)  {

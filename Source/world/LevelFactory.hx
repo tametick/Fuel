@@ -18,7 +18,7 @@ class LevelFactory {
 		var level = new Level(index, tilesIndex);
 		
 		if (Registry.player == null) {
-			Registry.player = level.player =  ActorFactory.newActor(ActorType.ARCHER);
+			Registry.player = level.player =  ActorFactory.newActor(ActorType.SPACE_MINER);
 		} else {
 			level.player = Registry.player;
 		}
@@ -95,7 +95,7 @@ class LevelFactory {
 	
 	static function addEnemies(level:Level) {
 		for (e in 0...Registry.enemiesPerLevel) {
-			addEnemy(level, SPEAR_DUDE);
+			addEnemy(level, WALKER);
 		}
 	}
 }
