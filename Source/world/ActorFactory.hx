@@ -28,8 +28,10 @@ class ActorFactory {
 				a.addPart(WeaponFactory.newWeapon(a, LASER));
 				a.addPart(new TriggerablePart(true));
 				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
-				a.sprite.addAnimation("idle", [0, 1], 1, true);
-				a.sprite.addAnimation("run", [2, 3], 10, true);
+				a.sprite.addAnimation("idle", [0, 1], 1);
+				a.sprite.addAnimation("run", [2, 3], 10);
+				a.sprite.addAnimation("shoot", [4, 5], 10, false);
+				a.weapon.sprite.setPreFireCallback( function(){a.sprite.play("shoot",true);} );
 
 			// monsters
 			case SPEAR_DUDE:
@@ -40,7 +42,7 @@ class ActorFactory {
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
 				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
-				a.sprite.addAnimation("idle", [0, 1], 1, true);
+				a.sprite.addAnimation("idle", [0, 1], 1);
 		}
 		a.sprite.play("idle");
 
