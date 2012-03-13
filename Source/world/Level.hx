@@ -163,7 +163,10 @@ class Level {
 		mapSprite.setTile(Std.int(x), Std.int(y), val);
 	}
 	
-	function getActorAtPoint(x:Float, y:Float):Actor {
+	public function getActorAtPoint(x:Float, y:Float):Actor {
+		if (!inBounds(x, y))
+			return null;
+	
 		for (a in actors) {
 			if (Std.int(a.tileX) == Std.int(x) && Std.int(a.tileY) == Std.int(y)) {
 				return a;
@@ -215,6 +218,12 @@ class Level {
 			t.y++;
 		}
 		return t;
+	}
+	
+	public function passTurn() {
+		for (e in enemies) {
+			e.act();
+		}
 	}
 }
 

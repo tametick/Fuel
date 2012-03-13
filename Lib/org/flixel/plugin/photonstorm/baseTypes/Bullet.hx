@@ -1,17 +1,17 @@
 /**
  * Bullet
  * -- Part of the Flixel Power Tools set
- * 
+ *
  * v1.2 Removed "id" and used the FlxSprite ID value instead
  * v1.1 Updated to support fire callbacks, sounds, random variances and lifespan
  * v1.0 First release
- * 
+ *
  * @version 1.2 - October 10th 2011
  * @link http://www.photonstorm.com
  * @author Richard Davey / Photon Storm
 */
 
-package org.flixel.plugin.photonstorm.baseTypes; 
+package org.flixel.plugin.photonstorm.baseTypes;
 
 import nme.Lib;
 import org.flixel.FlxPoint;
@@ -57,7 +57,7 @@ class Bullet extends FlxSprite
 	
 	/**
 	 * Adds a new animation to the sprite.
-	 * 
+	 *
 	 * @param	Name		What this animation should be called (e.g. "run").
 	 * @param	Frames		An array of numbers indicating what frames to play in what order (e.g. 1, 2, 3).
 	 * @param	FrameRate	The speed in frames per second that the animation should play at (e.g. 40 fps).
@@ -239,5 +239,4 @@ class Bullet extends FlxSprite
 			kill();
 		}
 	}
-	
 }

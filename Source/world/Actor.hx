@@ -100,6 +100,14 @@ class Actor {
 		var l = Registry.level;
 		return tileY+dy == l.height - 1  ||  l.get(tileX+dx, tileY+dy+1) != 0;
 	}
+	
+	
+	public function act() {
+		// todo
+		if(!isOnGround()) {
+			sprite.fall();
+		}
+	}
 }
 
 enum ActorType {

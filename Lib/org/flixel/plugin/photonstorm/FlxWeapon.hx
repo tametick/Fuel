@@ -1,12 +1,12 @@
 /**
  * FlxWeapon
  * -- Part of the Flixel Power Tools set
- * 
+ *
  * v1.3 Added bullet elasticity and bulletsFired counter
  * v1.2 Added useParentDirection boolean
  * v1.1 Added pre-fire, fire and post-fire callbacks and sound support, rnd factors, boolean returns and currentBullet
  * v1.0 First release
- * 
+ *
  * @version 1.3 - October 9th 2011
  * @link http://www.photonstorm.com
  * @author Richard Davey / Photon Storm
@@ -28,10 +28,10 @@ import org.flixel.plugin.photonstorm.FlxVelocity;
 /**
  * A Weapon can only fire 1 type of bullet. But it can fire many of them at once (in different directions if needed) via createBulletPattern
  * A Player could fire multiple Weapons at the same time however, if you need to layer them up
- * 
+ *
  * TODO
  * ----
- * 
+ *
  * Angled bullets
  * Baked Rotation support for angled bullets
  * Bullet death styles (particle effects)
@@ -41,7 +41,7 @@ import org.flixel.plugin.photonstorm.FlxVelocity;
  * Some Weapon base classes like shotgun, lazer, etc?
  */
 
-class FlxWeapon 
+class FlxWeapon
 {
 	/**
 	 * Internal name for this weapon (i.e. "pulse rifle")
@@ -141,7 +141,7 @@ class FlxWeapon
 	 * Creates the FlxWeapon class which will fire your bullets.<br>
 	 * You should call one of the makeBullet functions to visually create the bullets.<br>
 	 * Then either use setDirection with fire() or one of the fireAt functions to launch them.
-	 * 
+	 *
 	 * @param	name		The name of your weapon (i.e. "lazer" or "shotgun"). For your internal reference really, but could be displayed in-game.
 	 * @param	parentRef	If this weapon belongs to a parent sprite, specify it here (bullets will fire from the sprites x/y vars as defined below).
 	 * @param	xVariable	The x axis variable of the parent to use when firing. Typically "x", but could be "screenX" or any public getter that exposes the x coordinate.
@@ -177,7 +177,7 @@ class FlxWeapon
 	
 	/**
 	 * Makes a pixel bullet sprite (rather than an image). You can set the width/height and color of the bullet.
-	 * 
+	 *
 	 * @param	quantity	How many bullets do you need to make? This value should be high enough to cover all bullets you need on-screen *at once* plus probably a few extra spare!
 	 * @param	width		The width (in pixels) of the bullets
 	 * @param	height		The height (in pixels) of the bullets
@@ -209,7 +209,7 @@ class FlxWeapon
 	
 	/**
 	 * Makes a bullet sprite from the given image. It will use the width/height of the image.
-	 * 
+	 *
 	 * @param	quantity		How many bullets do you need to make? This value should be high enough to cover all bullets you need on-screen *at once* plus probably a few extra spare!
 	 * @param	image			The image used to create the bullet from
 	 * @param	offsetX			When the bullet is fired if you need to offset it on the x axis, for example to line it up with the "nose" of a space ship, set the amount here (positive or negative)
@@ -252,7 +252,7 @@ class FlxWeapon
 	
 	/**
 	 * Makes an animated bullet from the image and frame data given.
-	 * 
+	 *
 	 * @param	quantity		How many bullets do you need to make? This value should be high enough to cover all bullets you need on-screen *at once* plus probably a few extra spare!
 	 * @param	imageSequence	The image used to created the animated bullet from
 	 * @param	frameWidth		The width of each frame in the animation
@@ -285,7 +285,7 @@ class FlxWeapon
 	
 	/**
 	 * Internal function that handles the actual firing of the bullets
-	 * 
+	 *
 	 * @param	method
 	 * @param	x
 	 * @param	y
@@ -387,7 +387,7 @@ class FlxWeapon
 	
 	/**
 	 * Fires a bullet (if one is available). The bullet will be given the velocity defined in setBulletDirection and fired at the rate set in setFireRate.
-	 * 
+	 *
 	 * @return	true if a bullet was fired or false if one wasn't available. A reference to the bullet fired is stored in FlxWeapon.currentBullet.
 	 */
 	public function fire():Bool
@@ -397,7 +397,7 @@ class FlxWeapon
 	
 	/**
 	 * Fires a bullet (if one is available) at the mouse coordinates, using the speed set in setBulletSpeed and the rate set in setFireRate.
-	 * 
+	 *
 	 * @return	true if a bullet was fired or false if one wasn't available. A reference to the bullet fired is stored in FlxWeapon.currentBullet.
 	 */
 	public function fireAtMouse():Bool
@@ -407,7 +407,7 @@ class FlxWeapon
 	
 	/**
 	 * Fires a bullet (if one is available) at the given x/y coordinates, using the speed set in setBulletSpeed and the rate set in setFireRate.
-	 * 
+	 *
 	 * @param	x	The x coordinate (in game world pixels) to fire at
 	 * @param	y	The y coordinate (in game world pixels) to fire at
 	 * @return	true if a bullet was fired or false if one wasn't available. A reference to the bullet fired is stored in FlxWeapon.currentBullet.
@@ -419,7 +419,7 @@ class FlxWeapon
 	
 	/**
 	 * Fires a bullet (if one is available) at the given targets x/y coordinates, using the speed set in setBulletSpeed and the rate set in setFireRate.
-	 * 
+	 *
 	 * @param	target	The FlxSprite you wish to fire the bullet at
 	 * @return	true if a bullet was fired or false if one wasn't available. A reference to the bullet fired is stored in FlxWeapon.currentBullet.
 	 */
@@ -430,7 +430,7 @@ class FlxWeapon
 	
 	/**
 	 * Fires a bullet (if one is available) based on the given angle
-	 * 
+	 *
 	 * @param	angle	The angle (in degrees) calculated in clockwise positive direction (down = 90 degrees positive, right = 0 degrees positive, up = 90 degrees negative)
 	 * @return	true if a bullet was fired or false if one wasn't available. A reference to the bullet fired is stored in FlxWeapon.currentBullet.
 	 */
@@ -441,7 +441,7 @@ class FlxWeapon
 	
 	/**
 	 * Fires a bullet (if one is available) based on the angle of the Weapons parent
-	 * 
+	 *
 	 * @return	true if a bullet was fired or false if one wasn't available. A reference to the bullet fired is stored in FlxWeapon.currentBullet.
 	 */
 	public function fireFromParentAngle():Bool
@@ -451,7 +451,7 @@ class FlxWeapon
 	
 	/**
 	 * Causes the Weapon to fire from the parents x/y value, as seen in Space Invaders and most shoot-em-ups.
-	 * 
+	 *
 	 * @param	parentRef		If this weapon belongs to a parent sprite, specify it here (bullets will fire from the sprites x/y vars as defined below).
 	 * @param	xVariable		The x axis variable of the parent to use when firing. Typically "x", but could be "screenX" or any public getter that exposes the x coordinate.
 	 * @param	yVariable		The y axis variable of the parent to use when firing. Typically "y", but could be "screenY" or any public getter that exposes the y coordinate.
@@ -480,7 +480,7 @@ class FlxWeapon
 	/**
 	 * Causes the Weapon to fire from a fixed x/y position on the screen, like in the game Missile Command.<br>
 	 * If set this over-rides a call to setParent (which causes the Weapon to fire from the parents x/y position)
-	 * 
+	 *
 	 * @param	x	The x coordinate (in game world pixels) to fire from
 	 * @param	y	The y coordinate (in game world pixels) to fire from
 	 * @param	offsetX		When the bullet is fired if you need to offset it on the x axis, for example to line it up with the "nose" of a space ship, set the amount here (positive or negative)
@@ -499,7 +499,7 @@ class FlxWeapon
 	/**
 	 * The speed in pixels/sec (sq) that the bullet travels at when fired via fireAtMouse, fireAtPosition or fireAtTarget.<br>
 	 * You can update this value in real-time, should you need to speed-up or slow-down your bullets (i.e. collecting a power-up)
-	 * 
+	 *
 	 * @param	speed		The speed it will move, in pixels per second (sq)
 	 */
 	public function setBulletSpeed(speed:Int):Void
@@ -509,7 +509,7 @@ class FlxWeapon
 	
 	/**
 	 * The speed in pixels/sec (sq) that the bullet travels at when fired via fireAtMouse, fireAtPosition or fireAtTarget.
-	 * 
+	 *
 	 * @return	The speed the bullet moves at, in pixels per second (sq)
 	 */
 	public function getBulletSpeed():Int
@@ -520,7 +520,7 @@ class FlxWeapon
 	/**
 	 * Sets the firing rate of the Weapon. By default there is no rate, as it can be controlled by FlxControl.setFireButton.<br>
 	 * However if you are firing using the mouse you may wish to set a firing rate.
-	 * 
+	 *
 	 * @param	rate	The delay in milliseconds (ms) between which each bullet is fired, set to zero to clear
 	 */
 	public function setFireRate(rate:Int):Void
@@ -531,7 +531,7 @@ class FlxWeapon
 	/**
 	 * When a bullet goes outside of this bounds it will be automatically killed, freeing it up for firing again.
 	 * TODO - Needs testing with a scrolling map (when not using single screen display)
-	 * 
+	 *
 	 * @param	bounds	An FlxRect area. Inside this area the bullet should be considered alive, once outside it will be killed.
 	 */
 	public function setBulletBounds(bounds:FlxRect):Void
@@ -543,7 +543,7 @@ class FlxWeapon
 	 * Set the direction the bullet will travel when fired.<br>
 	 * You can use one of the consts such as BULLET_UP, BULLET_DOWN or BULLET_NORTH_EAST to set the angle easily.<br>
 	 * Speed should be given in pixels/sec (sq) and is the speed at which the bullet travels when fired.
-	 * 
+	 *
 	 * @param	angle		The angle of the bullet. In clockwise positive direction: Right = 0, Down = 90, Left = 180, Up = -90. You can use one of the consts such as BULLET_UP, etc
 	 * @param	speed		The speed it will move, in pixels per second (sq)
 	 */
@@ -555,7 +555,7 @@ class FlxWeapon
 	/**
 	 * Sets gravity on all currently created bullets<br>
 	 * This will update ALL bullets, even those currently "in flight", so be careful about when you call this!
-	 * 
+	 *
 	 * @param	xForce	A positive value applies gravity dragging the bullet to the right. A negative value drags the bullet to the left. Zero disables horizontal gravity.
 	 * @param	yforce	A positive value applies gravity dragging the bullet down. A negative value drags the bullet up. Zero disables vertical gravity.
 	 */
@@ -569,7 +569,7 @@ class FlxWeapon
 	 * If you'd like your bullets to accelerate to their top speed rather than be launched already at it, then set the acceleration value here.<br>
 	 * If you've previously set the acceleration then setting it to zero will cancel the effect.<br>
 	 * This will update ALL bullets, even those currently "in flight", so be careful about when you call this!
-	 * 
+	 *
 	 * @param	xAcceleration		Acceleration speed in pixels per second to apply to the sprites horizontal movement, set to zero to cancel. Negative values move left, positive move right.
 	 * @param	yAcceleration		Acceleration speed in pixels per second to apply to the sprites vertical movement, set to zero to cancel. Negative values move up, positive move down.
 	 * @param	xSpeedMax			The maximum speed in pixels per second in which the sprite can move horizontally
@@ -595,7 +595,7 @@ class FlxWeapon
 	 * When the bullet is fired from a parent (or fixed position) it will do so from their x/y coordinate.<br>
 	 * Often you need to align a bullet with the sprite, i.e. to make it look like it came out of the "nose" of a space ship.<br>
 	 * Use this offset x/y value to achieve that effect.
-	 * 
+	 *
 	 * @param	offsetX		The x coordinate offset to add to the launch location (positive or negative)
 	 * @param	offsetY		The y coordinate offset to add to the launch location (positive or negative)
 	 */
@@ -607,7 +607,7 @@ class FlxWeapon
 	
 	/**
 	 * To make the bullet apply a random factor to either its angle, speed, or both when fired, set these values. Can create a nice "scatter gun" effect.
-	 * 
+	 *
 	 * @param	randomAngle		The +- value applied to the angle when fired. For example 20 means the bullet can fire up to 20 degrees under or over its angle when fired.
 	 * @param	randomSpeed		The +- value applied to the speed when fired. For example 20 means the bullet can fire up to 20 px/sec slower or faster when fired.
 	 */
@@ -627,7 +627,7 @@ class FlxWeapon
 	/**
 	 * If the bullet should have a fixed life span use this function to set it.<br>
 	 * The bullet will be killed once it passes this lifespan, if still alive and in bounds.
-	 * 
+	 *
 	 * @param	lifespan	The lifespan of the bullet, given in ms (milliseconds) calculated from the moment the bullet is fired
 	 */
 	public function setBulletLifeSpan(lifespan:Int):Void
@@ -637,7 +637,7 @@ class FlxWeapon
 	
 	/**
 	 * The elasticity of the fired bullet controls how much it rebounds off collision surfaces.
-	 * 
+	 *
 	 * @param	elasticity	The elasticity of the bullet between 0 and 1 (0 being no rebound, 1 being 100% force rebound). Set to zero to disable.
 	 */
 	public function setBulletElasticity(elasticity:Float):Void
@@ -647,7 +647,7 @@ class FlxWeapon
 	
 	/**
 	 * Internal function that returns the next available bullet from the pool (if any)
-	 * 
+	 *
 	 * @return	A bullet
 	 */
 	private function getFreeBullet():Bullet
@@ -676,7 +676,7 @@ class FlxWeapon
 	
 	/**
 	 * Sets a pre-fire callback function and sound. These are played immediately before the bullet is fired.
-	 * 
+	 *
 	 * @param	callback	The function to call
 	 * @param	sound		An FlxSound to play
 	 */
@@ -688,7 +688,7 @@ class FlxWeapon
 	
 	/**
 	 * Sets a fire callback function and sound. These are played immediately as the bullet is fired.
-	 * 
+	 *
 	 * @param	callback	The function to call
 	 * @param	sound		An FlxSound to play
 	 */
@@ -700,7 +700,7 @@ class FlxWeapon
 	
 	/**
 	 * Sets a post-fire callback function and sound. These are played immediately after the bullet is fired.
-	 * 
+	 *
 	 * @param	callback	The function to call
 	 * @param	sound		An FlxSound to play
 	 */
@@ -719,6 +719,7 @@ class FlxWeapon
 	
 	public function update():Void
 	{
+		group.update();
 		// ???
 	}
 	

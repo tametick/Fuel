@@ -131,6 +131,12 @@ class MapSprite extends FlxTilemap {
 		owner.set(tx, ty, 0);
 		owner.updateFov(Registry.player.tilePoint);
 		b.kill();
+		
+		if(shooter.owner==Registry.player) {
+			var fallingVictim = owner.getActorAtPoint(tx, ty - 1);
+			if (fallingVictim != null)
+				fallingVictim.sprite.fall();
+		}
 	}
 	
 	public function hitActor(a:ActorSprite, b:Bullet) {

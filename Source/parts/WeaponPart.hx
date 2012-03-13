@@ -1,6 +1,7 @@
 package parts;
 
 import data.Library;
+import data.Registry;
 import org.flixel.FlxG;
 import parts.Part;
 import sprites.WeaponSprite;
@@ -23,6 +24,7 @@ class WeaponPart extends Part{
 			actor.stats.gunCharge -= 0.1;
 			sprite.fire();
 			FlxG.play(Library.getSound(SHOT));
+			Registry.level.passTurn();
 		} else {
 			FlxG.play(Library.getSound(ERROR));
 		}

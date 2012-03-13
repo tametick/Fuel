@@ -103,6 +103,7 @@ class ActorSprite extends FlxSprite {
 		// update fov
 		if(owner.isPlayer) {
 			Registry.level.updateFov(new FlxPoint(nextTileX, nextTileY));
+			Registry.level.passTurn();
 		}
 	}
 			
@@ -114,6 +115,7 @@ class ActorSprite extends FlxSprite {
 		
 		if(owner.weapon!=null) {
 			owner.weapon.sprite.setBulletBounds(FlxG.worldBounds);
+			owner.weapon.sprite.update();
 		}
 		
 		if (owner == Registry.player) {
@@ -151,14 +153,9 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	function fall() {
+	public function fall() {
 		play("fall");
-		
-		if (Registry.player == owner) {
-			startMoving(0, 1);
-		} else {
-			// fall one tile?
-		}
+		startMoving(0, 1);
 	}
 	
 	public function stopped() {
@@ -170,7 +167,7 @@ class ActorSprite extends FlxSprite {
 				play("fly");
 				owner.stats.beltCharge-= 0.1;
 				isMoving = false;
-			} else {
+			} else if (Registry.player == owner) {
 				fall();
 			}
 		}
