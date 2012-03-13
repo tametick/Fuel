@@ -87,7 +87,7 @@ class ActorSprite extends FlxSprite {
 	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		if(owner.isOnGround(dx,dy))
+		if(owner.isOnGround(dx,dy) || owner.stats.beltCharge<=0)
 			play("run");
 		else
 			play("fly");
@@ -152,10 +152,16 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function stopped() {
-		if(owner.isOnGround())
+		if(owner.isOnGround()) {
 			play("idle");
-		else
-			play("fly");
+		} else {
+			if(owner.stats.beltCharge>0) {
+				play("fly");
+				owner.stats.beltCharge-= 0.1;
+			} else {
+				play("fall");
+			}
+		}
 		
 		isMoving = false;
 		x = Utils.getPositionSnappedToGrid(x);
