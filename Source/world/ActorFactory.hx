@@ -46,6 +46,7 @@ class ActorFactory {
 				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
 				a.sprite.addAnimation("idle", [0, 1], 1);
 				a.sprite.addAnimation("fly", [6, 7], 10);
+				a.sprite.addAnimation("fall", [8, 9], 10);
 		}
 		a.sprite.initBars();
 		a.sprite.play("idle");
