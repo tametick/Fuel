@@ -124,37 +124,37 @@ class ActorSprite extends FlxSprite {
 		}
 		
 		if (owner == Registry.player) {
-			
-			if(!isMoving) {
-				if (FlxG.keys.pressed(Registry.movementKeys[0])) {
-					faceRight();
-					if(Registry.level.isWalkable(owner.tileX+1,owner.tileY)) {
-						startMoving(1,0);
-					}
-				} else if (FlxG.keys.pressed(Registry.movementKeys[1])) {
-					faceLeft();
-					if(Registry.level.isWalkable(owner.tileX-1,owner.tileY)) {
-						startMoving(-1,0);
-					}
-				} else if (FlxG.keys.pressed(Registry.movementKeys[2])) {
-					faceDown();
-					if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)) {
-						startMoving(0,1);
-					}
-				} else if (FlxG.keys.pressed(Registry.movementKeys[3]) && owner.stats.beltCharge>0) {
-					faceUp();
-					if(Registry.level.isWalkable(owner.tileX,owner.tileY-1)) {
-						startMoving(0,-1);
-					}
+			actOnKeyboardInput();
+		}
+	}
+	
+	function actOnKeyboardInput() {
+		if(!isMoving) {
+			if (FlxG.keys.pressed(Registry.movementKeys[0])) {
+				faceRight();
+				if(Registry.level.isWalkable(owner.tileX+1,owner.tileY)) {
+					startMoving(1,0);
+				}
+			} else if (FlxG.keys.pressed(Registry.movementKeys[1])) {
+				faceLeft();
+				if(Registry.level.isWalkable(owner.tileX-1,owner.tileY)) {
+					startMoving(-1,0);
+				}
+			} else if (FlxG.keys.pressed(Registry.movementKeys[2])) {
+				faceDown();
+				if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)) {
+					startMoving(0,1);
+				}
+			} else if (FlxG.keys.pressed(Registry.movementKeys[3])) {
+				faceUp();
+				if(Registry.level.isWalkable(owner.tileX,owner.tileY-1) && owner.stats.beltCharge>0) {
+					startMoving(0,-1);
 				}
 			}
-			
-			if (FlxG.keys.justPressed(Registry.attackKey[0])) {
-				owner.weapon.fire();
-			}
-			
-		} else {
-			// enemy movement
+		}
+		
+		if (FlxG.keys.justPressed(Registry.attackKey[0])) {
+			owner.weapon.fire();
 		}
 	}
 	
