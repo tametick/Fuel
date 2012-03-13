@@ -24,6 +24,7 @@ class ActorSprite extends FlxSprite {
 	public var bloodEmitter:EmitterSprite;
 	
 	var isMoving:Bool;
+	var falling:Int;
 	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
 	public function new(owner:Actor, image:Image, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
@@ -87,9 +88,13 @@ class ActorSprite extends FlxSprite {
 	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		if(owner.isOnGround(dx,dy))
+		if(owner.isOnGround(dx,dy)) {
 			play("run");
-		else if(owner.stats.beltCharge>0)
+			if(falling>0) {
+				hurt(falling / 10);
+				falling = 0;
+			}
+		} else if(owner.stats.beltCharge>0)
 			play("fly");
 			
 		var duration = 1 / (Registry.walkingSpeed);
@@ -154,6 +159,7 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function fall() {
+		falling++;
 		play("fall");
 		startMoving(0, 1);
 	}
