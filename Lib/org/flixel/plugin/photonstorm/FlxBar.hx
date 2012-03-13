@@ -1,14 +1,14 @@
 /**
  * FlxBar
  * -- Part of the Flixel Power Tools set
- * 
+ *
  * v1.6 Lots of bug fixes, more documentation, 2 new test cases, ability to set currentValue added
  * v1.5 Fixed bug in "get percent" function that allows it to work with any value range
  * v1.4 Added support for min/max callbacks and "kill on min"
  * v1.3 Renamed from FlxHealthBar and made less specific / far more flexible
  * v1.2 Fixed colour values for fill and gradient to include alpha
  * v1.1 Updated for the Flixel 2.5 Plugin system
- * 
+ *
  * @version 1.6 - October 10th 2011
  * @link http://www.photonstorm.com
  * @author Richard Davey / Photon Storm
@@ -43,7 +43,8 @@ class FlxBar extends FlxSprite
 	#end
 	
 	private var parent:Dynamic;
-	private var parentVariable:String;
+	//private var parentVariable:String;
+	private var parentVariable:Dynamic;
 	
 	/**
 	 * fixedPosition controls if the FlxBar sprite is at a fixed location on screen, or tracking its parent
@@ -134,7 +135,7 @@ class FlxBar extends FlxSprite
 	
 	/**
 	 * Create a new FlxBar Object
-	 * 
+	 *
 	 * @param	x			The x coordinate location of the resulting bar (in world pixels)
 	 * @param	y			The y coordinate location of the resulting bar (in world pixels)
 	 * @param	direction 	One of the FlxBar.FILL_ constants (such as FILL_LEFT_TO_RIGHT, FILL_TOP_TO_BOTTOM etc)
@@ -147,9 +148,9 @@ class FlxBar extends FlxSprite
 	 * @param	border		Include a 1px border around the bar? (if true it adds +2 to width and height to accommodate it)
 	 */
 	#if flash
-	public function new(x:Int, y:Int, ?direction:UInt = FILL_LEFT_TO_RIGHT, ?width:Int = 100, ?height:Int = 10, ?parentRef:Dynamic = null, ?variable:String = "", ?min:Float = 0, ?max:Float = 100, ?border:Bool = false)
+	public function new(x:Int, y:Int, ?direction:UInt = FILL_LEFT_TO_RIGHT, ?width:Int = 100, ?height:Int = 10, ?parentRef:Dynamic = null, ?variable:Dynamic, ?min:Float = 0, ?max:Float = 100, ?border:Bool = false)
 	#else
-	public function new(x:Int, y:Int, ?direction:Int = FILL_LEFT_TO_RIGHT, ?width:Int = 100, ?height:Int = 10, ?parentRef:Dynamic = null, ?variable:String = "", ?min:Float = 0, ?max:Float = 100, ?border:Bool = false)
+	public function new(x:Int, y:Int, ?direction:Int = FILL_LEFT_TO_RIGHT, ?width:Int = 100, ?height:Int = 10, ?parentRef:Dynamic = null, ?variable:Dynamic, ?min:Float = 0, ?max:Float = 100, ?border:Bool = false)
 	#end
 	{
 		fixedPosition = true;
@@ -192,7 +193,7 @@ class FlxBar extends FlxSprite
 	 * Track the parent FlxSprites x/y coordinates. For example if you wanted your sprite to have a floating health-bar above their head.<br />
 	 * If your health bar is 10px tall and you wanted it to appear above your sprite, then set offsetY to be -10<br />
 	 * If you wanted it to appear below your sprite, and your sprite was 32px tall, then set offsetY to be 32. Same applies to offsetX.
-	 * 
+	 *
 	 * @param	offsetX		The offset on X in relation to the origin x/y of the parent
 	 * @param	offsetY		The offset on Y in relation to the origin x/y of the parent
 	 * @see		stopTrackingParent
@@ -212,14 +213,14 @@ class FlxBar extends FlxSprite
 	
 	/**
 	 * Sets a parent for this FlxBar. Instantly replaces any previously set parent and refreshes the bar.
-	 * 
+	 *
 	 * @param	parentRef	A reference to an object in your game that you wish the bar to track
 	 * @param	variable	The variable of the object that is used to determine the bar position. For example if the parent was an FlxSprite this could be "health" to track the health value
 	 * @param	track		If you wish the FlxBar to track the x/y coordinates of parent set to true (default false)
 	 * @param	offsetX		The offset on X in relation to the origin x/y of the parent
 	 * @param	offsetY		The offset on Y in relation to the origin x/y of the parent
 	 */
-	public function setParent(parentRef:Dynamic, variable:String, ?track:Bool = false, ?offsetX:Int = 0, ?offsetY:Int = 0):Void
+	public function setParent(parentRef:Dynamic, variable:Dynamic, ?track:Bool = false, ?offsetX:Int = 0, ?offsetY:Int = 0):Void
 	{
 		parent = parentRef;
 		parentVariable = variable;
@@ -235,7 +236,7 @@ class FlxBar extends FlxSprite
 	
 	/**
 	 * Tells the health bar to stop following the parent sprite. The given posX and posY values are where it will remain on-screen.
-	 * 
+	 *
 	 * @param	posX	X coordinate of the health bar now it's no longer tracking the parent sprite
 	 * @param	posY	Y coordinate of the health bar now it's no longer tracking the parent sprite
 	 */
@@ -251,7 +252,7 @@ class FlxBar extends FlxSprite
 	 * Sets callbacks which will be triggered when the value of this FlxBar reaches min or max.<br>
 	 * Functions will only be called once and not again until the value changes.<br>
 	 * Optionally the FlxBar can be killed if it reaches min, but if will fire the empty callback first (if set)
-	 * 
+	 *
 	 * @param	onEmpty			The function that is called if the value of this FlxBar reaches min
 	 * @param	onFilled		The function that is called if the value of this FlxBar reaches max
 	 * @param	killOnEmpty		If set it will call FlxBar.kill() if the value reaches min
@@ -292,7 +293,7 @@ class FlxBar extends FlxSprite
 	
 	/**
 	 * Set the minimum and maximum allowed values for the FlxBar
-	 * 
+	 *
 	 * @param	min			The minimum value. I.e. for a progress bar this would be zero (nothing loaded yet)
 	 * @param	max			The maximum value the bar can reach. I.e. for a progress bar this would typically be 100.
 	 */
@@ -361,7 +362,7 @@ class FlxBar extends FlxSprite
 	/**
 	 * Creates a solid-colour filled health bar in the given colours, with optional 1px thick border.<br />
 	 * All colour values are in 0xAARRGGBB format, so if you want a slightly transparent health bar give it lower AA values.
-	 * 
+	 *
 	 * @param	empty		The color of the bar when empty in 0xAARRGGBB format (the background colour)
 	 * @param	fill		The color of the bar when full in 0xAARRGGBB format (the foreground colour)
 	 * @param	showBorder	Should the bar be outlined with a 1px solid border?
@@ -396,7 +397,7 @@ class FlxBar extends FlxSprite
 	/**
 	 * Creates a gradient filled health bar using the given colour ranges, with optional 1px thick border.<br />
 	 * All colour values are in 0xAARRGGBB format, so if you want a slightly transparent health bar give it lower AA values.
-	 * 
+	 *
 	 * @param	empty		Array of colour values used to create the gradient of the health bar when empty, each colour must be in 0xAARRGGBB format (the background colour)
 	 * @param	fill		Array of colour values used to create the gradient of the health bar when full, each colour must be in 0xAARRGGBB format (the foreground colour)
 	 * @param	chunkSize	If you want a more old-skool looking chunky gradient, increase this value!
@@ -432,9 +433,9 @@ class FlxBar extends FlxSprite
 	
 	/**
 	 * Creates a health bar filled using the given bitmap images.<br />
-	 * You can provide "empty" (background) and "fill" (foreground) images. either one or both images (empty / fill), and use the optional empty/fill colour values 
+	 * You can provide "empty" (background) and "fill" (foreground) images. either one or both images (empty / fill), and use the optional empty/fill colour values
 	 * All colour values are in 0xAARRGGBB format, so if you want a slightly transparent health bar give it lower AA values.
-	 * 
+	 *
 	 * @param	empty				Bitmap image used as the background (empty part) of the health bar, if null the emptyBackground colour is used
 	 * @param	fill				Bitmap image used as the foreground (filled part) of the health bar, if null the fillBackground colour is used
 	 * @param	emptyBackground		If no background (empty) image is given, use this colour value instead. 0xAARRGGBB format
@@ -507,7 +508,7 @@ class FlxBar extends FlxSprite
 	
 	/**
 	 * Set the direction from which the health bar will fill-up. Default is from left to right. Change takes effect immediately.
-	 * 
+	 *
 	 * @param	direction 			One of the FlxBar.FILL_ constants (such as FILL_LEFT_TO_RIGHT, FILL_TOP_TO_BOTTOM etc)
 	 */
 	#if flash
@@ -530,7 +531,8 @@ class FlxBar extends FlxSprite
 	
 	private function updateValueFromParent():Void
 	{
-		updateValue(Reflect.field(parent, parentVariable));
+		//updateValue(Reflect.field(parent, parentVariable));
+		updateValue(Reflect.callMethod(parent, parentVariable, []));
 	}
 	
 	private function updateValue(newValue:Float):Void
@@ -630,7 +632,8 @@ class FlxBar extends FlxSprite
 	{
 		if (parent != null)
 		{
-			if (Reflect.field(parent, parentVariable) != value)
+			//if (Reflect.field(parent, parentVariable) != value)
+			if (Reflect.callMethod(parent, parentVariable,[]) != value)
 			{
 				updateValueFromParent();
 				updateBar();

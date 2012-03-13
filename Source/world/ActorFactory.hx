@@ -21,9 +21,9 @@ class ActorFactory {
 				a.isPlayer = true;
 				sheet = CHARACTER;
 				a.addPart(new StatsPart({
-					maxHealth:1,
-					maxGun:1,
-					maxBelt:1
+					maxSuitCharge:1,
+					maxGunCharge:1,
+					maxBeltCharge:1
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, LASER));
 				a.addPart(new TriggerablePart(true));
@@ -33,12 +33,13 @@ class ActorFactory {
 				a.sprite.addAnimation("shoot", [4, 5], 10, false);
 				a.sprite.addAnimation("fly", [6, 7], 10);
 				a.weapon.sprite.setPreFireCallback( function() { a.sprite.play("shoot", true); } );
+				a.sprite.initBars();
 
 			// monsters
 			case WALKER:
 				sheet = FLOOR_WALKER;
 				a.addPart(new StatsPart({
-					maxHealth:1,
+					maxSuitCharge:1,
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
@@ -47,16 +48,15 @@ class ActorFactory {
 				a.sprite.addAnimation("fly", [6, 7], 10);
 		}
 		a.sprite.play("idle");
-
 		
 		if(a.weapon!=null) {
 			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
 		}
 
 		if(a.stats != null) {
-			a.stats.health = a.stats.maxHealth;
-			a.stats.gun= a.stats.maxGun;
-			a.stats.belt = a.stats.maxBelt;
+			a.stats.suitCharge = a.stats.maxSuitCharge;
+			a.stats.gunCharge= a.stats.maxGunCharge;
+			a.stats.beltCharge = a.stats.maxBeltCharge;
 		}
 
 		return a;

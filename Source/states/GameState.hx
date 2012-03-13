@@ -81,7 +81,9 @@ class GameState extends FlxState {
 		}
 		
 		for (mob in level.mobs) {
-			add(mob.sprite.healthBar);
+			add(mob.sprite.suitBar);
+			add(mob.sprite.beltBar);
+			add(mob.sprite.gunBar);
 		}
 	}
 	

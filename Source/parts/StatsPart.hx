@@ -4,14 +4,14 @@ import world.Actor;
 
 class StatsPart extends Part {
 	// base stats
-	public var maxHealth:Float;
-	public var maxGun:Float;
-	public var maxBelt:Float;
+	public var maxSuitCharge:Float;
+	public var maxGunCharge:Float;
+	public var maxBeltCharge:Float;
 	
 	// energy stats
-	public var health(getHealth, setHealth):Float;
-	public var gun:Float;
-	public var belt:Float;
+	public var suitCharge(getSuitCharge, setSuitCharge):Float;
+	public var gunCharge:Float;
+	public var beltCharge:Float;
 
 	// derived stats
 	public var damage(getDamage, never):Float;
@@ -20,10 +20,10 @@ class StatsPart extends Part {
 		return actor.weapon.damage;
 	}
 
-	function setHealth(h:Float):Float {
+	function setSuitCharge(h:Float):Float {
 		return actor.sprite.health = h;
 	}
-	function getHealth():Float {
+	function getSuitCharge():Float {
 		return actor.sprite.health;
 	}
 

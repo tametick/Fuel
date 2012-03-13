@@ -176,8 +176,12 @@ class Level {
 		return get(p.x, p.y) != 0;
 	}
 	
+	function inBounds(x:Float , y:Float):Bool {
+		return  !(x < 0 || y < 0 || x >= width || y >= height);
+	}
+	
 	public function isWalkable(x:Float , y:Float):Bool {
-		if (x < 0 || y < 0 || x >= width || y >= height)
+		if (!inBounds(x,y))
 			return false;
 	
 		var a = getActorAtPoint(x, y);
@@ -194,6 +198,23 @@ class Level {
 		} while (getActorAtPoint(ex, ey)!=null || !isWalkable(ex, ey));
 		
 		return p;
+	}
+	
+	public function getFreeTileOnGround():FlxPoint {
+		var t:FlxPoint = null;
+		
+		do{
+			t = goDownTillGround(getFreeTile());
+		} while (getActorAtPoint(t.x, t.y)!=null /*&& nospikes*/);
+		
+		return t;
+	}
+	
+	function goDownTillGround(t:FlxPoint):FlxPoint {
+		while(inBounds(t.x,t.y+1) && get(t.x, t.y + 1)==0) {
+			t.y++;
+		}
+		return t;
 	}
 }
 

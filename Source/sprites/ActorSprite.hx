@@ -17,7 +17,9 @@ class ActorSprite extends FlxSprite {
 	public var owner:Actor;
 	public var direction:Direction;
 	
-	public var healthBar:FlxBar;
+	public var suitBar:FlxBar;
+	public var beltBar:FlxBar;
+	public var gunBar:FlxBar;
 	public var explosionEmitter:EmitterSprite;
 	public var bloodEmitter:EmitterSprite;
 	
@@ -34,20 +36,48 @@ class ActorSprite extends FlxSprite {
 		if (isImmovable) {
 			immovable = true;
 		}
+				
+		faceRight();
 		
 		if (owner.stats != null) {
 			explosionEmitter = new EmitterSprite(Registry.explosionColor);
 			bloodEmitter = new EmitterSprite(Registry.bloodColor);
-
-			healthBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Registry.tileSize-1, 1, this, "health");
-			healthBar.trackParent(0, Registry.tileSize-1);
-			healthBar.setRange(0, owner.stats.maxHealth);
-			healthBar.killOnEmpty = true;
-			healthBar.updateTileSheet();
-			healthBar.alpha = 0.5;
+		}
+	}
+	
+	public function getSuitCharge():Float { return owner.stats.suitCharge; }
+	public function getBeltCharge():Float { return owner.stats.beltCharge; }
+	public function getGunCharge():Float { return owner.stats.gunCharge; }
+	
+	
+	public function initBars() {
+		if (owner.stats.maxSuitCharge > 0) {
+			suitBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Registry.tileSize-1, 1, this, getSuitCharge);
+			suitBar.createFilledBar(0xff005100, 0xff00F400);
+			suitBar.trackParent(0, Registry.tileSize-1);
+			suitBar.setRange(0, owner.stats.maxSuitCharge);
+			suitBar.killOnEmpty = true;
+			suitBar.updateTileSheet();
+			suitBar.alpha = 0.5;
 		}
 		
-		faceRight();
+		if (owner.stats.maxBeltCharge> 0) {
+			beltBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Registry.tileSize-1, 1, this, getBeltCharge);
+			beltBar.createFilledBar(0xff000051, 0xff0000F4);
+			beltBar.trackParent(0, Registry.tileSize-2);
+			beltBar.setRange(0, owner.stats.maxBeltCharge);
+			beltBar.updateTileSheet();
+			beltBar.alpha = 0.5;
+		}
+		
+		if (owner.stats.maxGunCharge > 0) {
+			gunBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Registry.tileSize-1, 1, this, getGunCharge);
+			gunBar.createFilledBar(0xff510000, 0xffF40000);
+			gunBar.trackParent(0, Registry.tileSize-3);
+			gunBar.setRange(0, owner.stats.maxGunCharge);
+			gunBar.updateTileSheet();
+			gunBar.alpha = 0.5;
+		}
 	}
 
 	function getWeaponSprite():WeaponSprite {

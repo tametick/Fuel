@@ -43,7 +43,7 @@ class LevelFactory {
 	}
 	
 	static function addEnemy(level:Level, type:ActorType) {
-		var freeTile = level.getFreeTile();
+		var freeTile = level.getFreeTileOnGround();
 		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
 	}
 		
