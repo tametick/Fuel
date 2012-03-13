@@ -21,6 +21,7 @@ class WeaponPart extends Part{
 	public function fire() {
 		if(actor.isOnGround()) {
 			sprite.fire();
+			FlxG.play(Library.getSound(SHOT));
 		} else {
 			FlxG.play(Library.getSound(ERROR));
 		}

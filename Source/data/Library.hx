@@ -54,4 +54,5 @@ enum Image {
 
 enum Sound {
 	ERROR;
+	SHOT;
 }
