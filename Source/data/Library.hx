@@ -27,8 +27,8 @@ class Library {
 }
 
 enum Image {
-	HEROES;
-	HUMANS;
+	CHARACTER;
+	FLOOR_WALKER;
 	
 	INTERLACE_SMALL;
 	INTERLACE_BIG;

@@ -33,5 +33,5 @@ class WeaponPart extends Part{
 
 enum WeaponType {
 	UNARMED;
-	BOW;
+	LASER;
 }

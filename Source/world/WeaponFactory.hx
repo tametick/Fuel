@@ -14,7 +14,7 @@ class WeaponFactory {
 			case UNARMED:
 				w.range = Registry.rangeShort;
 				w.damage = 1;
-			case BOW:
+			case LASER:
 				w.range = Registry.rangeLong;
 				w.damage = 1;
 		}

@@ -24,13 +24,12 @@ class ActorSprite extends FlxSprite {
 	var isMoving:Bool;
 	var weaponSprite(getWeaponSprite, null):WeaponSprite;
 
-	public function new(owner:Actor, image:Image, spriteIndex:Int, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
+	public function new(owner:Actor, image:Image, ?x:Float = 0, ?y:Float = 0, ?isImmovable:Bool = false) {
 		super(x, y);
 
 		this.owner = owner;
 		loadGraphic(Library.getFilename(image), true, true, Registry.tileSize, Registry.tileSize);
 		updateTileSheet();
-		frame = spriteIndex;
 
 		if (isImmovable) {
 			immovable = true;

@@ -13,35 +13,37 @@ import world.Actor;
 class ActorFactory {
 	public static function newActor(type:ActorType, ?x:Float=1, ?y:Float=1):Actor {
 		var a = new Actor(type);
-		var index;
 		var sheet:Image;
 		var isImmovable = false;
 
 		switch (type) {
 			case ARCHER:
 				a.isPlayer = true;
-				sheet = HEROES;
-				index = 1;
+				sheet = CHARACTER;
 				a.addPart(new StatsPart({
 					maxHealth:1,
 					maxGun:1,
 					maxBelt:1
 				}));
-				a.addPart(WeaponFactory.newWeapon(a, BOW));
+				a.addPart(WeaponFactory.newWeapon(a, LASER));
 				a.addPart(new TriggerablePart(true));
+				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
+				a.sprite.addAnimation("idle", [0, 1], 1, true);
 
 			// monsters
 			case SPEAR_DUDE:
-				sheet = HUMANS;
-				index = 1;
+				sheet = FLOOR_WALKER;
 				a.addPart(new StatsPart({
 					maxHealth:1,
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
+				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
+				a.sprite.addAnimation("idle", [0, 1], 1, true);
 		}
+		a.sprite.play("idle");
 
-		a.sprite = new ActorSprite(a, sheet, index, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
+		
 		if(a.weapon!=null) {
 			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
 		}
