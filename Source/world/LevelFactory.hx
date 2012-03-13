@@ -26,11 +26,11 @@ class LevelFactory {
 		level.init();
 		
 		setStart(level);
-		level.player.tileX = level.start.x;
+		level.player.tileX = level.start.x-1;
 		level.player.tileY = level.start.y;
 		//level.finish = new FlxPoint(level.width - 2, getExitY(level));
 		
-		// exit must be added before we add lever.
+
 		//addExit(level);
 		
 		addEntryDoor(level);
@@ -55,19 +55,21 @@ class LevelFactory {
 	}
 	
 	static private function setStart(level:Level) {
-		var startY=1;
+		var startY = 1;
+		var startX =1;
 		for (x in 1...level.width - 1) {
+			startX = x;
 			var attempts = 0;
 			do {
 				startY = Utils.randomIntInRange(x, level.height - 2);
 				attempts++;
 			} while (level.get(x, startY) == 1 && attempts < 10);
-
+			
 			// found a valid start point!
 			if(level.get(x, startY) == 0)
 				break;
 		}
-		level.start = new FlxPoint(1, startY);
+		level.start = new FlxPoint(startX, startY);
 		
 	}
 	

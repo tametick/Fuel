@@ -32,7 +32,7 @@ class ActorFactory {
 				a.sprite.addAnimation("run", [2, 3], 10);
 				a.sprite.addAnimation("shoot", [4, 5], 10, false);
 				a.sprite.addAnimation("fly", [6, 7], 10);
-				a.weapon.sprite.setPreFireCallback( function(){a.sprite.play("shoot",true);} );
+				a.weapon.sprite.setPreFireCallback( function() { a.sprite.play("shoot", true); } );
 
 			// monsters
 			case WALKER:

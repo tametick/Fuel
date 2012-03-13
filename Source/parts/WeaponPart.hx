@@ -1,5 +1,7 @@
 package parts;
 
+import data.Library;
+import org.flixel.FlxG;
 import parts.Part;
 import sprites.WeaponSprite;
 import world.Actor;
@@ -17,7 +19,11 @@ class WeaponPart extends Part{
 	}
 	
 	public function fire() {
-		sprite.fire();
+		if(actor.isOnGround()) {
+			sprite.fire();
+		} else {
+			FlxG.play(Library.getSound(ERROR));
+		}
 	}
 	
 	public function hit(victim:Actor) {
