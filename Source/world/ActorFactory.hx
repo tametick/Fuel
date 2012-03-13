@@ -33,7 +33,6 @@ class ActorFactory {
 				a.sprite.addAnimation("shoot", [4, 5], 10, false);
 				a.sprite.addAnimation("fly", [6, 7], 10);
 				a.weapon.sprite.setPreFireCallback( function() { a.sprite.play("shoot", true); } );
-				a.sprite.initBars();
 
 			// monsters
 			case WALKER:
@@ -47,6 +46,7 @@ class ActorFactory {
 				a.sprite.addAnimation("idle", [0, 1], 1);
 				a.sprite.addAnimation("fly", [6, 7], 10);
 		}
+		a.sprite.initBars();
 		a.sprite.play("idle");
 		
 		if(a.weapon!=null) {

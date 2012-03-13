@@ -19,7 +19,8 @@ class WeaponPart extends Part{
 	}
 	
 	public function fire() {
-		if(actor.isOnGround()) {
+		if (actor.isOnGround() && actor.stats.gunCharge > 0) {
+			actor.stats.gunCharge -= 0.1;
 			sprite.fire();
 			FlxG.play(Library.getSound(SHOT));
 		} else {
