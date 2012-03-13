@@ -87,9 +87,9 @@ class ActorSprite extends FlxSprite {
 	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		if(owner.isOnGround(dx,dy) || owner.stats.beltCharge<=0)
+		if(owner.isOnGround(dx,dy))
 			play("run");
-		else
+		else if(owner.stats.beltCharge>0)
 			play("fly");
 			
 		var duration = 1 / (Registry.walkingSpeed);
@@ -134,7 +134,7 @@ class ActorSprite extends FlxSprite {
 					if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)) {
 						startMoving(0,1);
 					}
-				} else if (FlxG.keys.pressed(Registry.movementKeys[3])) {
+				} else if (FlxG.keys.pressed(Registry.movementKeys[3]) && owner.stats.beltCharge>0) {
 					faceUp();
 					if(Registry.level.isWalkable(owner.tileX,owner.tileY-1)) {
 						startMoving(0,-1);
@@ -151,19 +151,30 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
+	function fall() {
+		play("fall");
+		
+		if (Registry.player == owner) {
+			startMoving(0, 1);
+		} else {
+			// fall one tile?
+		}
+	}
+	
 	public function stopped() {
 		if(owner.isOnGround()) {
 			play("idle");
+			isMoving = false;
 		} else {
 			if(owner.stats.beltCharge>0) {
 				play("fly");
 				owner.stats.beltCharge-= 0.1;
+				isMoving = false;
 			} else {
-				play("fall");
+				fall();
 			}
 		}
 		
-		isMoving = false;
 		x = Utils.getPositionSnappedToGrid(x);
 		y = Utils.getPositionSnappedToGrid(y);
 		
