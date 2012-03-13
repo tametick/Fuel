@@ -29,6 +29,7 @@ class ActorFactory {
 				a.addPart(new TriggerablePart(true));
 				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
 				a.sprite.addAnimation("idle", [0, 1], 1, true);
+				a.sprite.addAnimation("run", [2, 3], 10, true);
 
 			// monsters
 			case SPEAR_DUDE:
