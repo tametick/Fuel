@@ -37,7 +37,9 @@ class WeaponPart extends Part{
 
 		// the hurt function kills the sprite if needed
 		victim.sprite.hurt(actor.stats.damage);
-		if (victimStats.suitCharge <= 0) {
+		
+		// todo - trigger mechanism
+		if (victimStats==null || victimStats.suitCharge <= 0) {
 			victim.kill();
 		}
 	}

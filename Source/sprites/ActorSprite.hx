@@ -43,6 +43,9 @@ class ActorSprite extends FlxSprite {
 		if (owner.stats != null) {
 			explosionEmitter = new EmitterSprite(Registry.explosionColor);
 			bloodEmitter = new EmitterSprite(Registry.bloodColor);
+		} else {
+			// todo - wall color
+			bloodEmitter = new EmitterSprite(0x6c2d37);
 		}
 	}
 	
@@ -171,7 +174,9 @@ class ActorSprite extends FlxSprite {
 		} else {
 			if(owner.stats.beltCharge>0) {
 				play("fly");
-				owner.stats.beltCharge-= 0.1;
+				if(!Registry.debug) {
+					owner.stats.beltCharge-= 0.1;
+				}
 				isMoving = false;
 			} else if (Registry.player == owner) {
 				fall();

@@ -203,19 +203,28 @@ class Level {
 		return p;
 	}
 	
-	public function getFreeTileOnGround():FlxPoint {
+	/** isOnFloor determines if it's on the floor or on the ceiling  */
+	public function getFreeTileOnWall(?isOnFloor:Bool= true):FlxPoint {
 		var t:FlxPoint = null;
-		
-		do{
-			t = goDownTillGround(getFreeTile());
+		do {
+			if(isOnFloor) {
+				t = goDownTillFloor(getFreeTile());
+			} else {
+				t = goUpTillCeiling(getFreeTile());
+			}
 		} while (getActorAtPoint(t.x, t.y)!=null /*&& nospikes*/);
-		
 		return t;
 	}
 	
-	function goDownTillGround(t:FlxPoint):FlxPoint {
+	function goDownTillFloor(t:FlxPoint):FlxPoint {
 		while(inBounds(t.x,t.y+1) && get(t.x, t.y + 1)==0) {
 			t.y++;
+		}
+		return t;
+	}
+	function goUpTillCeiling(t:FlxPoint):FlxPoint {
+		while(inBounds(t.x,t.y-1) && get(t.x, t.y-1)==0) {
+			t.y--;
 		}
 		return t;
 	}

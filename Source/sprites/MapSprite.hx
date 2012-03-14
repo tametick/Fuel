@@ -36,8 +36,6 @@ class MapSprite extends FlxTilemap {
 		var tileGraphics = Library.getFilename(LEVEL);
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), tileGraphics, 13, 13, FlxTilemap.AUTO);
 		updateTileSheet();
-
-		setColor(0x6c2d37);
 	}
 		
 	public function drawFov(lightMap:Array<Float>) {
@@ -128,8 +126,13 @@ class MapSprite extends FlxTilemap {
 		
 		if(shooter.owner==Registry.player) {
 			var fallingVictim = owner.getActorAtPoint(tx, ty - 1);
-			if (fallingVictim != null)
-				fallingVictim.sprite.fall();
+			
+			if (fallingVictim == null || fallingVictim.stats == null) {
+				trace("!!!!");
+				return;
+			}
+			
+			fallingVictim.sprite.fall();
 		}
 	}
 	

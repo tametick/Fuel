@@ -1,5 +1,6 @@
 package world;
 
+import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import sprites.ActorSprite;
 import data.Registry;
@@ -93,7 +94,12 @@ class Actor {
 	}
 
 	public function kill() {
-		Registry.level.removeEnemy(this);
+		if (this == Registry.player) {
+			// todo - high score screen
+			FlxG.reset();
+		} else {
+			Registry.level.removeEnemy(this);
+		}
 	}
 	
 	public function isOnGround(?dx:Int=0,?dy:Int=0) {
@@ -103,6 +109,9 @@ class Actor {
 	
 	
 	public function act() {
+		if (stats == null)
+			return;
+	
 		// todo
 		if(!isOnGround()) {
 			sprite.fall();
@@ -116,4 +125,8 @@ enum ActorType {
 
 	// monsters
 	WALKER;
+	
+	// map features
+	CEILING_SPIKE;
+	FLOOR_SPIKE;
 }

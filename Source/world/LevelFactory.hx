@@ -24,6 +24,7 @@ class LevelFactory {
 		}
 		
 		level.init();
+		level.mapSprite.setColor(0x6c2d37);
 		
 		setStart(level);
 		level.player.tileX = level.start.x-1;
@@ -35,6 +36,7 @@ class LevelFactory {
 		
 		addEntryDoor(level);
 		addEnemies(level);
+		addSpikes(level);
 		
 		// add all actor sprites to map
 		level.mapSprite.addAllActors();
@@ -43,7 +45,13 @@ class LevelFactory {
 	}
 	
 	static function addEnemy(level:Level, type:ActorType) {
-		var freeTile = level.getFreeTileOnGround();
+		var freeTile = level.getFreeTileOnWall(true);
+		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
+	}
+	
+	static function addSpike(level:Level, isFloor:Bool) {
+		var freeTile = level.getFreeTileOnWall(isFloor);
+		var type = isFloor?FLOOR_SPIKE:CEILING_SPIKE;
 		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
 	}
 		
@@ -98,6 +106,11 @@ class LevelFactory {
 	static function addEnemies(level:Level) {
 		for (e in 0...Registry.enemiesPerLevel) {
 			addEnemy(level, WALKER);
+		}
+	}
+	static function addSpikes(level:Level) {
+		for (s in 0...Registry.spikesPerLevel) {
+			addSpike(level, Math.random()<0.5);
 		}
 	}
 }

@@ -13,6 +13,7 @@ class DoorTriggerablePart extends TriggerablePart {
 		this.openIndex = openIndex;
 	}
 
+	// opening an closing
 	public override function onMechanism(source:Actor, agent:Actor) {
 		var spriteIndex:Int;
 		if (isBlocking) {

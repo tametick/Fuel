@@ -12,6 +12,7 @@ class Registry {
 	public static inline var attackKey = ["CONTROL"];
 	
 	public static inline var enemiesPerLevel = 10;
+	public static inline var spikesPerLevel = 20;
 	
 	public static inline var screenWidth = 240;
 	public static inline var screenHeight = 160;
