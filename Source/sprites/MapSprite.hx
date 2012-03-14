@@ -97,19 +97,8 @@ class MapSprite extends FlxTilemap {
 	override public function update() {
 		super.update();
 		
+		FlxG.collide(mobSprites, bulletSprites, hitActor);
 		FlxG.collide(this, bulletSprites, hitWall);
-		FlxG.collide(mobSprites, mobSprites);
-				
-		for (actor in mobSprites.members) {
-			if (actor == null)
-				continue;
-			
-			var a = cast(actor, ActorSprite);
-  			var w = a.owner.weapon.sprite;
-			if (w != null) {
-				FlxG.overlap(mobSprites, w.group, hitActor);
-			}
-		}
 	}
 	
 	public function hitWall(m:MapSprite, b:Bullet) {
@@ -117,13 +106,16 @@ class MapSprite extends FlxTilemap {
 		var e = shooter.explosionEmitter;
 		e.explode(b.x, b.y);
 		
-		var tx = Utils.pixelToTile(b.x);
-		var ty = Utils.pixelToTile(b.y);
+		var tx = b.x / Registry.tileSize;
+		var ty = b.y / Registry.tileSize;
+		
 		switch (shooter.direction) {
 			case N:
 				ty--;
 			case E:
+				tx++;
 			case S:
+				ty++;
 			case W:
 				tx--;
 		}

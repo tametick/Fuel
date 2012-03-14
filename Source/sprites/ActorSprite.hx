@@ -182,6 +182,7 @@ class ActorSprite extends FlxSprite {
 		y = Utils.getPositionSnappedToGrid(y);
 		
 		var mapSprite = Registry.level.mapSprite;
+		
 		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
 	}
 	
