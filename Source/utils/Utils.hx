@@ -134,4 +134,11 @@ class Utils {
 	public static inline function pixelToTile(p:Float):Int {
 		return Math.round(p / Registry.tileSize);
 	}
+	
+	public static function range(a:Int, b:Int):Array<Int> {
+		var arr = [];
+		for (n in a...b)
+			arr.push(n);
+		return arr;
+	}
 }

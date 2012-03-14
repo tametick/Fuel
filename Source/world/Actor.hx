@@ -129,4 +129,7 @@ enum ActorType {
 	// map features
 	CEILING_SPIKE;
 	FLOOR_SPIKE;
+	MINERAL;
+	ICE;
+	MONOPOLE;
 }

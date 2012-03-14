@@ -37,6 +37,8 @@ class LevelFactory {
 		addEntryDoor(level);
 		addEnemies(level);
 		addSpikes(level);
+		addMineralNodes(level);
+		addMonopole(level);
 		
 		// add all actor sprites to map
 		level.mapSprite.addAllActors();
@@ -53,6 +55,16 @@ class LevelFactory {
 		var freeTile = level.getFreeTileOnWall(isFloor);
 		var type = isFloor?FLOOR_SPIKE:CEILING_SPIKE;
 		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
+	}
+	
+	static function addMineralNode(level:Level) {
+		var freeTile = level.getFreeTileOnWall(true);
+		level.enemies.push(ActorFactory.newActor(MINERAL, freeTile.x, freeTile.y));
+	}
+	
+	static function addMonopole(level:Level) {
+		var freeTile = level.getFreeTileOnWall(true);
+		level.items.push(ActorFactory.newActor(MONOPOLE, freeTile.x, freeTile.y));
 	}
 		
 	static private function addExit(level:Level) {
@@ -111,6 +123,16 @@ class LevelFactory {
 	static function addSpikes(level:Level) {
 		for (s in 0...Registry.spikesPerLevel) {
 			addSpike(level, Math.random()<0.5);
+		}
+	}
+	static function addMineralNodes(level:Level) {
+		for (s in 0...Registry.mineralNodesPerLevel) {
+			addMineralNode(level);
+		}
+	}
+	static function addMonopoles(level:Level) {
+		if(Math.random()<Registry.monopoleChancePerLevel){
+			addMonopole(level);
 		}
 	}
 }

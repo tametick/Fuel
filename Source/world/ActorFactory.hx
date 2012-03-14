@@ -1,5 +1,7 @@
 package world;
 
+import parts.CollectibleTriggerablePart;
+import parts.MineralNodeTriggerablePart;
 import parts.SpikeTriggerablePart;
 import sprites.ActorSprite;
 import data.Registry;
@@ -8,6 +10,7 @@ import parts.DoorTriggerablePart;
 import parts.StatsPart;
 import parts.TriggerablePart;
 import parts.WeaponPart;
+import utils.Utils;
 import world.Actor;
 
 
@@ -66,6 +69,24 @@ class ActorFactory {
 				a.sprite.addAnimation("idle", [3]);
 				a.sprite.setColor(Registry.floorColor);
 				
+			case MINERAL:
+				a.addPart(new MineralNodeTriggerablePart());
+				a.sprite = newSprite(a, MINERAL_NODES, x, y);
+				var n = Utils.randomInt(4)*41;
+				a.sprite.addAnimation("idle", Utils.range(0+n,41+n),20);
+				a.sprite.setColor(Registry.iceColor);
+				
+			case MONOPOLE:
+				a.addPart(new CollectibleTriggerablePart());
+				a.sprite = newSprite(a, MONOPOLE_PARTICLE, x, y);
+				a.sprite.addAnimation("idle", Utils.range(0,10),20);
+				a.sprite.setColor(Registry.monopoleColor);
+				
+			case ICE:
+				a.addPart(new CollectibleTriggerablePart());
+				a.sprite = newSprite(a, ICE_CRYSTAL, x, y);
+				a.sprite.addAnimation("idle", Utils.range(0,41),20);
+				a.sprite.setColor(Registry.iceColor);
 		}
 		if(a.stats!=null) {
 			a.sprite.initBars();
