@@ -46,13 +46,9 @@ class ActorFactory {
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
-				//sheet = FLOOR_WALKER;
-				a.sprite = newSprite(a,CHARACTER,x,y);
-				a.sprite.addAnimation("idle", [0, 1], 1);
-				a.sprite.addAnimation("run", [2, 3], 10);
-				a.sprite.addAnimation("shoot", [8, 9], 10, false);
-				a.sprite.addAnimation("fly", [12, 13], 10);
-				a.sprite.addAnimation("fall", [14, 15], 10);
+				a.sprite = newSprite(a,FLOOR_WALKER,x,y);
+				a.sprite.addAnimation("idle", [0, 1,2], 10);
+				a.sprite.addAnimation("run", [2, 3, 4], 10);
 				a.sprite.setColor(Registry.walkerColor);
 				
 				

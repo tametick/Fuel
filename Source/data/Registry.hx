@@ -42,7 +42,7 @@ class Registry {
 	public static inline var bloodColor = 0xFF0000;
 	
 	public static inline var playerColor = 0xb2d47d;
-	public static inline var walkerColor = 0x800000;
+	public static inline var walkerColor = 0x808080;
 	public static inline var floorColor = 0x6c2d37;
 	
 	public static inline var iceColor = 0xaac4ff;
