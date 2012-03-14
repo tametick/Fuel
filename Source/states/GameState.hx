@@ -20,10 +20,7 @@ import world.LevelFactory;
 class GameState extends FlxState {
 	public static var lightingLayer:LightingSprite;
 	
-	var guiText:TextField;
-	
 	override public function create() {
-		guiText = Registry.guiLayer.newText("",0,0, 0x408080);
 		Registry.gameState = this;
 		
 		Actuate.defaultEase = Linear.easeNone;
@@ -39,7 +36,6 @@ class GameState extends FlxState {
 	
 	override public function destroy() {
 		super.destroy();
-		Registry.guiLayer.removeChild(guiText);
 		
 		Registry.level = null;
 		Registry.player = null;
@@ -54,7 +50,6 @@ class GameState extends FlxState {
 		}
 		
 		currentLevel++;
-		guiText.text = "Level " + currentLevel;
 		
 		// remove old
 		removeAllGameSprites();
