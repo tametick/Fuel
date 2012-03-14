@@ -33,7 +33,7 @@ class ActorFactory {
 				a.sprite.addAnimation("fly", [12, 13], 10);
 				a.sprite.addAnimation("fall", [14, 15], 10);
 				a.weapon.sprite.setPreFireCallback( function() { a.sprite.play("shoot", true); } );
-				a.sprite.setColor(0xb2d47d);
+				a.sprite.setColor(Registry.playerColor);
 
 
 			// monsters
@@ -50,7 +50,7 @@ class ActorFactory {
 				a.sprite.addAnimation("shoot", [8, 9], 10, false);
 				a.sprite.addAnimation("fly", [12, 13], 10);
 				a.sprite.addAnimation("fall", [14, 15], 10);
-				a.sprite.setColor(0x800000);
+				a.sprite.setColor(Registry.walkerColor);
 				
 				
 			// map features
@@ -58,13 +58,13 @@ class ActorFactory {
 				a.addPart(new SpikeTriggerablePart());
 				a.sprite = newSprite(a, STALAGMITES, x, y);
 				a.sprite.addAnimation("idle", [0]);
-				a.sprite.setColor(0x6c2d37);
+				a.sprite.setColor(Registry.floorColor);
 
 			case FLOOR_SPIKE:
 				a.addPart(new SpikeTriggerablePart());
 				a.sprite = newSprite(a, STALAGMITES, x, y);
 				a.sprite.addAnimation("idle", [3]);
-				a.sprite.setColor(0x6c2d37);
+				a.sprite.setColor(Registry.floorColor);
 				
 		}
 		if(a.stats!=null) {

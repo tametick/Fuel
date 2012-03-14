@@ -24,7 +24,7 @@ class LevelFactory {
 		}
 		
 		level.init();
-		level.mapSprite.setColor(0x6c2d37);
+		level.mapSprite.setColor(Registry.floorColor);
 		
 		setStart(level);
 		level.player.tileX = level.start.x-1;
