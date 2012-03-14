@@ -30,14 +30,16 @@ class ActorFactory {
 				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
 				a.sprite.addAnimation("idle", [0, 1], 1);
 				a.sprite.addAnimation("run", [2, 3], 10);
-				a.sprite.addAnimation("shoot", [4, 5], 10, false);
-				a.sprite.addAnimation("fly", [6, 7], 10);
-				a.sprite.addAnimation("fall", [8, 9], 10);
+				a.sprite.addAnimation("shoot", [8, 9], 10, false);
+				a.sprite.addAnimation("fly", [12, 13], 10);
+				a.sprite.addAnimation("fall", [14, 15], 10);
 				a.weapon.sprite.setPreFireCallback( function() { a.sprite.play("shoot", true); } );
+				a.sprite.setColor(0xb2d47d);
 
 			// monsters
 			case WALKER:
-				sheet = FLOOR_WALKER;
+				//sheet = FLOOR_WALKER;
+				sheet = CHARACTER;
 				a.addPart(new StatsPart({
 					maxSuitCharge:1,
 				}));
@@ -45,8 +47,11 @@ class ActorFactory {
 				a.addPart(new TriggerablePart(true));
 				a.sprite = new ActorSprite(a, sheet, x * Registry.tileSize, y * Registry.tileSize, a.isBlocking);
 				a.sprite.addAnimation("idle", [0, 1], 1);
-				a.sprite.addAnimation("fly", [6, 7], 10);
-				a.sprite.addAnimation("fall", [8, 9], 10);
+				a.sprite.addAnimation("run", [2, 3], 10);
+				a.sprite.addAnimation("shoot", [8, 9], 10, false);
+				a.sprite.addAnimation("fly", [12, 13], 10);
+				a.sprite.addAnimation("fall", [14, 15], 10);
+				a.sprite.setColor(0x800000);
 		}
 		a.sprite.initBars();
 		a.sprite.play("idle");
