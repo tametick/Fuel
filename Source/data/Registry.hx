@@ -43,6 +43,9 @@ class Registry {
 	public static inline var walkerColor = 0x800000;
 	public static inline var floorColor = 0x6c2d37;
 	
+	public static inline var iceColor = 0xaac4ff;
+	public static inline var monopoleColor = 0x7400b0;
+	
 	public static inline var font = "eight2empire";
 	
 	public static var gameState:GameState;
