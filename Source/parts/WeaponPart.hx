@@ -34,12 +34,16 @@ class WeaponPart extends Part{
 	
 	public function hit(victim:Actor) {
 		var victimStats = victim.stats;
+		var victimTrigger = victim.triggerable;
 
 		// the hurt function kills the sprite if needed
 		victim.sprite.hurt(actor.stats.damage);
 		
-		// todo - trigger mechanism
-		if (victimStats==null || victimStats.suitCharge <= 0) {
+		// trigger mechanism
+		if (victimStats != null && victimStats.suitCharge <= 0) {
+			victim.kill();
+		} else if (victimTrigger != null) {
+			victimTrigger.onMechanism(victim, actor);
 			victim.kill();
 		}
 	}

@@ -66,7 +66,7 @@ class ActorFactory {
 				a.sprite.setColor(Registry.floorColor);
 				
 			case MINERAL:
-				a.addPart(new MineralNodeTriggerablePart());
+				a.addPart(new MineralNodeTriggerablePart(a));
 				a.sprite = newSprite(a, MINERAL_NODES, x, y);
 				var n = Utils.randomInt(4)*41;
 				a.sprite.addAnimation("idle", Utils.range(0+n,41+n),20);
