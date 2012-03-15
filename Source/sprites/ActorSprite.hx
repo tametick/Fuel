@@ -206,7 +206,7 @@ class ActorSprite extends FlxSprite {
 			if(owner.stats.beltCharge>0 && owner.isFlying) {
 				play("fly");
 				if(!Registry.debug) {
-					owner.stats.beltCharge-= 0.1;
+					owner.stats.beltCharge-= 0.04;
 				}
 				isMoving = false;
 			} else if (Registry.player == owner) {
