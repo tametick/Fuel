@@ -97,6 +97,7 @@ class Actor {
 	public function kill() {
 		if (this == Registry.player) {
 			// todo - high score screen
+			// todo - game over
 			FlxG.reset();
 		} else {
 			Registry.level.removeEnemy(this);

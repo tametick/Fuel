@@ -1,5 +1,6 @@
 package world;
 
+import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import org.flixel.FlxU;
 import sprites.MapSprite;
@@ -232,6 +233,13 @@ class Level {
 	public function passTurn() {
 		for (e in enemies) {
 			e.act();
+		}
+		
+		Registry.player.stats.suitCharge -= 0.02;
+		if (Registry.player.stats.suitCharge == 0) {
+			// todo - high score screen
+			// todo - game over
+			FlxG.reset();
 		}
 	}
 }
