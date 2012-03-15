@@ -134,6 +134,10 @@ enum ActorType {
 	CEILING_SPIKE;
 	FLOOR_SPIKE;
 	MINERAL;
+	ENTRY_DOOR;
+	EXIT_DOOR;
+	
+	// collectibles
 	ICE;
 	MONOPOLE;
 }

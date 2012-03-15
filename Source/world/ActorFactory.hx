@@ -73,7 +73,21 @@ class ActorFactory {
 				var n = Utils.randomInt(4)*41;
 				a.sprite.addAnimation("idle", Utils.range(0+n,41+n),20);
 				a.sprite.setColor(Registry.iceColor);
-				
+			
+			case ENTRY_DOOR:
+				a.addPart(new DoorTriggerablePart(a,false));
+				a.sprite = newSprite(a, DOOR, x, y);
+				a.sprite.addAnimation("close", [5, 4, 3, 2, 1, 0], 7,false);
+				a.sprite.setColor(Registry.doorColor);
+				a.sprite.play("close");
+			
+			case EXIT_DOOR:
+				a.addPart(new DoorTriggerablePart(a,false));
+				a.sprite = newSprite(a, DOOR, x, y);
+				a.sprite.addAnimation("open", [0, 1, 2, 3, 4, 5], 7,false);
+				a.sprite.setColor(Registry.doorColor);
+
+			// collectibles
 			case MONOPOLE:
 				a.addPart(new CollectibleTriggerablePart(a));
 				a.sprite = newSprite(a, MONOPOLE_PARTICLE, x, y);

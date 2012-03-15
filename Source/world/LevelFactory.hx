@@ -114,8 +114,8 @@ class LevelFactory {
 	static private function addEntryDoor(level:Level) {
 		// add closed entry door
 		level.set(level.start.x - 1, level.start.y, 0);
-		//var entryDoor = ActorFactory.newActor(DOOR, level.start.x - 1, level.start.y);
-		//level.items.push(entryDoor);
+		var entryDoor = ActorFactory.newActor(ENTRY_DOOR, level.start.x - 1, level.start.y);
+		level.items.push(entryDoor);
 	}
 	
 	static function addEnemies(level:Level) {
