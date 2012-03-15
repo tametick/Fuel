@@ -1,15 +1,18 @@
 package world;
 
 import org.flixel.FlxG;
+import org.flixel.FlxObject;
 import org.flixel.FlxPoint;
 import sprites.ActorSprite;
 import data.Registry;
 import states.GameState;
+import utils.Direction;
 import utils.ObjectHash;
 import parts.StatsPart;
 import parts.TriggerablePart;
 import parts.Part;
 import parts.WeaponPart;
+import utils.Utils;
 
 class Actor {
 	public var type:ActorType;
@@ -127,7 +130,19 @@ class Actor {
 		// fixme - this should really be a Part
 		switch (type) {
 			case WALKER:
-			
+				if (canWalkForward()) {
+					// todo
+					trace(sprite.direction);
+				} else {
+					// turn around
+					sprite.direction = Utils.reverseDirection(sprite.direction);
+					if (sprite.direction == E)
+						sprite.facing = FlxObject.LEFT;
+					else
+						sprite.facing = FlxObject.RIGHT;
+				}
+					
+					
 			case CLIMBER:
 			
 			case FLYER:
@@ -135,6 +150,24 @@ class Actor {
 			default:
 				
 		}
+	}
+	
+	function canWalkForward():Bool {
+		var l = Registry.level;
+		switch (sprite.direction) {
+			// fixme - why is this not working?
+			case W:
+				if (l.isWalkable(tilePoint.x - 1, tilePoint.y) && l.get(tilePoint.x - 1, tilePoint.y+1) == 1) {
+					return true;
+				}
+			case E:
+				if (l.isWalkable(tilePoint.x + 1, tilePoint.y) && l.get(tilePoint.x + 1, tilePoint.y+1) == 1) {
+					return true;
+				}
+			default:
+				throw "nooooo";
+		}
+		return false;
 	}
 }
 
