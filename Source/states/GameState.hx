@@ -2,23 +2,27 @@ package states;
 
 import com.eclecticdesignstudio.motion.Actuate;
 import com.eclecticdesignstudio.motion.easing.Linear;
+import nme.display.Bitmap;
 import nme.Lib;
 import nme.text.TextField;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxRect;
+import org.flixel.FlxSprite;
 import org.flixel.FlxState;
 import org.flixel.FlxU;
 import org.flixel.plugin.photonstorm.FlxGridOverlay;
 import data.Library;
 import data.Registry;
+import sprites.HudSprite;
 import sprites.LightingSprite;
 import world.Level;
 import world.LevelFactory;
 
 class GameState extends FlxState {
 	public static var lightingLayer:LightingSprite;
+	public static var hudLayer:HudSprite;
 	
 	override public function create() {
 		Registry.gameState = this;
@@ -32,14 +36,28 @@ class GameState extends FlxState {
 		FlxG.camera.setBounds(0, 0, tileMap.width, tileMap.height);
 		
 		lightingLayer.visible = true;
+		hudLayer.visible = true;
+		
+		var hudBg = new Bitmap(Library.getImage(HUD));
+		hudBg.width *= FlxCamera.defaultZoom;
+		hudBg.height *= FlxCamera.defaultZoom;
+		hudBg.y = FlxG.camera.height*FlxCamera.defaultZoom - hudBg.height;
+		
+		hudLayer.addChild(hudBg);
 	}
 	
 	override public function destroy() {
 		super.destroy();
 		
+		Lib.current.stage.removeChild(hudLayer);
+		
 		Registry.level = null;
 		Registry.player = null;
 		lightingLayer.visible = false;
+		hudLayer.visible = false;
+		
+		while (hudLayer.numChildren > 0)
+			hudLayer.removeChildAt(0);
 	}
 	
 	public function newLevel() {
