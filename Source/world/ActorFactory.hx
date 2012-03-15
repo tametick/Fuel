@@ -53,6 +53,11 @@ class ActorFactory {
 				a.sprite.addAnimation("idle", [0, 1,2], 10);
 				a.sprite.addAnimation("run", [2, 3, 4], 10);
 				a.sprite.setColor(Registry.walkerColor);
+			
+			case CLIMBER:
+				throw "not yet implemented";
+			case FLYER:
+				throw "not yet implemented";
 				
 				
 			// map features

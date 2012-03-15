@@ -117,13 +117,24 @@ class Actor {
 	}
 	
 	public function act() {
-		// todo
 		if (!isOnGround() && !isHungFromCeiling()) {
 			sprite.fall();
 		}
 		
 		if (stats == null)
 			return;
+
+		// fixme - this should really be a Part
+		switch (type) {
+			case WALKER:
+			
+			case CLIMBER:
+			
+			case FLYER:
+				
+			default:
+				
+		}
 	}
 }
 
@@ -133,6 +144,8 @@ enum ActorType {
 
 	// monsters
 	WALKER;
+	CLIMBER;
+	FLYER;
 	
 	// map features
 	CEILING_SPIKE;
