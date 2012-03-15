@@ -32,20 +32,20 @@ class HudSprite extends Sprite {
 		gunBar.y = hudBg.y + 3*FlxCamera.defaultZoom;
 		addChild(gunBar);
 		
-		setSuitBarWidth(64);
-		setGunBarWidth(64);
-		setBeltBarWidth(64);
+		setSuitBarWidth(1);
+		setGunBarWidth(1);
+		setBeltBarWidth(1);
 		
 		addChild(hudBg);
 	}
 	
-	public function setSuitBarWidth(w) {
-		suitBar.width = Std.int(w * FlxCamera.defaultZoom);
+	public function setSuitBarWidth(w:Float) {
+		suitBar.width = Std.int(w * 64 * FlxCamera.defaultZoom);
 	}
-	public function setBeltBarWidth(w) {
-		beltBar.width = Std.int(w * FlxCamera.defaultZoom);
+	public function setBeltBarWidth(w:Float) {
+		beltBar.width = Std.int(w * 64 * FlxCamera.defaultZoom);
 	}
-	public function setGunBarWidth(w) {
-		gunBar.width = Std.int(w * FlxCamera.defaultZoom);
+	public function setGunBarWidth(w:Float) {
+		gunBar.width = Std.int(w * 64 *FlxCamera.defaultZoom);
 	}
 }

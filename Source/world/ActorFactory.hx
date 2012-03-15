@@ -22,7 +22,7 @@ class ActorFactory {
 		switch (type) {
 			case SPACE_MINER:
 				a.isPlayer = true;
-				a.addPart(new StatsPart({
+				a.addPart(new StatsPart(a,{
 					maxSuitCharge:1,
 					maxGunCharge:1,
 					maxBeltCharge:1
@@ -41,7 +41,7 @@ class ActorFactory {
 
 			// monsters
 			case WALKER:
-				a.addPart(new StatsPart({
+				a.addPart(new StatsPart(a,{
 					maxSuitCharge:1,
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
