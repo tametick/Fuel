@@ -26,6 +26,7 @@ class Actor {
 
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
+	public var isFlying:Bool;
 	public var isBlocking(getIsBlocking, never):Bool;
 	
 	var partNameCache:ObjectHash<String>;

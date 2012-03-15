@@ -91,14 +91,15 @@ class ActorSprite extends FlxSprite {
 	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		if(owner.isOnGround(dx,dy)) {
+		if(owner.isOnGround(dx,dy) && !owner.isFlying ) {
 			play("run");
 			if(falling>0) {
 				hurt(falling / 10);
 				falling = 0;
 			}
-		} else if(owner.stats.beltCharge>0)
+		} else if(owner.stats.beltCharge>0 && owner.isFlying) {
 			play("fly");
+		}
 			
 		var duration = 1 / (Registry.walkingSpeed);
 		var nextPixelX = Utils.getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
@@ -145,12 +146,12 @@ class ActorSprite extends FlxSprite {
 				}
 			} else if (FlxG.keys.pressed(Registry.movementKeys[2])) {
 				faceDown();
-				if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)) {
+				if(Registry.level.isWalkable(owner.tileX,owner.tileY+1) && owner.isFlying) {
 					startMoving(0,1);
 				}
 			} else if (FlxG.keys.pressed(Registry.movementKeys[3])) {
 				faceUp();
-				if(Registry.level.isWalkable(owner.tileX,owner.tileY-1) && owner.stats.beltCharge>0) {
+				if(Registry.level.isWalkable(owner.tileX,owner.tileY-1) && owner.isFlying) {
 					startMoving(0,-1);
 				}
 			}
@@ -158,6 +159,24 @@ class ActorSprite extends FlxSprite {
 		
 		if (FlxG.keys.justPressed(Registry.attackKey[0])) {
 			owner.weapon.fire();
+		}
+		
+		if (FlxG.keys.justPressed(Registry.beltKey[0])) {
+			if (owner.isFlying) {
+				owner.isFlying = false;
+				if (!owner.isOnGround()) {
+					fall();
+				} else {
+					play("idle");
+				}
+			} else {
+				if (owner.stats.beltCharge > 0) {
+					owner.isFlying = true;
+					play("fly");
+				} else {
+					FlxG.play(Library.getSound(ERROR));
+				}
+			}
 		}
 	}
 	
@@ -168,17 +187,18 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function stopped() {
-		if(owner.isOnGround()) {
+		if(owner.isOnGround() && !owner.isFlying) {
 			play("idle");
 			isMoving = false;
 		} else {
-			if(owner.stats.beltCharge>0) {
+			if(owner.stats.beltCharge>0 && owner.isFlying) {
 				play("fly");
 				if(!Registry.debug) {
 					owner.stats.beltCharge-= 0.1;
 				}
 				isMoving = false;
 			} else if (Registry.player == owner) {
+				owner.isFlying = false;
 				fall();
 			}
 		}
