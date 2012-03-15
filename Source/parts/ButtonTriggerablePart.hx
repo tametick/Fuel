@@ -15,7 +15,7 @@ class ButtonTriggerablePart extends TriggerablePart {
 
 	public override function onBump(agent:Actor) {
 		// only the player triggers
-		if (actor != Registry.player) {
+		if (agent != Registry.player) {
 			return;
 		}
 	

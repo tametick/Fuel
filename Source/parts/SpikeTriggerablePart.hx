@@ -10,7 +10,8 @@ class SpikeTriggerablePart extends TriggerablePart{
 	
 	// falling from ceiling
 	override public function onMechanism(source:Actor, agent:Actor) {
-		// todo
+		actor.sprite.play("falling");
+		actor.sprite.fall();
 	}
 	
 	override public function onBump(a:Actor) {

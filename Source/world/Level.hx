@@ -235,13 +235,13 @@ class Level {
 		return t;
 	}
 	
-	function goDownTillFloor(t:FlxPoint):FlxPoint {
+	public function goDownTillFloor(t:FlxPoint):FlxPoint {
 		while(inBounds(t.x,t.y+1) && get(t.x, t.y + 1)==0) {
 			t.y++;
 		}
 		return t;
 	}
-	function goUpTillCeiling(t:FlxPoint):FlxPoint {
+	public function goUpTillCeiling(t:FlxPoint):FlxPoint {
 		while(inBounds(t.x,t.y-1) && get(t.x, t.y-1)==0) {
 			t.y--;
 		}

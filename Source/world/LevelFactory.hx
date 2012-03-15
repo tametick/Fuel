@@ -4,6 +4,7 @@ import org.flixel.FlxPath;
 import org.flixel.FlxPoint;
 import addons.FlxCaveGenerator;
 import data.Registry;
+import parts.ButtonTriggerablePart;
 import states.GameState;
 import world.Actor;
 import utils.Utils;
@@ -55,7 +56,17 @@ class LevelFactory {
 	static function addSpike(level:Level, isFloor:Bool) {
 		var freeTile = level.getFreeTileOnWall(isFloor);
 		var type = isFloor?FLOOR_SPIKE:CEILING_SPIKE;
-		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
+		var spike = ActorFactory.newActor(type, freeTile.x, freeTile.y);
+		level.enemies.push(spike);
+		
+		// add falling trigger on the floor
+		
+		if (type == CEILING_SPIKE) {
+			var floor = level.goDownTillFloor(freeTile);
+			var trigger = ActorFactory.newActor(TRIGGER, floor.x, floor.y);
+			level.items.push(trigger);
+			cast(trigger.triggerable, ButtonTriggerablePart).target = spike;
+		}
 	}
 	
 	static function addMineralNode(level:Level) {
