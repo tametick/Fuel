@@ -2,6 +2,7 @@ package states;
 
 import com.eclecticdesignstudio.motion.Actuate;
 import com.eclecticdesignstudio.motion.easing.Linear;
+import nme.text.TextField;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
@@ -19,7 +20,10 @@ import world.LevelFactory;
 
 class GameState extends FlxState {
 	public static var lightingLayer:LightingSprite;
+	
 	public static var hudLayer:HudSprite;
+	var iceCounter:TextField;
+	var monopoleCounter:TextField;
 	
 	override public function create() {
 		Registry.gameState = this;
@@ -33,6 +37,8 @@ class GameState extends FlxState {
 		FlxG.camera.setBounds(0, 0, tileMap.width, tileMap.height);
 		
 		hudLayer.init();
+		iceCounter = hudLayer.newText("ice: 0", 0, 0, Registry.iceColor);
+		monopoleCounter = hudLayer.newText("monopoles: 0",0, 8,Registry.monopoleColor);
 		
 		lightingLayer.visible = true;
 		hudLayer.visible = true;

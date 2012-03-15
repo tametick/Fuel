@@ -1,16 +1,24 @@
 package sprites;
-import com.eclecticdesignstudio.motion.Actuate;
-import data.Library;
+
+import data.Registry;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.display.Sprite;
+import nme.Lib;
+import nme.text.TextField;
+import nme.text.TextFormat;
+import com.eclecticdesignstudio.motion.Actuate;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
+import data.Library;
+
 
 class HudSprite extends Sprite {
 	var suitBar:Bitmap;
 	var beltBar:Bitmap;
 	var gunBar:Bitmap;
+	
+	static var format:TextFormat;
 
 	public function init() {
 		var hudBg = new Bitmap(Library.getImage(HUD));
@@ -38,6 +46,30 @@ class HudSprite extends Sprite {
 		setBeltBarWidth(1);
 		
 		addChild(hudBg);
+	}
+
+	public function newText(text:String,x:Float,y:Float, color:Int):TextField {
+		var txt = new TextField();
+		var font = Library.getFont();
+		
+		if (format == null) {
+			format = new TextFormat(font.fontName, Registry.fontSize*FlxCamera.defaultZoom, 0);
+		}
+		
+		txt.width = Lib.current.width;
+		txt.embedFonts = true;
+		txt.wordWrap = true;
+		txt.defaultTextFormat = format;
+		
+		txt.text = text;
+		txt.x = x * FlxCamera.defaultZoom;
+		txt.y = y * FlxCamera.defaultZoom;
+		txt.mouseEnabled = false;
+		
+		txt.textColor = color;
+		
+		addChild(txt);
+		return txt;
 	}
 	
 	public function setSuitBarWidth(w:Float) {

@@ -22,7 +22,7 @@ class Registry {
 	public static inline var levelWidth = 19;
 	public static inline var levelHeight = 19;
 	public static inline var tileSize = 13;
-	public static inline var fontSize = 32;
+	public static inline var fontSize = 8;
 
 	public static inline var fovRange = 3;
 	public static inline var walkingSpeed = 5;
