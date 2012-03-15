@@ -3,7 +3,8 @@ import data.Registry;
 import world.Actor;
 
 class SpikeTriggerablePart extends TriggerablePart{
-	public function new() {
+	public function new(actor:Actor) {
+		this.actor = actor;
 		super(true);
 	}
 	

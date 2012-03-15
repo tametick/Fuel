@@ -137,6 +137,7 @@ class MapSprite extends FlxTilemap {
 			fallingVictims = owner.getActorAtPoint(tx, ty + 1);
 			for(fallingVictim in fallingVictims) {
 				if (fallingVictim.type == ActorType.CEILING_SPIKE) {
+					fallingVictim.sprite.play("falling");
 					fallingVictim.sprite.fall();
 				}
 			}

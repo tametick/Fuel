@@ -56,13 +56,14 @@ class ActorFactory {
 				
 			// map features
 			case CEILING_SPIKE:
-				a.addPart(new SpikeTriggerablePart());
+				a.addPart(new SpikeTriggerablePart(a));
 				a.sprite = newSprite(a, STALAGMITES, x, y);
 				a.sprite.addAnimation("idle", [0]);
+				a.sprite.addAnimation("falling", [1,2],4,false);
 				a.sprite.setColor(Registry.floorColor);
 
 			case FLOOR_SPIKE:
-				a.addPart(new SpikeTriggerablePart());
+				a.addPart(new SpikeTriggerablePart(a));
 				a.sprite = newSprite(a, STALAGMITES, x, y);
 				a.sprite.addAnimation("idle", [3]);
 				a.sprite.setColor(Registry.floorColor);
