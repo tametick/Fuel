@@ -77,7 +77,7 @@ class ActorFactory {
 			case ENTRY_DOOR:
 				a.addPart(new DoorTriggerablePart(a,false));
 				a.sprite = newSprite(a, DOOR, x, y);
-				a.sprite.addAnimation("close", [5, 4, 3, 2, 1, 0], 7,false);
+				a.sprite.addAnimation("close", [5,5,5, 4, 3, 2, 1, 0], 7,false);
 				a.sprite.setColor(Registry.doorColor);
 			
 			case EXIT_DOOR:

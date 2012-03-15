@@ -1,6 +1,7 @@
 package sprites;
 
 import com.eclecticdesignstudio.motion.Actuate;
+import org.flixel.FlxU;
 import org.flixel.plugin.photonstorm.FlxBar;
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
@@ -199,6 +200,12 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function stopped() {
+		// open exit door
+		if (Registry.player == owner) {
+			if (FlxU.getDistance(owner.tilePoint, Registry.level.exitDoor.tilePoint) <= 2)
+				Registry.level.exitDoor.sprite.play("open");
+		}
+	
 		if(owner.isOnGround() && !owner.isFlying) {
 			play("idle");
 			isMoving = false;
