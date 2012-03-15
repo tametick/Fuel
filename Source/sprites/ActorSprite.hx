@@ -32,7 +32,11 @@ class ActorSprite extends FlxSprite {
 		super(x, y);
 
 		this.owner = owner;
-		loadGraphic(Library.getFilename(image), true, true, Registry.tileSize, Registry.tileSize);
+		if (image == null) {
+			makeGraphic(Registry.tileSize, Registry.tileSize, 0);
+		} else {
+			loadGraphic(Library.getFilename(image), true, true, Registry.tileSize, Registry.tileSize);
+		}
 		updateTileSheet();
 
 		if (isImmovable) {

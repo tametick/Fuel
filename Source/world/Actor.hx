@@ -137,6 +137,7 @@ enum ActorType {
 	// map features
 	CEILING_SPIKE;
 	FLOOR_SPIKE;
+	TRIGGER;
 	MINERAL;
 	ENTRY_DOOR;
 	EXIT_DOOR;

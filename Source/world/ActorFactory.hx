@@ -1,5 +1,6 @@
 package world;
 
+import parts.ButtonTriggerablePart;
 import parts.CollectibleTriggerablePart;
 import parts.MineralNodeTriggerablePart;
 import parts.SpikeTriggerablePart;
@@ -87,6 +88,10 @@ class ActorFactory {
 				a.sprite.addAnimation("open", [0, 1, 2, 3, 4, 5], 7,false);
 				a.sprite.setColor(Registry.doorColor);
 				a.sprite.frame = 0;
+				
+			case TRIGGER:
+				a.addPart(new ButtonTriggerablePart(a));
+				a.sprite = newSprite(a, null, x, y);
 
 			// collectibles
 			case MONOPOLE:
