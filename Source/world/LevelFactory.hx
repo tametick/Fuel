@@ -48,7 +48,7 @@ class LevelFactory {
 		var freeTile:FlxPoint;
 		do {
 			freeTile = level.getFreeTileOnWall(true);
-		} while (level.getActorAtPoint(freeTile.x - 1, freeTile.y) != null && level.getActorAtPoint(freeTile.x + 1, freeTile.y) != null);
+		} while (level.getActorAtPoint(freeTile.x - 1, freeTile.y).length>0 && level.getActorAtPoint(freeTile.x + 1, freeTile.y).length>0);
 		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
 	}
 	

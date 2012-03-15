@@ -126,16 +126,16 @@ class MapSprite extends FlxTilemap {
 		
 		if (shooter.owner == Registry.player) {
 			// look at actor above
-			var fallingVictim = owner.getActorAtPoint(tx, ty - 1);
-			if (fallingVictim != null) {
+			var fallingVictims = owner.getActorAtPoint(tx, ty - 1);
+			for(fallingVictim in fallingVictims) {
 				if(fallingVictim.stats != null || fallingVictim.type == ActorType.FLOOR_SPIKE || fallingVictim.type == ActorType.MINERAL) {
 					fallingVictim.sprite.fall();
 				}
 			}
 			
 			// look at actor below
-			fallingVictim = owner.getActorAtPoint(tx, ty + 1);
-			if (fallingVictim != null) {
+			fallingVictims = owner.getActorAtPoint(tx, ty + 1);
+			for(fallingVictim in fallingVictims) {
 				if (fallingVictim.type == ActorType.CEILING_SPIKE) {
 					fallingVictim.sprite.fall();
 				}

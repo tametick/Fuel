@@ -106,7 +106,28 @@ class ActorSprite extends FlxSprite {
 		isMoving = true;
 		if(owner.isOnGround(dx,dy) && !owner.isFlying ) {
 			play("run");
-			if(falling>0) {
+			if (falling > 0) {
+				// if you are ceiling spike, or the other is floor spike
+				var deadlySpikes = (owner.type == CEILING_SPIKE);
+				
+				var actors = Registry.level.getActorAtPoint(owner.tilePoint.x + dx, owner.tilePoint.y + dy);
+				
+				for (actor in actors) {
+					if (actor == owner) {
+						continue;
+					}
+					if (actor.type == FLOOR_SPIKE) {
+						deadlySpikes = true;
+					}
+				}
+				
+				if (deadlySpikes) {
+					for (actor in actors) {
+						actor.sprite.hurt(1.0);
+					}
+					hurt(1.0);
+				}
+				
 				hurt(falling / 10);
 				falling = 0;
 			}
@@ -168,29 +189,31 @@ class ActorSprite extends FlxSprite {
 					startMoving(0,-1);
 				}
 			}
+						
+			if (FlxG.keys.justPressed(Registry.beltKey[0])) {
+				if (owner.isFlying) {
+					owner.isFlying = false;
+					if (!owner.isOnGround()) {
+						fall();
+					} else {
+						play("idle");
+					}
+				} else {
+					if (owner.stats.beltCharge > 0) {
+						owner.isFlying = true;
+						play("fly");
+					} else {
+						FlxG.play(Library.getSound(ERROR));
+					}
+				}
+			}
 		}
 		
 		if (FlxG.keys.justPressed(Registry.attackKey[0])) {
 			owner.weapon.fire();
 		}
 		
-		if (FlxG.keys.justPressed(Registry.beltKey[0])) {
-			if (owner.isFlying) {
-				owner.isFlying = false;
-				if (!owner.isOnGround()) {
-					fall();
-				} else {
-					play("idle");
-				}
-			} else {
-				if (owner.stats.beltCharge > 0) {
-					owner.isFlying = true;
-					play("fly");
-				} else {
-					FlxG.play(Library.getSound(ERROR));
-				}
-			}
-		}
+
 	}
 	
 	public function fall() {

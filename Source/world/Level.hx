@@ -176,16 +176,17 @@ class Level {
 		mapSprite.setTile(Std.int(x), Std.int(y), val);
 	}
 	
-	public function getActorAtPoint(x:Float, y:Float):Actor {
+	public function getActorAtPoint(x:Float, y:Float):Array<Actor> {
+		var actorsAtPoint = [];
 		if (!inBounds(x, y))
-			return null;
+			return actorsAtPoint;
 	
 		for (a in actors) {
 			if (Std.int(a.tileX) == Std.int(x) && Std.int(a.tileY) == Std.int(y)) {
-				return a;
+				actorsAtPoint.push(a);
 			}
 		}
-		return null;
+		return actorsAtPoint;
 	}
 	
 	public function isBlockingSight(p:FlxPoint):Bool {
@@ -200,8 +201,13 @@ class Level {
 		if (!inBounds(x,y))
 			return false;
 	
-		var a = getActorAtPoint(x, y);
-		return get(x, y) == 0 && (a==null || !a.isBlocking);
+		var blocking = false;
+		for (a in getActorAtPoint(x, y)) {
+			if (a.isBlocking)
+				blocking = true;
+		}
+		
+		return get(x, y) == 0 && !blocking;
 	}
 	
 	public function getFreeTile():FlxPoint {
@@ -211,7 +217,7 @@ class Level {
 		do {
 			p.x = ex = Utils.randomIntInRange(1,width-2);
 			p.y = ey = Utils.randomIntInRange(1,height-2);
-		} while (getActorAtPoint(ex, ey)!=null || !isWalkable(ex, ey));
+		} while (getActorAtPoint(ex, ey).length>0 || !isWalkable(ex, ey));
 		
 		return p;
 	}
@@ -225,7 +231,7 @@ class Level {
 			} else {
 				t = goUpTillCeiling(getFreeTile());
 			}
-		} while (getActorAtPoint(t.x, t.y)!=null /*&& nospikes*/);
+		} while (getActorAtPoint(t.x, t.y).length>0);
 		return t;
 	}
 	
