@@ -161,6 +161,8 @@ class Level {
 		} else if (e == Registry.player) {
 			// todo?
 		}
+		
+		e.sprite.kill();
 	}
 	
 	public inline function get(x:Float, y:Float):Int {

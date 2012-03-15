@@ -75,13 +75,13 @@ class ActorFactory {
 				a.sprite.setColor(Registry.iceColor);
 				
 			case MONOPOLE:
-				a.addPart(new CollectibleTriggerablePart());
+				a.addPart(new CollectibleTriggerablePart(a));
 				a.sprite = newSprite(a, MONOPOLE_PARTICLE, x, y);
 				a.sprite.addAnimation("idle", Utils.range(0,10),20);
 				a.sprite.setColor(Registry.monopoleColor);
 				
 			case ICE:
-				a.addPart(new CollectibleTriggerablePart());
+				a.addPart(new CollectibleTriggerablePart(a));
 				a.sprite = newSprite(a, ICE_CRYSTAL, x, y);
 				a.sprite.addAnimation("idle", Utils.range(0,41),20);
 				a.sprite.setColor(Registry.iceColor);
