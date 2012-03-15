@@ -4,6 +4,7 @@ import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import sprites.ActorSprite;
 import data.Registry;
+import states.GameState;
 import utils.ObjectHash;
 import parts.StatsPart;
 import parts.TriggerablePart;
@@ -98,10 +99,11 @@ class Actor {
 		if (this == Registry.player) {
 			// todo - high score screen
 			// todo - game over
-			FlxG.reset();
+			GameState.hudLayer.setSuitBarWidth(0);
 		} else {
-			Registry.level.removeEnemy(this);
+			Registry.level.removeActor(this);
 		}
+		sprite.kill();
 	}
 	
 	public function isOnGround(?dx:Int=0,?dy:Int=0) {

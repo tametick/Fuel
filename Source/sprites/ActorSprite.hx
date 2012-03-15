@@ -88,6 +88,18 @@ class ActorSprite extends FlxSprite {
 		return owner.weapon.sprite;
 	}
 	
+	override public function hurt(damage:Float):Void {
+		if (owner.stats == null) {
+			health -= damage;
+		} else {
+			// this updates health
+			owner.stats.suitCharge -= damage;
+		}
+		
+		if (health <= 0) {
+			owner.kill();
+		}
+	}
 	
 	function startMoving(dx:Int, dy:Int) {
 		isMoving = true;

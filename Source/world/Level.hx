@@ -151,9 +151,16 @@ class Level {
 		}
 	}
 	
-	public function removeEnemy(e:Actor) {
-		enemies.remove(e);
-		mapSprite.mobSprites.remove(e.sprite);
+	public function removeActor(e:Actor) {
+		if(Utils.exists(enemies, e)) {
+			enemies.remove(e);
+			mapSprite.mobSprites.remove(e.sprite);
+		} else if(Utils.exists(items, e)) {
+			items.remove(e);
+			mapSprite.itemSprites.remove(e.sprite);
+		} else if (e == Registry.player) {
+			// todo?
+		}
 	}
 	
 	public inline function get(x:Float, y:Float):Int {
@@ -239,7 +246,7 @@ class Level {
 		if (Registry.player.stats.suitCharge == 0) {
 			// todo - high score screen
 			// todo - game over
-			FlxG.reset();
+			
 		}
 	}
 	
