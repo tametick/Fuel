@@ -82,6 +82,8 @@ class GameState extends FlxState {
 		
 		// draw fov around player's starting position
 		Registry.level.updateFov(Registry.player.tilePoint);
+		
+		Registry.level.entryDoor.sprite.play("close");
 	}
 	
 	function removeAllGameSprites() {

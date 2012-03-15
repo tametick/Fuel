@@ -79,13 +79,13 @@ class ActorFactory {
 				a.sprite = newSprite(a, DOOR, x, y);
 				a.sprite.addAnimation("close", [5, 4, 3, 2, 1, 0], 7,false);
 				a.sprite.setColor(Registry.doorColor);
-				a.sprite.play("close");
 			
 			case EXIT_DOOR:
 				a.addPart(new DoorTriggerablePart(a,false));
 				a.sprite = newSprite(a, DOOR, x, y);
 				a.sprite.addAnimation("open", [0, 1, 2, 3, 4, 5], 7,false);
 				a.sprite.setColor(Registry.doorColor);
+				a.sprite.frame = 0;
 
 			// collectibles
 			case MONOPOLE:

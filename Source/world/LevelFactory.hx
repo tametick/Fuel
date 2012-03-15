@@ -27,14 +27,12 @@ class LevelFactory {
 		level.mapSprite.setColor(Registry.floorColor);
 		
 		setStart(level);
+		setExit(level);
 		level.player.tileX = level.start.x-1;
 		level.player.tileY = level.start.y;
-		//level.finish = new FlxPoint(level.width - 2, getExitY(level));
 		
-
-		//addExit(level);
-		
-		addEntryDoor(level);
+		level.entryDoor = addEntryDoor(level);
+		level.exitDoor = addExitDoor(level);
 		addEnemies(level);
 		addSpikes(level);
 		addMineralNodes(level);
@@ -69,13 +67,6 @@ class LevelFactory {
 		var freeTile = level.getFreeTileOnWall(true);
 		level.items.push(ActorFactory.newActor(MONOPOLE, freeTile.x, freeTile.y));
 	}
-		
-	static private function addExit(level:Level) {
-		level.set(level.finish.x + 1, level.finish.y, 0);
-		//var exitDoor = ActorFactory.newActor(DOOR, level.finish.x + 1, level.finish.y);
-		//level.items.push(exitDoor);
-		//level.mapSprite.exitDoorSprite = exitDoor.sprite;
-	}
 	
 	static private function setStart(level:Level) {
 		var startY = 1;
@@ -86,36 +77,53 @@ class LevelFactory {
 			do {
 				startY = Utils.randomIntInRange(x, level.height - 2);
 				attempts++;
-			} while (level.get(x, startY) == 1 && attempts < 10);
+			} while (level.get(x, startY) == 1 && level.get(x, startY+1) == 0 && attempts < level.height);
 			
 			// found a valid start point!
 			if(level.get(x, startY) == 0)
 				break;
 		}
 		level.start = new FlxPoint(startX, startY);
-		
 	}
 	
-	static private function getExitY(level:Level) {
-		var greatestDist = 0;
-		var yOfGreatestDist = 0;
-		var finish = new FlxPoint(level.width-2, 0);
-		for (y in 1...level.height - 1) {
-			finish.y = y;
-			var path = level.mapSprite.findTilePath(level.start, finish);
-			if (path!=null && path.nodes.length>greatestDist) {
-				greatestDist = path.nodes.length;
-				yOfGreatestDist = y;
-			}
+	static private function setExit(level:Level) {
+		var exitY = level.height - 2;
+		var exitX = level.width - 1;
+		
+		var x = level.width - 1;
+		while(x>1) {
+			exitX = x;
+			var attempts = 0;
+			do {
+				exitY = Utils.randomIntInRange(1, level.height - 1);
+				attempts++;
+			} while (level.get(exitX, exitY) == 1 && level.get(exitX, exitY+1) == 0 && attempts < level.height);
+			
+			// found a valid exit point!
+			if(level.get(exitX, exitY) == 0)
+				break;
+				
+			x--;
 		}
-		return yOfGreatestDist;
+		level.exit = new FlxPoint(exitX, exitY);
 	}
 	
 	static private function addEntryDoor(level:Level) {
-		// add closed entry door
 		level.set(level.start.x - 1, level.start.y, 0);
+		level.set(level.start.x -1, level.start.y+1, 1);
+		level.set(level.start.x, level.start.y+1, 1);
 		var entryDoor = ActorFactory.newActor(ENTRY_DOOR, level.start.x - 1, level.start.y);
 		level.items.push(entryDoor);
+		return entryDoor;
+	}
+	
+	static private function addExitDoor(level:Level) {
+		level.set(level.exit.x + 1, level.exit.y, 0);
+		level.set(level.exit.x +1, level.exit.y+1, 1);
+		level.set(level.exit.x, level.exit.y+1, 1);
+		var exitDoor = ActorFactory.newActor(EXIT_DOOR, level.exit.x + 1, level.exit.y);
+		level.items.push(exitDoor);
+		return exitDoor;
 	}
 	
 	static function addEnemies(level:Level) {

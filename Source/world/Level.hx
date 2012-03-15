@@ -25,7 +25,10 @@ class Level {
 	public var enemies:Array<Actor>;
 	public var items:Array<Actor>;
 	public var start:FlxPoint;
-	public var finish:FlxPoint;
+	public var exit:FlxPoint;
+	
+	public var entryDoor:Actor;
+	public var exitDoor:Actor;
 	
 			
 	public function new(index:Int, tiles:Array<Int>, ?w:Int = Registry.levelWidth, ?h:Int = Registry.levelHeight) {
@@ -48,7 +51,7 @@ class Level {
 		enemies = [];
 		items = [];
 		start = new FlxPoint();
-		finish = new FlxPoint();
+		exit = new FlxPoint();
 	}
 	
 	public function init() {
