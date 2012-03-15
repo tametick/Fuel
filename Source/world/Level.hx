@@ -244,9 +244,7 @@ class Level {
 		
 		Registry.player.stats.suitCharge -= 0.02;
 		if (Registry.player.stats.suitCharge == 0) {
-			// todo - high score screen
-			// todo - game over
-			
+			Registry.player.kill();
 		}
 	}
 	
