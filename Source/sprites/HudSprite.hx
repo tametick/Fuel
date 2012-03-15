@@ -1,4 +1,5 @@
 package sprites;
+import com.eclecticdesignstudio.motion.Actuate;
 import data.Library;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
@@ -40,12 +41,18 @@ class HudSprite extends Sprite {
 	}
 	
 	public function setSuitBarWidth(w:Float) {
-		suitBar.width = Std.int(w * 64 * FlxCamera.defaultZoom);
+		var w = Std.int(w * 64 * FlxCamera.defaultZoom);
+		var dw = Math.abs(suitBar.width - w);
+		Actuate.tween(suitBar, dw/150, { width:w } );
 	}
 	public function setBeltBarWidth(w:Float) {
-		beltBar.width = Std.int(w * 64 * FlxCamera.defaultZoom);
+		var w = Std.int(w * 64 * FlxCamera.defaultZoom);
+		var dw = Math.abs(beltBar.width - w);
+		Actuate.tween(beltBar, dw/150, { width:w } );
 	}
 	public function setGunBarWidth(w:Float) {
-		gunBar.width = Std.int(w * 64 *FlxCamera.defaultZoom);
+		var w = Std.int(w * 64 * FlxCamera.defaultZoom);
+		var dw = Math.abs(gunBar.width - w);
+		Actuate.tween(gunBar, dw/150, { width:w } );
 	}
 }
