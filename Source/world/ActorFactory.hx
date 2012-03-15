@@ -25,7 +25,9 @@ class ActorFactory {
 				a.addPart(new StatsPart(a,{
 					maxSuitCharge:1,
 					maxGunCharge:1,
-					maxBeltCharge:1
+					maxBeltCharge:1,
+					ice:0,
+					monopoles:0
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, LASER));
 				a.addPart(new TriggerablePart(true));

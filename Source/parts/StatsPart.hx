@@ -15,6 +15,10 @@ class StatsPart extends Part {
 	public var gunCharge(getGunCharge, setGunCharge):Float;
 	public var beltCharge(getBeltCharge, setBeltCharge):Float;
 
+	// collectibles
+	public var ice(default, setIce):Int;
+	public var monopoles(default, setMonopoles):Int;
+
 	// derived stats
 	public var damage(getDamage, never):Float;
 
@@ -53,6 +57,15 @@ class StatsPart extends Part {
 	}
 	function getBeltCharge():Float {
 		return beltCharge;
+	}
+
+	function setIce(i:Int):Int {
+		Registry.gameState.setIceCounter(i);
+		return ice = i;
+	}
+	function setMonopoles(m:Int):Int {
+		Registry.gameState.setMonopoleCounter(m);
+		return monopoles = m;
 	}
 
 	public function new(actor:Actor, stats:Dynamic) {
