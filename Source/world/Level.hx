@@ -242,6 +242,12 @@ class Level {
 			FlxG.reset();
 		}
 	}
+	
+	public function addIceCrystal(x:Float, y:Float) {
+		var ice = ActorFactory.newActor(ICE, x, y);
+		
+		mapSprite.addItemAndSprite(ice);
+	}
 }
 
 enum Visibility {

@@ -1,4 +1,5 @@
 package parts;
+import data.Registry;
 import world.Actor;
 
 
@@ -10,7 +11,7 @@ class MineralNodeTriggerablePart extends TriggerablePart {
 	
 	// shooting pops out ice crystal
 	override public function onMechanism(source:Actor, agent:Actor) {
-		// todo
-		trace("pop ice");
+		Registry.level.addIceCrystal(actor.tilePoint.x, actor.tilePoint.y);
+		actor.kill();
 	}
 }

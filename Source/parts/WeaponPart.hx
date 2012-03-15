@@ -44,7 +44,6 @@ class WeaponPart extends Part{
 			victim.kill();
 		} else if (victimTrigger != null) {
 			victimTrigger.onMechanism(victim, actor);
-			victim.kill();
 		}
 	}
 }
