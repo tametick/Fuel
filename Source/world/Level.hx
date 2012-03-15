@@ -122,9 +122,9 @@ class Level {
 				switch(Utils.get(visibilityMap, width, x, y)) {
 					case IN_SIGHT:
 						var d = FlxU.getDistance(p1, p2);
-						l = Math.min(1, d / Registry.fovRange) * 0.8;
+						l = Math.min(1, d / Registry.fovRange) * 0.7;
 					case SEEN:
-						l = 0.8;
+						l = 0.7;
 					case UNSEEN:
 						l = 1;
 				}
