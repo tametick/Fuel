@@ -111,15 +111,19 @@ class Actor {
 		return tileY+dy == l.height - 1  ||  l.get(tileX+dx, tileY+dy+1) != 0;
 	}
 	
+	public function isHungFromCeiling(?dx:Int=0,?dy:Int=0) {
+		var l = Registry.level;
+		return l.get(tileX+dx, tileY+dy-1) != 0 && type == CEILING_SPIKE;
+	}
 	
 	public function act() {
-		if (stats == null)
-			return;
-	
 		// todo
-		if(!isOnGround()) {
+		if (!isOnGround() && !isHungFromCeiling()) {
 			sprite.fall();
 		}
+		
+		if (stats == null)
+			return;
 	}
 }
 

@@ -110,7 +110,7 @@ class ActorSprite extends FlxSprite {
 				hurt(falling / 10);
 				falling = 0;
 			}
-		} else if(owner.stats.beltCharge>0 && owner.isFlying) {
+		} else if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying) {
 			play("fly");
 		}
 			
@@ -210,7 +210,7 @@ class ActorSprite extends FlxSprite {
 			play("idle");
 			isMoving = false;
 		} else {
-			if(owner.stats.beltCharge>0 && owner.isFlying) {
+			if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying) {
 				play("fly");
 				if(!Registry.debug) {
 					owner.stats.beltCharge-= 0.04;

@@ -124,15 +124,22 @@ class MapSprite extends FlxTilemap {
 		owner.updateFov(Registry.player.tilePoint);
 		b.kill();
 		
-		if(shooter.owner==Registry.player) {
+		if (shooter.owner == Registry.player) {
+			// look at actor above
 			var fallingVictim = owner.getActorAtPoint(tx, ty - 1);
-			
-			if (fallingVictim == null || fallingVictim.stats == null) {
-				trace("!!!!");
-				return;
+			if (fallingVictim != null) {
+				if(fallingVictim.stats != null || fallingVictim.type == ActorType.FLOOR_SPIKE || fallingVictim.type == ActorType.MINERAL) {
+					fallingVictim.sprite.fall();
+				}
 			}
 			
-			fallingVictim.sprite.fall();
+			// look at actor below
+			fallingVictim = owner.getActorAtPoint(tx, ty + 1);
+			if (fallingVictim != null) {
+				if (fallingVictim.type == ActorType.CEILING_SPIKE) {
+					fallingVictim.sprite.fall();
+				}
+			}
 		}
 	}
 	
