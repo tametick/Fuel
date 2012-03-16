@@ -113,8 +113,10 @@ class ActorSprite extends FlxSprite {
 		if(owner.isOnGround(dx,dy) && !owner.isFlying ) {
 			play("run");
 			
-			if (owner == Registry.player)
+			if (owner == Registry.player) {
 				owner.stats.beltCharge += Registry.beltChargeRate;
+				owner.stats.beltCharge = Math.min(owner.stats.maxBeltCharge, owner.stats.beltCharge);
+			}
 			
 			if (falling > 0) {
 				// if you are ceiling spike, or the other is floor spike
