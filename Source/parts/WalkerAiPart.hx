@@ -67,7 +67,10 @@ class WalkerAiPart extends AiPart{
 	}
 	
 	function canAttackPlayer():Bool {
-		var l = Registry.level;
+		if (Registry.player.tileX==actor.tilePoint.x && Registry.player.tileY==actor.tilePoint.y) {
+			return true;
+		}
+	
 		switch (actor.sprite.direction) {
 			case W:
 				if (Registry.player.tileX==actor.tilePoint.x - 1 && Registry.player.tileY==actor.tilePoint.y) {
