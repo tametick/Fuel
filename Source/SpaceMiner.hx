@@ -58,6 +58,11 @@ class SpaceMiner extends FlxGame {
 		}
 	}
 	
+	public static function restart() {
+		Registry.gameState.destroy();
+		FlxG.switchState(new GameState());
+	}
+	
 	public function resizeHandler(event:Event) {
 		if (removeMenu) {
 			Lib.current.stage.showDefaultContextMenu = true;
@@ -78,6 +83,6 @@ class SpaceMiner extends FlxGame {
 		}
 		
 		if (Registry.debug && FlxG.keys.justPressed("N"))
-			Registry.gameState.newLevel();
+			SpaceMiner.restart();
 	}
 }

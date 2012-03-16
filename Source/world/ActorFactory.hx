@@ -63,6 +63,7 @@ class ActorFactory {
 				a.addPart(new StatsPart(a,{
 					maxSuitCharge:1,
 				}));
+				a.isHung = true;
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
 				a.addPart(new ClimberAiPart(a));
@@ -80,6 +81,7 @@ class ActorFactory {
 					maxSuitCharge:1,
 					maxBeltCharge:1
 				}));
+				a.isFlying = true;
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
 				a.addPart(new FlyerAiPart(a));
@@ -92,6 +94,7 @@ class ActorFactory {
 				
 			// map features
 			case CEILING_SPIKE:
+				a.isHung = true;
 				a.addPart(new SpikeTriggerablePart(a));
 				a.sprite = newSprite(a, STALAGMITES, x, y);
 				a.sprite.addAnimation("idle", [0]);

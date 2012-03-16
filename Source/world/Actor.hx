@@ -34,6 +34,7 @@ class Actor {
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
 	public var isFlying:Bool;
+	public var isHung:Bool;
 	public var isBlocking(getIsBlocking, never):Bool;
 	
 	var partNameCache:ObjectHash<String>;
@@ -125,7 +126,7 @@ class Actor {
 	
 	public function isHungFromCeiling(?dx:Int=0,?dy:Int=0) {
 		var l = Registry.level;
-		return l.get(tileX+dx, tileY+dy-1) != 0 && (type==CEILING_SPIKE || type==CLIMBER);
+		return l.get(tileX+dx, tileY+dy-1) != 0 && isHung;
 	}
 	
 	public function act() {

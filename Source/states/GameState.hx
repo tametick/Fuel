@@ -89,8 +89,10 @@ class GameState extends FlxState {
 	}
 	
 	function removeAllGameSprites() {
-		for (sprite in members) {
-			remove(sprite);
+		if(members!=null) {
+			for (sprite in members) {
+				remove(sprite);
+			}
 		}
 	}
 	
