@@ -16,6 +16,10 @@ class Utils {
 		return null;
 	}
 	
+	public static function dist(a:Float, b:Float) {
+		return Math.abs(a - b);
+	}
+	
 	public static function allExcept<T>(a:Array<T>, i:T):Array<T> {
 		var aa = a.copy();
 		aa.remove(i);

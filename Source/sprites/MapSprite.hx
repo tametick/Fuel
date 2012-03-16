@@ -103,7 +103,7 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	function overlapWithEnemy(?victim:ActorSprite, ?killer:ActorSprite) {
-		if(Utils.exists([CLIMBER, WALKER, FLYER], killer.owner.type))
+		if(Utils.exists([CLIMBER, WALKER, FLYER, CEILING_SPIKE], killer.owner.type))
 			Registry.player.kill();
 	}
 	

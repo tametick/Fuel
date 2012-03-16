@@ -70,8 +70,8 @@ class Level {
 		return a;
 	}
 	
-	public function isInLos(p1, p2):Bool {
-		if (FlxU.getDistance(p1, p2) > Registry.fovRange) {
+	public function isInLos(p1, p2, ?dist=Registry.fovRange):Bool {
+		if (FlxU.getDistance(p1, p2) > dist) {
 			return false;
 		}
 		
