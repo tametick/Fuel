@@ -253,7 +253,7 @@ class Level {
 			e.act();
 		}
 		
-		Registry.player.stats.suitCharge -= 0.01;
+		Registry.player.stats.suitCharge -= Registry.suitChargeRate;
 		if (Registry.player.stats.suitCharge == 0) {
 			Registry.player.kill();
 		}

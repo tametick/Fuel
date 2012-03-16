@@ -3,6 +3,7 @@ package world;
 import org.flixel.FlxG;
 import org.flixel.FlxObject;
 import org.flixel.FlxPoint;
+import parts.AiPart;
 import sprites.ActorSprite;
 import data.Registry;
 import states.GameState;
@@ -23,9 +24,11 @@ class Actor {
 
 	public var stats(getStats, null):StatsPart;
 	public var triggerable(getTriggerable, null):TriggerablePart;
+	public var ai(getAi, null):AiPart;
 	public var weapon(getWeapon, null):WeaponPart;
 	function getStats():StatsPart { return as(StatsPart); }
 	function getTriggerable():TriggerablePart { return as(TriggerablePart); }
+	function getAi():AiPart { return as(AiPart); }
 	function getWeapon():WeaponPart { return as(WeaponPart); }
 
 	public var isPlayer:Bool;
@@ -100,13 +103,16 @@ class Actor {
 
 	public function kill() {
 		if (this == Registry.player) {
+			GameState.hudLayer.setSuitBarWidth(0);
+			Registry.player.sprite.play("die");
+			Registry.player.sprite.alive = false;
 			// todo - high score screen
 			// todo - game over
-			GameState.hudLayer.setSuitBarWidth(0);
+
 		} else {
 			Registry.level.removeActor(this);
+			sprite.kill();
 		}
-		sprite.kill();
 	}
 	
 	public function isOnGround(?dx:Int=0,?dy:Int=0) {
@@ -116,58 +122,16 @@ class Actor {
 	
 	public function isHungFromCeiling(?dx:Int=0,?dy:Int=0) {
 		var l = Registry.level;
-		return l.get(tileX+dx, tileY+dy-1) != 0 && type == CEILING_SPIKE;
+		return l.get(tileX+dx, tileY+dy-1) != 0 && (type==CEILING_SPIKE || type==CLIMBER);
 	}
 	
 	public function act() {
-		if (!isOnGround() && !isHungFromCeiling()) {
+		if (!isOnGround() && !isHungFromCeiling() && !isFlying) {
 			sprite.fall();
 		}
 		
-		if (stats == null)
-			return;
-
-		// fixme - this should really be a Part
-		switch (type) {
-			case WALKER:
-				if (canWalkForward()) {
-					// todo
-					trace(sprite.direction);
-				} else {
-					// turn around
-					sprite.direction = Utils.reverseDirection(sprite.direction);
-					if (sprite.direction == E)
-						sprite.facing = FlxObject.LEFT;
-					else
-						sprite.facing = FlxObject.RIGHT;
-				}
-					
-					
-			case CLIMBER:
-			
-			case FLYER:
-				
-			default:
-				
-		}
-	}
-	
-	function canWalkForward():Bool {
-		var l = Registry.level;
-		switch (sprite.direction) {
-			// fixme - why is this not working?
-			case W:
-				if (l.isWalkable(tilePoint.x - 1, tilePoint.y) && l.get(tilePoint.x - 1, tilePoint.y+1) == 1) {
-					return true;
-				}
-			case E:
-				if (l.isWalkable(tilePoint.x + 1, tilePoint.y) && l.get(tilePoint.x + 1, tilePoint.y+1) == 1) {
-					return true;
-				}
-			default:
-				throw "nooooo";
-		}
-		return false;
+		if (ai != null)
+			ai.act();
 	}
 }
 

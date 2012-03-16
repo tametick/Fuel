@@ -96,12 +96,12 @@ class GameState extends FlxState {
 		for (sprite in level.sprites) {
 			add(sprite);
 		}
-		
+		/*
 		for (mob in level.mobs) {
 			add(mob.sprite.suitBar);
 			add(mob.sprite.beltBar);
 			add(mob.sprite.gunBar);
-		}
+		}*/
 	}
 	
 	override public function draw():Void {

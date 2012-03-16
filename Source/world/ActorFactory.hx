@@ -4,6 +4,7 @@ import parts.ButtonTriggerablePart;
 import parts.CollectibleTriggerablePart;
 import parts.MineralNodeTriggerablePart;
 import parts.SpikeTriggerablePart;
+import parts.WalkerAiPart;
 import sprites.ActorSprite;
 import data.Registry;
 import data.Library;
@@ -38,6 +39,7 @@ class ActorFactory {
 				a.sprite.addAnimation("shoot", [8, 9], 10, false);
 				a.sprite.addAnimation("fly", [12, 13], 10);
 				a.sprite.addAnimation("fall", [14, 15], 10);
+				a.sprite.addAnimation("die", [16, 17], 5);
 				a.weapon.sprite.setPreFireCallback( function() { a.sprite.play("shoot", true); } );
 				a.sprite.setColor(Registry.playerColor);
 
@@ -49,6 +51,7 @@ class ActorFactory {
 				}));
 				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
 				a.addPart(new TriggerablePart(true));
+				a.addPart(new WalkerAiPart(a));
 				a.sprite = newSprite(a,FLOOR_WALKER,x,y);
 				a.sprite.addAnimation("idle", [0, 1,2], 10);
 				a.sprite.addAnimation("run", [2, 3, 4], 10);
@@ -111,9 +114,11 @@ class ActorFactory {
 				a.sprite.addAnimation("idle", Utils.range(0,41),20);
 				a.sprite.setColor(Registry.iceColor);
 		}
-		if(a.stats!=null) {
+		
+	  /*if(a.stats!=null) {
 			a.sprite.initBars();
-		}
+		}*/
+		
 		a.sprite.play("idle");
 		
 		if(a.weapon!=null) {

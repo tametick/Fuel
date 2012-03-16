@@ -31,7 +31,12 @@ class Registry {
 	public static inline var bulletsPerWeapon = 10;
 	
 	public static inline var rangeShort = 1;
-	public static inline var rangeLong = fovRange+2;
+	public static inline var rangeLong = fovRange + 2;
+	
+	public static inline var beltDischargeRate =  0.04;
+	public static inline var beltChargeRate =  0.01;
+	public static inline var gunDischargeRate =  0.1;
+	public static inline var suitChargeRate =  0.01;
 	
 	public static inline var particleRotation = -720;
 	public static inline var particleLifespan = 0.25;

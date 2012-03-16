@@ -2,7 +2,6 @@ package sprites;
 
 import com.eclecticdesignstudio.motion.Actuate;
 import org.flixel.FlxU;
-import org.flixel.plugin.photonstorm.FlxBar;
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import org.flixel.FlxSprite;
@@ -18,9 +17,9 @@ class ActorSprite extends FlxSprite {
 	public var owner:Actor;
 	public var direction:Direction;
 	
-	public var suitBar:FlxBar;
+/*	public var suitBar:FlxBar;
 	public var beltBar:FlxBar;
-	public var gunBar:FlxBar;
+	public var gunBar:FlxBar;*/
 	public var explosionEmitter:EmitterSprite;
 	public var bloodEmitter:EmitterSprite;
 	
@@ -59,7 +58,7 @@ class ActorSprite extends FlxSprite {
 	public function getGunCharge():Float { return owner.stats.gunCharge; }
 	
 	
-	public function initBars() {
+/*	public function initBars() {
 		if (owner.stats.maxSuitCharge > 0) {
 			suitBar = new FlxBar(0, 0, FlxBar.FILL_LEFT_TO_RIGHT, Registry.tileSize-1, 1, this, getSuitCharge);
 			suitBar.createFilledBar(0xff005100, 0xff00F400);
@@ -87,7 +86,7 @@ class ActorSprite extends FlxSprite {
 			gunBar.updateTileSheet();
 			gunBar.alpha = 0.5;
 		}
-	}
+	}*/
 
 	function getWeaponSprite():WeaponSprite {
 		return owner.weapon.sprite;
@@ -107,9 +106,16 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	function startMoving(dx:Int, dy:Int) {
+		if (!alive)
+			return;
+	
 		isMoving = true;
 		if(owner.isOnGround(dx,dy) && !owner.isFlying ) {
 			play("run");
+			
+			if (owner == Registry.player)
+				owner.stats.beltCharge += Registry.beltChargeRate;
+			
 			if (falling > 0) {
 				// if you are ceiling spike, or the other is floor spike
 				var deadlySpikes = (owner.type == CEILING_SPIKE);
@@ -171,6 +177,9 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	function actOnKeyboardInput() {
+		if (!alive)
+			return;
+	
 		if(!isMoving) {
 			if (FlxG.keys.pressed(Registry.movementKeys[0])) {
 				faceRight();
@@ -227,6 +236,9 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function stopped() {
+		if (!alive)
+			return;
+	
 		// open exit door
 		if (Registry.player == owner) {
 			if (FlxU.getDistance(owner.tilePoint, Registry.level.exitDoor.tilePoint) <= 2)
@@ -240,7 +252,7 @@ class ActorSprite extends FlxSprite {
 			if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying) {
 				play("fly");
 				if(!Registry.debug) {
-					owner.stats.beltCharge-= 0.04;
+					owner.stats.beltCharge-=Registry.beltDischargeRate;
 				}
 				isMoving = false;
 			} else if (Registry.player == owner) {
