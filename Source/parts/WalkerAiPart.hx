@@ -17,12 +17,17 @@ class WalkerAiPart extends AiPart{
 				s.startMoving(dx,0);
 			}
 		} else {
-			// turn around
-			actor.sprite.direction = Utils.reverseDirection(actor.sprite.direction);
-			if (actor.sprite.direction == E)
-				actor.sprite.facing = FlxObject.RIGHT;
-			else
-				actor.sprite.facing = FlxObject.LEFT;
+			if(canDig() && Math.random()<0.5) {
+				actor.weapon.fire();
+			} else {
+				// turn around
+				s.direction = Utils.reverseDirection(s.direction);
+				if (s.direction == E) {
+					s.faceRight();
+				} else {
+					s.faceLeft();
+				}
+			}
 		}
 	}
 	
@@ -30,7 +35,6 @@ class WalkerAiPart extends AiPart{
 	function canWalkForward():Bool {
 		var l = Registry.level;
 		switch (actor.sprite.direction) {
-			// fixme - why is this not working?
 			case W:
 				if (l.isWalkable(actor.tilePoint.x - 1, actor.tilePoint.y) && l.get(actor.tilePoint.x - 1, actor.tilePoint.y+1) == 1) {
 					return true;
@@ -40,7 +44,22 @@ class WalkerAiPart extends AiPart{
 					return true;
 				}
 			default:
-				throw "nooooo";
+		}
+		return false;
+	}
+	
+	function canDig():Bool {
+		var l = Registry.level;
+		switch (actor.sprite.direction) {
+			case W:
+				if (l.get(actor.tilePoint.x - 1, actor.tilePoint.y) == 1 && l.get(actor.tilePoint.x - 1, actor.tilePoint.y+1) == 1) {
+					return true;
+				}
+			case E:
+				if (l.get(actor.tilePoint.x + 1, actor.tilePoint.y) == 1 && l.get(actor.tilePoint.x + 1, actor.tilePoint.y+1) == 1) {
+					return true;
+				}
+			default:
 		}
 		return false;
 	}

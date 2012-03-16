@@ -271,7 +271,7 @@ class ActorSprite extends FlxSprite {
 		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
 	}
 	
-	function faceRight() {
+	public function faceRight() {
 		facing = FlxObject.RIGHT;
 		direction = E;
 		if(owner.weapon!=null) {
@@ -279,7 +279,7 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	function faceLeft() {
+	public function faceLeft() {
 		facing = FlxObject.LEFT;
 		direction = W;
 		if (owner.weapon != null) {

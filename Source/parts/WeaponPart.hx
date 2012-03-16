@@ -20,15 +20,20 @@ class WeaponPart extends Part{
 	}
 	
 	public function fire() {
-		if (actor.isOnGround() && actor.stats.gunCharge > 0) {
-			if(!Registry.debug) {
-				actor.stats.gunCharge -= Registry.gunDischargeRate;
+		if(actor==Registry.player){
+			if (actor.isOnGround() && actor.stats.gunCharge > 0) {
+				if(!Registry.debug) {
+					actor.stats.gunCharge -= Registry.gunDischargeRate;
+				}
+				sprite.fire();
+				FlxG.play(Library.getSound(SHOT));
+				Registry.level.passTurn();
+			} else {
+				FlxG.play(Library.getSound(ERROR));
 			}
-			sprite.fire();
-			FlxG.play(Library.getSound(SHOT));
-			Registry.level.passTurn();
 		} else {
-			FlxG.play(Library.getSound(ERROR));
+			// monsters can always attack if the AI decides they should
+			sprite.fire();
 		}
 	}
 	
