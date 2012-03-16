@@ -76,5 +76,8 @@ class SpaceMiner extends FlxGame {
 			}
 			removeMenu = !removeMenu;
 		}
+		
+		if (Registry.debug && FlxG.keys.justPressed("N"))
+			Registry.gameState.newLevel();
 	}
 }
