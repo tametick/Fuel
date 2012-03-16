@@ -29,12 +29,16 @@ class Utils {
 		map[Std.int(y) * width + Std.int(x)] = val;
 	}
 	
-	public static function randomInt(max:Int):Int {
-		return Math.floor(Math.random() * max);
+	public static inline function randomInt(max:Int):Int {
+		return Std.random(max);
 	}
 	
 	public static function randomIntInRange(min:Int, max:Int):Int {
 		return Math.round(Math.random() * (max-min))+min;
+	}
+	
+	public static function randomElement<T>(arr : Array<T>) : T	{
+		return arr[Std.random(arr.length)];
 	}
 	
 	public static function clampToRange(i:Float, min:Float, max:Float):Float {

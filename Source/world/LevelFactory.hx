@@ -47,9 +47,19 @@ class LevelFactory {
 	}
 	
 	static function addEnemy(level:Level, type:ActorType) {
-		var freeTile:FlxPoint;
+		var freeTile:FlxPoint = null;
 		do {
-			freeTile = level.getFreeTileOnWall(true);
+			switch (type) {
+				case WALKER:
+					freeTile = level.getFreeTileOnWall(true);
+				case CLIMBER:
+					freeTile = level.getFreeTileOnWall(false);
+				case ActorType.FLYER:
+					freeTile = level.getFreeTile();
+				default:
+					throw "not an enemy!";
+			}
+				
 		} while (level.getActorAtPoint(freeTile.x - 1, freeTile.y).length > 0 &&
 				 level.getActorAtPoint(freeTile.x + 1, freeTile.y).length > 0 &&
 				 FlxU.getDistance(freeTile, level.start) > 3
@@ -143,7 +153,8 @@ class LevelFactory {
 	
 	static function addEnemies(level:Level) {
 		for (e in 0...Registry.enemiesPerLevel) {
-			addEnemy(level, WALKER);
+			var type = Utils.randomElement([WALKER, CLIMBER, ActorType.FLYER]);
+			addEnemy(level, type);
 		}
 	}
 	static function addSpikes(level:Level) {

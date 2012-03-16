@@ -68,12 +68,12 @@ class ActorFactory {
 				a.addPart(new TriggerablePart(true));
 				a.addPart(new ClimberAiPart(a));
 				a.sprite = newSprite(a,WALL_CRAWLER,x,y);
-				a.sprite.addAnimation("idle", [0, 1], 10);
-				a.sprite.addAnimation("run", [4, 5], 10);
-				a.sprite.addAnimation("attack", [8, 9], 10);
-				a.sprite.addAnimation("idle_f", [2, 3], 10);
-				a.sprite.addAnimation("run_f", [6, 7], 10);
-				a.sprite.addAnimation("attack_f", [10, 11], 10);
+				a.sprite.addAnimation("idle", [0, 1], 2);
+				a.sprite.addAnimation("run", [4, 5], 4);
+				a.sprite.addAnimation("attack", [8, 9], 4);
+				a.sprite.addAnimation("idle_f", [2, 3], 2);
+				a.sprite.addAnimation("run_f", [6, 7], 4);
+				a.sprite.addAnimation("attack_f", [10, 11], 4);
 				a.sprite.setColor(Registry.climberColor);
 
 			case ActorType.FLYER:
@@ -86,9 +86,9 @@ class ActorFactory {
 				a.addPart(new TriggerablePart(true));
 				a.addPart(new FlyerAiPart(a));
 				a.sprite = newSprite(a,Image.FLYER,x,y);
-				a.sprite.addAnimation("idle", [0, 1], 10);
-				a.sprite.addAnimation("run", [2, 3], 10);
-				a.sprite.addAnimation("attack", [4, 5], 10);
+				a.sprite.addAnimation("idle", [0, 1], 4);
+				a.sprite.addAnimation("run", [2, 3], 4);
+				a.sprite.addAnimation("attack", [4, 5], 4);
 				a.sprite.setColor(Registry.flyerColor);
 				
 				
@@ -148,8 +148,10 @@ class ActorFactory {
 	  /*if(a.stats!=null) {
 			a.sprite.initBars();
 		}*/
-		
-		a.sprite.play("idle");
+		if(type==CLIMBER)
+			a.sprite.play("idle_f");
+		else
+			a.sprite.play("idle");
 		
 		if(a.weapon!=null) {
 			a.weapon.sprite.setParent(a.sprite, "x", "y",Std.int(Registry.tileSize/2-1), Std.int(Registry.tileSize/2-1));
