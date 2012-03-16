@@ -8,16 +8,21 @@ import world.Actor;
 
 class WalkerAiPart extends AiPart{
 	override public function act() {
+		var s = actor.sprite;
+		var d = s.direction;
+	
 		if (canWalkForward()) {
-			// todo
-			trace(actor.sprite.direction);
+			var dx = d == W? -1:1;
+			if (Registry.level.isWalkable(actor.tileX + dx, actor.tileY)) {
+				s.startMoving(dx,0);
+			}
 		} else {
 			// turn around
 			actor.sprite.direction = Utils.reverseDirection(actor.sprite.direction);
 			if (actor.sprite.direction == E)
-				actor.sprite.facing = FlxObject.LEFT;
-			else
 				actor.sprite.facing = FlxObject.RIGHT;
+			else
+				actor.sprite.facing = FlxObject.LEFT;
 		}
 	}
 	

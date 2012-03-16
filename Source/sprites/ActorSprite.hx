@@ -105,7 +105,7 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	function startMoving(dx:Int, dy:Int) {
+	public function startMoving(dx:Int, dy:Int) {
 		if (!alive)
 			return;
 	
