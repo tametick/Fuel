@@ -106,9 +106,6 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function startMoving(dx:Int, dy:Int) {
-		if (!alive)
-			return;
-	
 		isMoving = true;
 		if(owner.isOnGround(dx,dy) && !owner.isFlying ) {
 			play("run");
@@ -143,10 +140,11 @@ class ActorSprite extends FlxSprite {
 				hurt(falling / 10);
 				falling = 0;
 			}
-		} else if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying) {
+		} else if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying && alive) {
 			play("fly");
 		}
-			
+
+		
 		var duration = 1 / (Registry.walkingSpeed);
 		var nextPixelX = Utils.getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
 		var nextPixelY = Utils.getPositionSnappedToGrid(this.y + dy * Registry.tileSize);
@@ -238,8 +236,13 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function stopped() {
-		if (!alive)
+		if (!alive) {
+			if (!owner.isOnGround()) {
+				fall();
+				play("dying");
+			}
 			return;
+		}
 	
 		// open exit door
 		if (Registry.player == owner) {

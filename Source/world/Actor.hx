@@ -102,10 +102,13 @@ class Actor {
 	}
 
 	public function kill() {
+		isFlying = false;
 		if (this == Registry.player) {
 			GameState.hudLayer.setSuitBarWidth(0);
-			Registry.player.sprite.play("die");
-			Registry.player.sprite.alive = false;
+			sprite.play("die");
+			sprite.alive = false;
+			
+			
 			// todo - high score screen
 			// todo - game over
 
