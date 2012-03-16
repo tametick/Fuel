@@ -25,7 +25,7 @@ class Registry {
 	public static inline var fontSize = 8;
 
 	public static inline var fovRange = 3;
-	public static inline var walkingSpeed = 5;
+	public static inline var walkingSpeed = 7;
 	
 	public static inline var bulletSpeed = 100;
 	public static inline var bulletsPerWeapon = 10;
