@@ -98,7 +98,13 @@ class MapSprite extends FlxTilemap {
 		super.update();
 		
 		FlxG.overlap(mobSprites, bulletSprites, hitActor);
+		FlxG.overlap(Registry.player.sprite, mobSprites, overlapWithEnemy);
 		FlxG.collide(this, bulletSprites, hitWall);
+	}
+	
+	function overlapWithEnemy(?victim:ActorSprite, ?killer:ActorSprite) {
+		if(Utils.exists([CLIMBER, WALKER, FLYER], killer.owner.type))
+			Registry.player.kill();
 	}
 	
 	public function hitWall(m:MapSprite, b:Bullet) {
