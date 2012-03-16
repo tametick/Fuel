@@ -6,7 +6,7 @@ import utils.Utils;
 import utils.Direction;
 import world.Actor;
 
-class WalkerAiPart extends AiPart{
+class WalkerAiPart extends AiPart {
 	override public function act() {
 		var s = actor.sprite;
 		var d = s.direction;
@@ -33,23 +33,6 @@ class WalkerAiPart extends AiPart{
 		}
 	}
 	
-	
-	function canWalkForward():Bool {
-		var l = Registry.level;
-		switch (actor.sprite.direction) {
-			case W:
-				if (l.isWalkable(actor.tilePoint.x - 1, actor.tilePoint.y) && l.get(actor.tilePoint.x - 1, actor.tilePoint.y+1) == 1) {
-					return true;
-				}
-			case E:
-				if (l.isWalkable(actor.tilePoint.x + 1, actor.tilePoint.y) && l.get(actor.tilePoint.x + 1, actor.tilePoint.y+1) == 1) {
-					return true;
-				}
-			default:
-		}
-		return false;
-	}
-	
 	function canDig():Bool {
 		var l = Registry.level;
 		switch (actor.sprite.direction) {
@@ -59,25 +42,6 @@ class WalkerAiPart extends AiPart{
 				}
 			case E:
 				if (l.get(actor.tilePoint.x + 1, actor.tilePoint.y) == 1 && l.get(actor.tilePoint.x + 1, actor.tilePoint.y+1) == 1) {
-					return true;
-				}
-			default:
-		}
-		return false;
-	}
-	
-	function canAttackPlayer():Bool {
-		if (Registry.player.tileX==actor.tilePoint.x && Registry.player.tileY==actor.tilePoint.y) {
-			return true;
-		}
-	
-		switch (actor.sprite.direction) {
-			case W:
-				if (Registry.player.tileX==actor.tilePoint.x - 1 && Registry.player.tileY==actor.tilePoint.y) {
-					return true;
-				}
-			case E:
-				if (Registry.player.tileX==actor.tilePoint.x + 1 && Registry.player.tileY==actor.tilePoint.y) {
 					return true;
 				}
 			default:
