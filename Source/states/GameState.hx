@@ -37,8 +37,8 @@ class GameState extends FlxState {
 		FlxG.camera.setBounds(0, 0, tileMap.width, tileMap.height);
 		
 		hudLayer.init();
-		iceCounter = hudLayer.newText("", 0, 0, Registry.iceColor);
-		monopoleCounter = hudLayer.newText("", 0, 8, Registry.monopoleColor);
+		iceCounter = hudLayer.newText("", 200, 2, 0);
+		monopoleCounter = hudLayer.newText("", 222, 2, 0);
 		setIceCounter(0);
 		setMonopoleCounter(0);
 		
@@ -47,10 +47,10 @@ class GameState extends FlxState {
 	}
 	
 	public function setIceCounter(i:Int) {
-		iceCounter.text = "ice: " + i;
+		iceCounter.text = "" + i;
 	}
 	public function setMonopoleCounter(m:Int) {
-		monopoleCounter.text = "monopoles: " + m;
+		monopoleCounter.text = "" + m;
 	}
 	
 	override public function destroy() {

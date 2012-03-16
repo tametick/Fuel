@@ -21,6 +21,10 @@ class HudSprite extends Sprite {
 	static var format:TextFormat;
 
 	public function init() {
+		var topHudBg = new Bitmap(Library.getImage(TOPHUD));
+		topHudBg.width *= FlxCamera.defaultZoom;
+		topHudBg.height *= FlxCamera.defaultZoom;
+	
 		var hudBg = new Bitmap(Library.getImage(HUD));
 		hudBg.width *= FlxCamera.defaultZoom;
 		hudBg.height *= FlxCamera.defaultZoom;
@@ -46,6 +50,9 @@ class HudSprite extends Sprite {
 		setBeltBarWidth(1);
 		
 		addChild(hudBg);
+		addChild(topHudBg);
+		
+		//...
 	}
 
 	public function newText(text:String,x:Float,y:Float, color:Int):TextField {

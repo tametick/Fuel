@@ -54,6 +54,7 @@ enum Image {
 	DOOR;
 	
 	HUD;
+	TOPHUD;
 	INTERLACE_SMALL;
 	INTERLACE_BIG;
 }

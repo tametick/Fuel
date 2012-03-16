@@ -1,7 +1,7 @@
 package parts;
 
-class ClimberAi extends AiPart{
+class FlyerAiPart extends AiPart {
 	override public function act():Dynamic {
-	
+
 	}
 }

@@ -1,6 +1,7 @@
 package world;
 
 import parts.ButtonTriggerablePart;
+import parts.ClimberAiPart;
 import parts.CollectibleTriggerablePart;
 import parts.MineralNodeTriggerablePart;
 import parts.SpikeTriggerablePart;
@@ -58,7 +59,16 @@ class ActorFactory {
 				a.sprite.setColor(Registry.walkerColor);
 			
 			case CLIMBER:
-				throw "not yet implemented";
+				a.addPart(new StatsPart(a,{
+					maxSuitCharge:1,
+				}));
+				a.addPart(WeaponFactory.newWeapon(a, UNARMED));
+				a.addPart(new TriggerablePart(true));
+				a.addPart(new ClimberAiPart(a));
+				a.sprite = newSprite(a,FLOOR_WALKER,x,y);
+				a.sprite.addAnimation("idle", [0, 1,2], 10);
+				a.sprite.addAnimation("run", [2, 3, 4], 10);
+				a.sprite.setColor(Registry.walkerColor);
 			case FLYER:
 				throw "not yet implemented";
 				
