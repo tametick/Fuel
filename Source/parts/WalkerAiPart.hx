@@ -17,7 +17,7 @@ class WalkerAiPart extends AiPart{
 				s.startMoving(dx,0);
 			}
 		} else {
-			if(canDig() && Math.random()<0.5) {
+			if(canDig() && Math.random()<Registry.walkerDigChance) {
 				actor.weapon.fire();
 			} else {
 				// turn around
