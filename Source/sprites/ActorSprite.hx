@@ -185,22 +185,22 @@ class ActorSprite extends FlxSprite {
 		if(!isMoving) {
 			if (FlxG.keys.pressed(Registry.movementKeys[0])) {
 				faceRight();
-				if(Registry.level.isWalkable(owner.tileX+1,owner.tileY)) {
+				if(Registry.level.isWalkable(owner.tileX+1,owner.tileY) && !FlxG.keys.CONTROL) {
 					startMoving(1,0);
 				}
 			} else if (FlxG.keys.pressed(Registry.movementKeys[1])) {
 				faceLeft();
-				if(Registry.level.isWalkable(owner.tileX-1,owner.tileY)) {
+				if(Registry.level.isWalkable(owner.tileX-1,owner.tileY) && !FlxG.keys.CONTROL) {
 					startMoving(-1,0);
 				}
 			} else if (FlxG.keys.pressed(Registry.movementKeys[2])) {
 				faceDown();
-				if(Registry.level.isWalkable(owner.tileX,owner.tileY+1) && owner.isFlying) {
+				if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)  && !FlxG.keys.CONTROL && owner.isFlying) {
 					startMoving(0,1);
 				}
 			} else if (FlxG.keys.pressed(Registry.movementKeys[3])) {
 				faceUp();
-				if(Registry.level.isWalkable(owner.tileX,owner.tileY-1) && owner.isFlying) {
+				if(Registry.level.isWalkable(owner.tileX,owner.tileY-1)  && !FlxG.keys.CONTROL && owner.isFlying) {
 					startMoving(0,-1);
 				}
 			}
@@ -224,7 +224,7 @@ class ActorSprite extends FlxSprite {
 			}
 		}
 		
-		if (FlxG.keys.justPressed(Registry.attackKey[0])) {
+		if (FlxG.keys.justReleased(Registry.attackKey[0])) {
 			owner.weapon.fire();
 		}
 		
