@@ -248,6 +248,20 @@ class Level {
 		return t;
 	}
 	
+	
+	public function getFreeNeighbors(p:FlxPoint):Array<FlxPoint> {
+		var n = [];
+		if (isWalkable(p.x - 1, p.y))
+			n.push(new FlxPoint(-1, 0));
+		if (isWalkable(p.x + 1, p.y))
+			n.push(new FlxPoint(1, 0));
+		if (isWalkable(p.x, p.y-1))
+			n.push(new FlxPoint(0, -1));
+		if (isWalkable(p.x, p.y+1))
+			n.push(new FlxPoint(0, 1));
+		return n;
+	}
+	
 	public function passTurn() {
 		for (e in enemies) {
 			e.act();

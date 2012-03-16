@@ -137,7 +137,9 @@ class ActorSprite extends FlxSprite {
 					hurt(1.0);
 				}
 				
-				hurt(falling / 10);
+				if(owner.type!=ActorType.CLIMBER){
+					hurt(falling / 10);
+				}
 				falling = 0;
 			}
 		} else if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying && alive) {

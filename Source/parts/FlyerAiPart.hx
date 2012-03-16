@@ -1,10 +1,12 @@
 package parts;
 import data.Registry;
 import org.flixel.FlxU;
+import utils.Utils;
 
 class FlyerAiPart extends AiPart {
 	override public function act() {
-		var p  = Registry.player.tilePoint;
+		var p = Registry.player.tilePoint;
+		var s = actor.sprite;
 	
 		var dist = FlxU.getDistance(actor.tilePoint, p);
 		if (dist <= 1) {
@@ -17,6 +19,9 @@ class FlyerAiPart extends AiPart {
 			if(p.y>actor.tilePoint.y)
 				actor.sprite.faceDown();
 			actor.weapon.fire();
+		} else {
+			var d = Utils.randomElement(Registry.level.getFreeNeighbors(actor.tilePoint));
+			s.startMoving(Std.int(d.x),Std.int(d.y));
 		}
 	}
 }
