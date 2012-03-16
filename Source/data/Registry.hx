@@ -12,9 +12,9 @@ class Registry {
 	public static inline var attackKey = ["CONTROL"];
 	public static inline var beltKey = ["SHIFT"];
 	
-	public static inline var enemiesPerLevel = 10;
+	public static inline var enemiesPerLevel = 5;// 10;
 	public static inline var spikesPerLevel = 10;
-	public static inline var monopoleChancePerLevel = 1.0;
+	public static inline var monopoleChancePerLevel = 0.5;
 	public static inline var mineralNodesPerLevel = 5;
 	
 	public static inline var screenWidth = 240;
@@ -37,6 +37,8 @@ class Registry {
 	public static inline var beltChargeRate =  0.01;
 	public static inline var gunDischargeRate =  0.1;
 	public static inline var suitChargeRate =  0.01;
+	
+	public static inline var walkerDigChance = 0.4;
 	
 	public static inline var particleRotation = -720;
 	public static inline var particleLifespan = 0.25;
