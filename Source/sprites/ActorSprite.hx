@@ -156,7 +156,6 @@ class ActorSprite extends FlxSprite {
 		// update fov
 		if(owner.isPlayer) {
 			Registry.level.updateFov(new FlxPoint(nextTileX, nextTileY));
-			Registry.level.passTurn();
 		}
 	}
 			
@@ -244,8 +243,12 @@ class ActorSprite extends FlxSprite {
 			return;
 		}
 	
-		// open exit door
+		
 		if (Registry.player == owner) {
+			// move enemies
+			Registry.level.passTurn();
+			
+			// open exit door
 			if (FlxU.getDistance(owner.tilePoint, Registry.level.exitDoor.tilePoint) <= 2)
 				Registry.level.exitDoor.sprite.play("open");
 		}
@@ -290,14 +293,14 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	function faceDown()	{
+	public function faceDown()	{
 		direction = S;
 		if (owner.weapon != null) {
 			weaponSprite.setBulletDirection(WeaponSprite.DOWN, Math.round(Registry.bulletSpeed));
 		}
 	}
 	
-	function faceUp() {
+	public function faceUp() {
 		direction = N;
 		if (owner.weapon != null) {
 			weaponSprite.setBulletDirection(WeaponSprite.UP, Math.round(Registry.bulletSpeed));
