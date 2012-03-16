@@ -51,6 +51,9 @@ class Registry {
 	
 	public static inline var playerColor = 0xb2d47d;
 	public static inline var walkerColor = 0x808080;
+	public static inline var climberColor = 0x808080;
+	public static inline var flyerColor = 0x808080;
+
 	public static inline var floorColor = 0x6c2d37;
 	public static inline var doorColor = 0x65727c;
 	
