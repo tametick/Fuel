@@ -1,5 +1,6 @@
 package parts;
 import data.Registry;
+import org.flixel.FlxG;
 import world.Actor;
 
 class CollectibleTriggerablePart extends TriggerablePart{
@@ -14,12 +15,14 @@ class CollectibleTriggerablePart extends TriggerablePart{
 		if (agent == Registry.player) {
 			if(actor.type == ICE) {
 				agent.stats.ice++;
+				FlxG.flash(Registry.iceColor);
 			} else if (actor.type == MONOPOLE) {
 				agent.stats.monopoles++;
+				FlxG.flash(Registry.monopoleColor);
 			} else {
 				throw "Invalid collectible type: " + actor.type;
 			}
+			Registry.level.removeActor(actor);
 		}
-		Registry.level.removeActor(actor);
 	}
 }
