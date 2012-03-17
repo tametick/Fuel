@@ -1,5 +1,6 @@
 package world;
 
+import data.Library;
 import org.flixel.FlxG;
 import org.flixel.FlxObject;
 import org.flixel.FlxPoint;
@@ -33,9 +34,17 @@ class Actor {
 
 	public var isPlayer:Bool;
 	public var isAwake:Bool;
-	public var isFlying:Bool;
+	public var isFlying(default, setIsFlying):Bool;
+	function setIsFlying(f:Bool):Bool {
+		if(this==Registry.player && isFlying != f){
+			FlxG.play(Library.getSound(TOGGLE_BELT));
+		}
+		return isFlying = f;
+	}
+	
 	public var isHung:Bool;
 	public var isBlocking(getIsBlocking, never):Bool;
+	
 	
 	var partNameCache:ObjectHash<String>;
 	var parts:Hash<Part>;

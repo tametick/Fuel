@@ -104,7 +104,9 @@ class MapSprite extends FlxTilemap {
 				trace(err);
 			}
 		}
-		FlxG.overlap(Registry.player.sprite, mobSprites, overlapWithEnemy);
+		if(Registry.player.sprite.alive){
+			FlxG.overlap(Registry.player.sprite, mobSprites, overlapWithEnemy);
+		}
 		FlxG.collide(this, bulletSprites, hitWall);
 	}
 	

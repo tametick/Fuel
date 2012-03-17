@@ -66,4 +66,5 @@ enum Sound {
 	SHOT;
 	PICKUP_ICE;
 	PICKUP_MONOPOLE;
+	TOGGLE_BELT;
 }
