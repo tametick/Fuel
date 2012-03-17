@@ -114,34 +114,6 @@ class ActorSprite extends FlxSprite {
 				owner.stats.beltCharge += Registry.beltChargeRate;
 				owner.stats.beltCharge = Math.min(owner.stats.maxBeltCharge, owner.stats.beltCharge);
 			}
-			
-			if (falling > 0) {
-				// if you are ceiling spike, or the other is floor spike
-				var deadlySpikes = (owner.type == CEILING_SPIKE);
-				
-				var actors = Registry.level.getActorAtPoint(owner.tilePoint.x + dx, owner.tilePoint.y + dy);
-				
-				for (actor in actors) {
-					if (actor == owner) {
-						continue;
-					}
-					if (actor.type == FLOOR_SPIKE) {
-						deadlySpikes = true;
-					}
-				}
-				
-				if (deadlySpikes) {
-					for (actor in actors) {
-						actor.sprite.hurt(1.0);
-					}
-					hurt(1.0);
-				}
-				
-				if(owner.type!=ActorType.CLIMBER){
-					hurt(falling / 10);
-				}
-				falling = 0;
-			}
 		} else if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying && alive) {
 			play("fly");
 		}
@@ -230,6 +202,11 @@ class ActorSprite extends FlxSprite {
 
 	}
 	
+	public function aquireOverlappingItems() {
+		var mapSprite = Registry.level.mapSprite;
+		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
+	}
+	
 	public function fall() {
 		falling++;
 		play("fall");
@@ -246,7 +223,7 @@ class ActorSprite extends FlxSprite {
 			return;
 		}
 	
-		
+		// stuff to do right after the player too their turn
 		if (Registry.player == owner) {
 			// move enemies
 			Registry.level.passTurn();
@@ -256,28 +233,60 @@ class ActorSprite extends FlxSprite {
 				Registry.level.exitDoor.sprite.play("open");
 		}
 	
+		// falling
+		if (owner.isOnGround() && !owner.isFlying  && falling > 0) {
+			// if you are ceiling spike, or the other is floor spike
+			var deadlySpikes = (owner.type == CEILING_SPIKE);
+			
+			var actors = Registry.level.getActorAtPoint(owner.tilePoint.x, owner.tilePoint.y);
+			
+			for (actor in actors) {
+				if (actor == owner) {
+					continue;
+				}
+				if (actor.type == FLOOR_SPIKE) {
+					deadlySpikes = true;
+				}
+			}
+			
+			if (deadlySpikes) {
+				for (actor in actors) {
+					actor.sprite.hurt(1.0);
+				}
+				hurt(1.0);
+			}
+			
+			if(owner.type!=ActorType.CLIMBER){
+				hurt(falling / 10);
+			}
+			falling = 0;
+		}
+	
+		// flying
 		if(owner.isOnGround() && !owner.isFlying) {
 			play("idle");
 			isMoving = false;
 		} else {
+			isMoving = false;
 			if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying) {
 				play("fly");
-				if(!Registry.debug) {
-					owner.stats.beltCharge-=Registry.beltDischargeRate;
-				}
-				isMoving = false;
+				owner.stats.beltCharge-=Registry.beltDischargeRate;
 			} else if (Registry.player == owner) {
 				owner.isFlying = false;
-				fall();
+				
+				if(!owner.isOnGround()){
+					fall();
+				} else {
+					play("idle");
+				}
 			}
 		}
 		
 		x = Utils.getPositionSnappedToGrid(x);
 		y = Utils.getPositionSnappedToGrid(y);
 		
-		var mapSprite = Registry.level.mapSprite;
-		
-		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
+		// get items
+		aquireOverlappingItems();
 	}
 	
 	public function faceRight() {

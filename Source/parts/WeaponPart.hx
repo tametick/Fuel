@@ -22,9 +22,7 @@ class WeaponPart extends Part{
 	public function fire() {
 		if(actor==Registry.player){
 			if (actor.isOnGround() && actor.stats.gunCharge > 0) {
-				if(!Registry.debug) {
-					actor.stats.gunCharge -= Registry.gunDischargeRate;
-				}
+				actor.stats.gunCharge -= Registry.gunDischargeRate;
 				sprite.fire();
 				FlxG.play(Library.getSound(SHOT));
 				Registry.level.passTurn();

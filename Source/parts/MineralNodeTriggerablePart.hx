@@ -13,5 +13,8 @@ class MineralNodeTriggerablePart extends TriggerablePart {
 	override public function onMechanism(source:Actor, agent:Actor) {
 		Registry.level.addIceCrystal(actor.tilePoint.x, actor.tilePoint.y);
 		actor.kill();
+		
+		// see if the player can get the crystal we just popped out
+		Registry.player.sprite.aquireOverlappingItems();
 	}
 }
