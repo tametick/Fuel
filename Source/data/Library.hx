@@ -86,5 +86,6 @@ enum Sound {
 }
 
 enum Music {
+	GAMEPLAY;
 	DEATH;
 }
