@@ -20,11 +20,8 @@ import world.LevelFactory;
 
 class GameState extends FlxState {
 	public static var lightingLayer:LightingSprite;
-	
 	public static var hudLayer:HudSprite;
-	public var textLine:TextField;
-	var iceCounter:TextField;
-	var monopoleCounter:TextField;
+	
 	
 	override public function create() {
 		Registry.gameState = this;
@@ -38,21 +35,9 @@ class GameState extends FlxState {
 		FlxG.camera.setBounds(0, 0, tileMap.width, tileMap.height);
 		
 		hudLayer.init();
-		textLine = hudLayer.newText("I am shit out of luck, looks like I'll die in this pit.", 5, 2, 0);
-		iceCounter = hudLayer.newText("", 200, 2, 0);
-		monopoleCounter = hudLayer.newText("", 222, 2, 0);
-		setIceCounter(0);
-		setMonopoleCounter(0);
 		
 		lightingLayer.visible = true;
 		hudLayer.visible = true;
-	}
-	
-	public function setIceCounter(i:Int) {
-		iceCounter.text = "" + i;
-	}
-	public function setMonopoleCounter(m:Int) {
-		monopoleCounter.text = "" + m;
 	}
 	
 	override public function destroy() {

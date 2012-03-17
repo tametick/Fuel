@@ -12,7 +12,7 @@ class Registry {
 	public static inline var attackKey = [["CONTROL"],["X"]];
 	public static inline var beltKey = [["SHIFT"],["C"]];
 	
-	public static inline var enemiesPerLevel = 5;// 10;
+	public static inline var enemiesPerLevel = 6;// 10;
 	public static inline var spikesPerLevel = 10;
 	public static inline var monopoleChancePerLevel = 0.5;
 	public static inline var mineralNodesPerLevel = 5;

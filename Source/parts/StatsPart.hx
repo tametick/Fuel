@@ -14,10 +14,19 @@ class StatsPart extends Part {
 	public var suitCharge(getSuitCharge, setSuitCharge):Float;
 	public var gunCharge(getGunCharge, setGunCharge):Float;
 	public var beltCharge(getBeltCharge, setBeltCharge):Float;
-
+	
 	// collectibles
 	public var ice(default, setIce):Int;
 	public var monopoles(default, setMonopoles):Int;
+	
+	
+	/*
+	public var suitCharge:Float;
+	public var gunCharge:Float;
+	public var beltCharge:Float;
+	public var ice:Int;
+	public var monopoles:Int;
+	*/
 
 	// derived stats
 	public var damage(getDamage, never):Float;
@@ -60,11 +69,11 @@ class StatsPart extends Part {
 	}
 
 	function setIce(i:Int):Int {
-		Registry.gameState.setIceCounter(i);
+		GameState.hudLayer.setIceCounter(i);
 		return ice = i;
 	}
 	function setMonopoles(m:Int):Int {
-		Registry.gameState.setMonopoleCounter(m);
+		GameState.hudLayer.setMonopoleCounter(m);
 		return monopoles = m;
 	}
 

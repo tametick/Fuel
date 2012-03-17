@@ -11,12 +11,18 @@ import com.eclecticdesignstudio.motion.Actuate;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import data.Library;
+import states.GameState;
 
 
 class HudSprite extends Sprite {
 	var suitBar:Bitmap;
 	var beltBar:Bitmap;
 	var gunBar:Bitmap;
+	
+	public var textLine:TextField;
+	var iceCounter:TextField;
+	var monopoleCounter:TextField;
+
 	
 	static var format:TextFormat;
 
@@ -53,6 +59,12 @@ class HudSprite extends Sprite {
 		addChild(topHudBg);
 		
 		//...
+		
+		textLine = newText("I am shit out of luck, looks like I'll die in this pit.", 5, 2, 0);
+		iceCounter = newText("", 200, 2, 0);
+		monopoleCounter = newText("", 222, 2, 0);
+		setIceCounter(0);
+		setMonopoleCounter(0);
 	}
 
 	public function newText(text:String,x:Float,y:Float, color:Int):TextField {
@@ -93,5 +105,12 @@ class HudSprite extends Sprite {
 		var w = Std.int(w * 64 * FlxCamera.defaultZoom);
 		var dw = Math.abs(gunBar.width - w);
 		Actuate.tween(gunBar, dw/150, { width:w } );
+	}
+	
+	public function setIceCounter(i:Int) {
+		iceCounter.text = "" + i;
+	}
+	public function setMonopoleCounter(m:Int) {
+		monopoleCounter.text = "" + m;
 	}
 }
