@@ -22,11 +22,13 @@ class LevelEndState extends FlxState {
 	var beltClick:FlxSprite;
 	var gunClick:FlxSprite;
 
+	var stats:StatsPart;
+
 	override public function create():Void {
 		FlxG.mouse.show();
 	
 		//tmp
-		var stats = new StatsPart(null,{
+		stats = new StatsPart(null,{
 			maxSuitCharge:1,
 			maxGunCharge:1,
 			maxBeltCharge:1,
@@ -39,6 +41,13 @@ class LevelEndState extends FlxState {
 		GameState.hudLayer.setMonopoleCounter(stats.monopoles);
 		
 		GameState.hudLayer.visible = true;
+		
+		stats.beltCharge = 0.5;
+		stats.suitCharge = 0.5;
+		stats.gunCharge = 0.5;
+		GameState.hudLayer.setSuitBarWidth(stats.suitCharge);
+		GameState.hudLayer.setBeltBarWidth(stats.beltCharge);
+		GameState.hudLayer.setGunBarWidth(stats.gunCharge);
 		//end tmp
 	
 		suit = new FlxSprite(FlxG.width - 74, FlxG.height / 2 - 1.5 * 18);
@@ -84,10 +93,6 @@ class LevelEndState extends FlxState {
 		suitClick.visible = false;
 		beltClick.visible = false;
 		gunClick.visible = false;
-		
-		GameState.hudLayer.setSuitBarWidth(0.5);
-		GameState.hudLayer.setBeltBarWidth(0.5);
-		GameState.hudLayer.setGunBarWidth(0.5);
 	}
 	
 	static private var _point = new FlxPoint();
@@ -140,15 +145,23 @@ class LevelEndState extends FlxState {
 	function chrageSuit() {
 		suitClick.visible = false;
 		suit.visible = true;
-		//GameState.hudLayer.setSuitBarWidth()
+		
+		stats.suitCharge += 0.1;
+		GameState.hudLayer.setSuitBarWidth(stats.suitCharge);
 	}
 	function chrageBelt() {
 		beltClick.visible = false;
 		belt.visible = true;
+		
+		stats.beltCharge += 0.1;
+		GameState.hudLayer.setBeltBarWidth(stats.beltCharge);
 	}
 	function chrageGun() {
 		gunClick.visible = false;
 		gun.visible = true;
+		
+		stats.gunCharge += 0.1;
+		GameState.hudLayer.setGunBarWidth(stats.gunCharge);
 	}
 	
 	override public function destroy():Void {
