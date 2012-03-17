@@ -82,6 +82,7 @@ enum Sound {
 	CLIMBER_DEATH;
 	FLYER_DEATH;
 	DESTROY_WALL;
+	DESTROY_MINERAL;
 }
 
 enum Music {
