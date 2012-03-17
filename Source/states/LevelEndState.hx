@@ -120,22 +120,30 @@ class LevelEndState extends FlxState {
 			}
 		}
 		
-		if (FlxG.mouse.justPressed()) {
+		if (FlxG.mouse.justPressed() && stats.ice > 0) {
 			if (suitFocus.visible) {
+				stats.ice--;
 				suitFocus.visible = false;
 				suitClick.visible = true;
 				suitClick.play("idle",true);
 				Actuate.timer(1).onComplete(chrageSuit);
 			} else if (beltFocus.visible) {
+				stats.ice--;
 				beltFocus.visible = false;
 				beltClick.visible = true;
 				beltClick.play("idle",true);
 				Actuate.timer(1).onComplete(chrageBelt);
 			} else if (gunFocus.visible) {
+				stats.ice--;
 				gunFocus.visible = false;
 				gunClick.visible = true;
 				gunClick.play("idle",true);
 				Actuate.timer(1).onComplete(chrageGun);
+			}
+			
+			GameState.hudLayer.setIceCounter(stats.ice);
+			if (stats.ice == 0) {
+				FlxG.fade(0);
 			}
 		}
 		
