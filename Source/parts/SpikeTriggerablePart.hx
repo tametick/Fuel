@@ -10,6 +10,12 @@ class SpikeTriggerablePart extends TriggerablePart{
 	
 	// falling from ceiling
 	override public function onMechanism(source:Actor, agent:Actor) {
+		// remove your trigger
+		if(source !=null) {
+			Registry.level.removeActor(source);
+		}
+	
+		// fall
 		actor.sprite.play("falling");
 		actor.sprite.fall();
 	}

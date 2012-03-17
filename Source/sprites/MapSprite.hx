@@ -130,24 +130,24 @@ class MapSprite extends FlxTilemap {
 		owner.updateFov(Registry.player.tilePoint);
 		b.kill();
 		
-		if (shooter.owner == Registry.player) {
-			// look at actor above
-			var fallingVictims = owner.getActorAtPoint(tx, ty - 1);
-			for(fallingVictim in fallingVictims) {
-				if(fallingVictim.stats != null || fallingVictim.type == ActorType.FLOOR_SPIKE || fallingVictim.type == ActorType.MINERAL) {
-					fallingVictim.sprite.fall();
-				}
-			}
-			
-			// look at actor below
-			fallingVictims = owner.getActorAtPoint(tx, ty + 1);
-			for(fallingVictim in fallingVictims) {
-				if (fallingVictim.isHung) {
-					fallingVictim.sprite.play("falling");
-					fallingVictim.sprite.fall();
-				}
+		//if (shooter.owner == Registry.player) {
+		// look at actor above
+		var fallingVictims = owner.getActorAtPoint(tx, ty - 1);
+		for(fallingVictim in fallingVictims) {
+			if(fallingVictim.stats != null || fallingVictim.type == ActorType.FLOOR_SPIKE || fallingVictim.type == ActorType.MINERAL) {
+				fallingVictim.sprite.fall();
 			}
 		}
+		
+		// look at actor below
+		fallingVictims = owner.getActorAtPoint(tx, ty + 1);
+		for(fallingVictim in fallingVictims) {
+			if (fallingVictim.isHung) {
+				fallingVictim.sprite.play("falling");
+				fallingVictim.sprite.fall();
+			}
+		}
+		//}
 	}
 	
 	public function hitActor(a:ActorSprite, b:Bullet) {

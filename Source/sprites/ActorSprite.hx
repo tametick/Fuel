@@ -237,7 +237,8 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function stopped() {
-		if (!alive) {
+		// if you are dead but the corpse is still visible, let it fall to the ground
+		if (!alive && exists) {
 			if (!owner.isOnGround()) {
 				fall();
 				play("dying");
