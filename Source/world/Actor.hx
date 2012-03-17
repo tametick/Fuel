@@ -130,6 +130,9 @@ class Actor {
 					FlxG.play(Library.getSound(CLIMBER_DEATH));
 				case FLYER:
 					FlxG.play(Library.getSound(FLYER_DEATH));
+					
+				case CEILING_SPIKE, FLOOR_SPIKE:
+					FlxG.play(Library.getSound(DESTROY_WALL));
 				default:
 			}
 			

@@ -116,6 +116,8 @@ class MapSprite extends FlxTilemap {
 	}
 	
 	public function hitWall(m:MapSprite, b:Bullet) {
+		FlxG.play(Library.getSound(DESTROY_WALL));
+		
 		var shooter = cast(b.weapon.parent, ActorSprite);
 		var e = shooter.explosionEmitter;
 		e.explode(b.x, b.y);
