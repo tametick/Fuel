@@ -29,6 +29,14 @@ class Library {
 		}
 		return cast(assets.get(name), nme.media.Sound);
 	}
+	
+	public static function getMusic(s:Music):nme.media.Sound {
+		var name = Library.getFilename(s);
+		if (!assets.exists(name)){
+			assets.set(name, Assets.getSound(name));
+		}
+		return cast(assets.get(name), nme.media.Sound);
+	}
 		
 	public static function getFilename(i:Dynamic):String {
 		var suffix = "";
@@ -36,6 +44,8 @@ class Library {
 			suffix = ".png";
 		} else if (Type.getEnum(i) == Sound) {
 			suffix = ".wav";
+		} else if (Type.getEnum(i) == Music) {
+			suffix = ".mp3";
 		}
 	
 		return "assets/" + Type.enumConstructor(i).toLowerCase() + suffix;
@@ -67,4 +77,12 @@ enum Sound {
 	PICKUP_ICE;
 	PICKUP_MONOPOLE;
 	TOGGLE_BELT;
+	
+	WALKER_DEATH;
+	CLIMBER_DEATH;
+	FLYER_DEATH;
+}
+
+enum Music {
+	DEATH;
 }

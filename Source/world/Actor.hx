@@ -114,15 +114,25 @@ class Actor {
 	public function kill() {
 		isFlying = false;
 		if (this == Registry.player) {
+			FlxG.playMusic(Library.getMusic(DEATH),1.0,false);
 			GameState.hudLayer.setSuitBarWidth(0);
 			sprite.play("die");
 			sprite.alive = false;
 			
-			
 			// todo - high score screen
 			// todo - game over
-
 		} else {
+			var s:Sound = null;
+			switch (type) {
+				case WALKER:
+					FlxG.play(Library.getSound(WALKER_DEATH));
+				case CLIMBER:
+					FlxG.play(Library.getSound(CLIMBER_DEATH));
+				case FLYER:
+					FlxG.play(Library.getSound(FLYER_DEATH));
+				default:
+			}
+			
 			Registry.level.removeActor(this);
 			sprite.kill();
 		}

@@ -25,7 +25,7 @@ import org.flixel.system.FlxQuadTree;
  * Utilities for maths and color and things can be found in <code>FlxU</code>.
  * <code>FlxG</code> is specifically for Flixel-specific properties.
  */
-class FlxG 
+class FlxG
 {
 
 	#if flash
@@ -186,7 +186,7 @@ class FlxG
 	/**
 	 * Setting this to true will disable/skip stuff that isn't necessary for mobile platforms like Android. [BETA]
 	 */
-	static public var mobile:Bool; 
+	static public var mobile:Bool;
 	/**
 	 * The global random number generator seed (for deterministic behavior in recordings and saves).
 	 */
@@ -203,7 +203,7 @@ class FlxG
 	 * <code>FlxG.saves</code> is a generic bucket for storing
 	 * FlxSaves so you can access them whenever you want.
 	 */
-	static public var saves:Array<Dynamic>; 
+	static public var saves:Array<Dynamic>;
 	static public var save:Int;
 
 	/**
@@ -259,7 +259,7 @@ class FlxG
 	 * DebugPathDisplay, and TimerManager.
 	 */
 	 static public var plugins:Array<FlxBasic>;
-	 
+	
 	/**
 	 * Set this hook to get a callback whenever the volume changes.
 	 * Function should take the form <code>myVolumeHandler(Volume:Number)</code>.
@@ -583,7 +583,7 @@ class FlxG
 	 * @param	Music		The sound file you want to loop in the background.
 	 * @param	Volume		How loud the sound should be, from 0 to 1.
 	 */
-	static public function playMusic(Music:Sound, ?Volume:Float = 1.0):Void
+	static public function playMusic(Music:Sound, ?Volume:Float = 1.0, ?Loop:Bool=true):Void
 	{
 		if (music == null)
 		{
@@ -593,7 +593,7 @@ class FlxG
 		{
 			music.stop();
 		}
-		music.loadEmbedded(Music, true);
+		music.loadEmbedded(Music, Loop);
 		music.volume = Volume;
 		music.survive = true;
 		music.play();
@@ -601,7 +601,7 @@ class FlxG
 	
 	// TODO: Return from Sound -> Class<Sound>
 	/**
-	 * Creates a new sound object. 
+	 * Creates a new sound object.
 	 * @param	EmbeddedSound	The embedded sound resource you want to play.  To stream, use the optional URL parameter instead.
 	 * @param	Volume			How loud to play it (0 to 1).
 	 * @param	Looped			Whether to loop this sound.
@@ -667,7 +667,7 @@ class FlxG
 	
 	/**
 	 * Set <code>volume</code> to a number between 0 and 1 to change the global volume.
-	 * 
+	 *
 	 * @default 0.5
 	 */
 	static public function getVolume():Float
@@ -700,7 +700,7 @@ class FlxG
 
 	/**
 	 * Called by FlxGame on state changes to stop and destroy sounds.
-	 * 
+	 *
 	 * @param	ForceDestroy		Kill sounds even if they're flagged <code>survive</code>.
 	 */
 	static public function destroySounds(?ForceDestroy:Bool = false):Void
@@ -1070,7 +1070,7 @@ class FlxG
 	/**
 	 * Dumps all the current cameras and resets to just one camera.
 	 * Handy for doing split-screen especially.
-	 * 
+	 *
 	 * @param	NewCamera	Optional; specify a specific camera object to be the new main camera.
 	 */
 	static public function resetCameras(?NewCamera:FlxCamera = null):Void
