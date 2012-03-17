@@ -1,6 +1,7 @@
 package parts;
 
 import data.Registry;
+import org.flixel.FlxG;
 import world.Actor;
 
 class DoorTriggerablePart extends TriggerablePart {
@@ -21,7 +22,8 @@ class DoorTriggerablePart extends TriggerablePart {
 	}
 
 	public override function onBump(agent:Actor) {
-		if (agent == Registry.player && actor.type==EXIT_DOOR)
-			Registry.gameState.newLevel();
+		if (agent == Registry.player && actor.type == EXIT_DOOR) {
+			FlxG.fade(0, 1, false, Registry.gameState.newLevel);
+		}
 	}
 }
