@@ -48,6 +48,7 @@ class LevelFactory {
 	
 	static function addEnemy(level:Level, type:ActorType) {
 		var freeTile:FlxPoint = null;
+		var dist = 0.0;
 		do {
 			switch (type) {
 				case WALKER:
@@ -60,9 +61,10 @@ class LevelFactory {
 					throw "not an enemy!";
 			}
 				
-		} while (level.getActorAtPoint(freeTile.x - 1, freeTile.y).length > 0 &&
-				 level.getActorAtPoint(freeTile.x + 1, freeTile.y).length > 0 &&
-				 FlxU.getDistance(freeTile, level.start) > 3
+			dist = FlxU.getDistance(freeTile, level.start);
+		} while (level.getActorAtPoint(freeTile.x - 1, freeTile.y).length > 0 ||
+				 level.getActorAtPoint(freeTile.x + 1, freeTile.y).length > 0 ||
+				 dist < 3
 				);
 		level.enemies.push(ActorFactory.newActor(type, freeTile.x, freeTile.y));
 	}
@@ -152,6 +154,7 @@ class LevelFactory {
 	}
 	
 	static function addEnemies(level:Level) {
+		trace("\n");
 		for (e in 0...Registry.enemiesPerLevel) {
 			var type = Utils.randomElement([WALKER, CLIMBER, ActorType.FLYER]);
 			addEnemy(level, type);

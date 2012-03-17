@@ -64,4 +64,6 @@ enum Image {
 enum Sound {
 	ERROR;
 	SHOT;
+	PICKUP_ICE;
+	PICKUP_MONOPOLE;
 }

@@ -1,4 +1,5 @@
 package parts;
+import data.Library;
 import data.Registry;
 import org.flixel.FlxG;
 import world.Actor;
@@ -15,9 +16,11 @@ class CollectibleTriggerablePart extends TriggerablePart{
 		if (agent == Registry.player) {
 			if(actor.type == ICE) {
 				agent.stats.ice++;
+				FlxG.play(Library.getSound(PICKUP_ICE));
 				FlxG.flash(Registry.iceColor);
 			} else if (actor.type == MONOPOLE) {
 				agent.stats.monopoles++;
+				FlxG.play(Library.getSound(PICKUP_MONOPOLE));
 				FlxG.flash(Registry.monopoleColor);
 			} else {
 				throw "Invalid collectible type: " + actor.type;
