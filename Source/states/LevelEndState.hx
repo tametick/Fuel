@@ -27,7 +27,8 @@ class LevelEndState extends FlxState {
 	var stats:StatsPart;
 
 	override public function create():Void {
-		FlxG.fade(0, 1, true,null,true);
+		FlxG.fade(0, 1, true, null, true);
+		FlxG.playMusic(Library.getMusic(RECHARGE));
 	
 		//tmp
 		stats = new StatsPart(null,{
