@@ -10,6 +10,8 @@ import sprites.HudSprite;
 import utils.Utils;
 
 class LevelEndState extends FlxState {
+	var lift:FlxSprite;
+	
 	var suit:FlxSprite;
 	var belt:FlxSprite;
 	var gun:FlxSprite;
@@ -25,7 +27,7 @@ class LevelEndState extends FlxState {
 	var stats:StatsPart;
 
 	override public function create():Void {
-		FlxG.mouse.show();
+		FlxG.fade(0, 1, true,null,true);
 	
 		//tmp
 		stats = new StatsPart(null,{
@@ -49,6 +51,14 @@ class LevelEndState extends FlxState {
 		GameState.hudLayer.setBeltBarWidth(stats.beltCharge);
 		GameState.hudLayer.setGunBarWidth(stats.gunCharge);
 		//end tmp
+	
+		FlxG.mouse.show();
+		
+		lift = new FlxSprite(0, 0);
+		lift.loadGraphic(Library.getFilename(LIFT), true, false, 240, 160);
+		lift.addAnimation("idle", Utils.range(0, 12), 10);
+		lift.play("idle");
+		add(lift);
 	
 		suit = new FlxSprite(FlxG.width - 74, FlxG.height / 2 - 1.5 * 18);
 		suitFocus = new FlxSprite(suit.x, suit.y);
