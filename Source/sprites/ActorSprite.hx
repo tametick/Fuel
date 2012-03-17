@@ -107,7 +107,7 @@ class ActorSprite extends FlxSprite {
 	
 	public function startMoving(dx:Int, dy:Int) {
 		isMoving = true;
-		if(owner.isOnGround(dx,dy) && !owner.isFlying ) {
+		if (owner.isOnGround(dx, dy) && !owner.isFlying && alive) {
 			play("run");
 			
 			if (owner == Registry.player) {
@@ -182,7 +182,9 @@ class ActorSprite extends FlxSprite {
 					if (!owner.isOnGround()) {
 						fall();
 					} else {
-						play("idle");
+						if(alive) {
+							play("idle");
+						}
 					}
 				} else {
 					if (owner.stats.beltCharge > 0) {
@@ -264,7 +266,9 @@ class ActorSprite extends FlxSprite {
 	
 		// flying
 		if(owner.isOnGround() && !owner.isFlying) {
-			play("idle");
+			if(alive) {
+				play("idle");
+			}
 			isMoving = false;
 		} else {
 			isMoving = false;
@@ -277,7 +281,9 @@ class ActorSprite extends FlxSprite {
 				if(!owner.isOnGround()){
 					fall();
 				} else {
-					play("idle");
+					if(alive) {
+						play("idle");
+					}
 				}
 			}
 		}

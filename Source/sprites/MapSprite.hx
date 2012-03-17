@@ -97,7 +97,13 @@ class MapSprite extends FlxTilemap {
 	override public function update() {
 		super.update();
 		
-		FlxG.overlap(mobSprites, bulletSprites, hitActor);
+		try {
+			FlxG.overlap(mobSprites, bulletSprites, hitActor);
+		} catch (err:Dynamic) {
+			if(Registry.debug) {
+				trace(err);
+			}
+		}
 		FlxG.overlap(Registry.player.sprite, mobSprites, overlapWithEnemy);
 		FlxG.collide(this, bulletSprites, hitWall);
 	}
