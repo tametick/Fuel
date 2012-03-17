@@ -8,9 +8,9 @@ import world.Level;
 class Registry {
 	public static inline var debug = true;
 	
-	public static inline var movementKeys = ["RIGHT", "LEFT", "DOWN", "UP"];
-	public static inline var attackKey = ["CONTROL"];
-	public static inline var beltKey = ["SHIFT"];
+	public static inline var movementKeys = [["RIGHT", "LEFT", "DOWN", "UP"],["D","A","S","W"],["L","H","J","K"]];
+	public static inline var attackKey = [["CONTROL"],["X"]];
+	public static inline var beltKey = [["SHIFT"],["C"]];
 	
 	public static inline var enemiesPerLevel = 5;// 10;
 	public static inline var spikesPerLevel = 10;

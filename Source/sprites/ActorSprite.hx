@@ -153,54 +153,58 @@ class ActorSprite extends FlxSprite {
 		if (!alive)
 			return;
 	
-		if(!isMoving) {
-			if (FlxG.keys.pressed(Registry.movementKeys[0])) {
-				faceRight();
-				if(Registry.level.isWalkable(owner.tileX+1,owner.tileY) && !FlxG.keys.CONTROL) {
-					startMoving(1,0);
-				}
-			} else if (FlxG.keys.pressed(Registry.movementKeys[1])) {
-				faceLeft();
-				if(Registry.level.isWalkable(owner.tileX-1,owner.tileY) && !FlxG.keys.CONTROL) {
-					startMoving(-1,0);
-				}
-			} else if (FlxG.keys.pressed(Registry.movementKeys[2])) {
-				faceDown();
-				if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)  && !FlxG.keys.CONTROL && owner.isFlying) {
-					startMoving(0,1);
-				}
-			} else if (FlxG.keys.pressed(Registry.movementKeys[3])) {
-				faceUp();
-				if(Registry.level.isWalkable(owner.tileX,owner.tileY-1)  && !FlxG.keys.CONTROL && owner.isFlying) {
-					startMoving(0,-1);
+		if (!isMoving) {
+			for(moveKeys in Registry.movementKeys) {
+				if (FlxG.keys.pressed(moveKeys[0])) {
+					faceRight();
+					if(Registry.level.isWalkable(owner.tileX+1,owner.tileY) && !FlxG.keys.CONTROL) {
+						startMoving(1,0);
+					}
+				} else if (FlxG.keys.pressed(moveKeys[1])) {
+					faceLeft();
+					if(Registry.level.isWalkable(owner.tileX-1,owner.tileY) && !FlxG.keys.CONTROL) {
+						startMoving(-1,0);
+					}
+				} else if (FlxG.keys.pressed(moveKeys[2])) {
+					faceDown();
+					if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)  && !FlxG.keys.CONTROL && owner.isFlying) {
+						startMoving(0,1);
+					}
+				} else if (FlxG.keys.pressed(moveKeys[3])) {
+					faceUp();
+					if(Registry.level.isWalkable(owner.tileX,owner.tileY-1)  && !FlxG.keys.CONTROL && owner.isFlying) {
+						startMoving(0,-1);
+					}
 				}
 			}
-						
-			if (FlxG.keys.justPressed(Registry.beltKey[0])) {
-				if (owner.isFlying) {
-					owner.isFlying = false;
-					if (!owner.isOnGround()) {
-						fall();
+			for(beltKey in Registry.beltKey) {
+				if (FlxG.keys.justPressed(beltKey[0])) {
+					if (owner.isFlying) {
+						owner.isFlying = false;
+						if (!owner.isOnGround()) {
+							fall();
+						} else {
+							if(alive) {
+								play("idle");
+							}
+						}
 					} else {
-						if(alive) {
-							play("idle");
+						if (owner.stats.beltCharge > 0) {
+							owner.isFlying = true;
+							play("fly");
+						} else {
+							FlxG.play(Library.getSound(ERROR));
 						}
 					}
-				} else {
-					if (owner.stats.beltCharge > 0) {
-						owner.isFlying = true;
-						play("fly");
-					} else {
-						FlxG.play(Library.getSound(ERROR));
-					}
 				}
 			}
 		}
 		
-		if (FlxG.keys.justReleased(Registry.attackKey[0])) {
-			owner.weapon.fire();
+		for(attackKey in Registry.attackKey) {
+			if (FlxG.keys.justReleased(attackKey[0])) {
+				owner.weapon.fire();
+			}
 		}
-		
 
 	}
 	
