@@ -24,16 +24,16 @@ class HelpState extends FlxState{
 		bg.play("idle");
 		
 		var dy = 40;
-		var w = 200;
-		text1 = new FlxText(100, 42, w, "Arrows to move or aim your gun.");
+		var w = 140;
+		text1 = new FlxText(100, 42-8, w, "Arrows to move. Also aims your gun while Ctrl is pressed.");
 		text1.setFont(Library.getFont().fontName);
 		text1.setColor(0);
 		
-		text2 = new FlxText(100, text1.y+dy, w, "Ctrl to shoot.");
+		text2 = new FlxText(100, text1.y+dy, w, "Ctrl to shoot. Shoot mineral nodes to aquire ice crystals!");
 		text2.setFont(Library.getFont().fontName);
 		text2.setColor(0);
 		
-		text3 = new FlxText(100, text2.y+dy+2, w, "Shift to activate grav-belt.");
+		text3 = new FlxText(100, text2.y+dy+10, w, "Shift to activate grav-belt.");
 		text3.setFont(Library.getFont().fontName);
 		text3.setColor(0);
 		
@@ -45,7 +45,7 @@ class HelpState extends FlxState{
 	override public function update():Void {
 		super.update();
 		
-		if (FlxG.keys.CONTROL && FlxG.keys.SHIFT && active) {
+		if (FlxG.keys.CONTROL && FlxG.keys.SHIFT && (FlxG.keys.justPressed("CONTROL") || FlxG.keys.justPressed("SHIFT")) && active) {
 			active = false;
 			FlxG.fade(0);
 			Actuate.timer(1).onComplete(FlxG.switchState, [new GameState()]);
