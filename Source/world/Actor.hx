@@ -145,8 +145,10 @@ class Actor {
 		}
 	}
 	
-	public function isOnGround(?dx:Int=0,?dy:Int=0) {
+	public function isOnGround(?dx:Int=0,?dy:Int=0):Bool {
 		var l = Registry.level;
+		if (l == null)
+			return false;
 		return tileY+dy == l.height - 1  ||  l.get(tileX+dx, tileY+dy+1) != 0;
 	}
 	

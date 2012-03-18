@@ -8,6 +8,7 @@ import sprites.LightingSprite;
 import states.GameState;
 import data.Registry;
 import data.Library;
+import states.HighScoreState;
 import states.MenuState;
 
 
@@ -54,7 +55,7 @@ class SpaceMiner extends FlxGame {
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.min(ratioX, ratioY);
 		
-		//super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), GameState, ratio);
+		//super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), HighScoreState, ratio);
 		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), MenuState, ratio);
 		
 		if(Registry.debug) {

@@ -1,6 +1,7 @@
 package states;
 import com.eclecticdesignstudio.motion.Actuate;
 import data.Library;
+import data.Registry;
 import org.flixel.FlxG;
 import org.flixel.FlxSprite;
 import org.flixel.FlxState;
@@ -57,5 +58,9 @@ class HighScoreState extends FlxState {
 		bg.destroy();
 		text1.destroy();
 		text2.destroy();
+		
+		Registry.player = null;
+		Registry.gameState = null;
+		Registry.level = null;
 	}
 }

@@ -3,6 +3,7 @@ package parts;
 import com.eclecticdesignstudio.motion.Actuate;
 import data.Registry;
 import org.flixel.FlxG;
+import states.HighScoreState;
 import states.LevelEndState;
 import world.Actor;
 
@@ -25,8 +26,12 @@ class DoorTriggerablePart extends TriggerablePart {
 
 	public override function onBump(agent:Actor) {
 		if (agent == Registry.player && actor.type == EXIT_DOOR) {
-			Registry.gameState.isGoingToLevelEndScreen = true;
-			FlxG.switchState(new LevelEndState());
+			if (Registry.player.stats.monopoles >= 5) {
+				FlxG.switchState(new HighScoreState());
+			} else {
+				Registry.gameState.isGoingToLevelEndScreen = true;
+				FlxG.switchState(new LevelEndState());
+			}
 		}
 	}
 }
