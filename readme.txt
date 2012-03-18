@@ -1,3 +1,8 @@
+Fuel
+----
+Downloads, screenshots, etc:
+http://roguebasin.roguelikedevelopment.org/index.php/Fuel
+
 You are a space miner and your singleship has burnt out the monopoles that power its engine (also the resource you mine for). You land on a large asteroid to look for more monopoles, finding a likely looking crater you start your decent.
 You need to find 5 monopoles to refuel your ship.
 
