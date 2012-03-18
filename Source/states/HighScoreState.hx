@@ -6,12 +6,14 @@ import org.flixel.FlxG;
 import org.flixel.FlxSprite;
 import org.flixel.FlxState;
 import org.flixel.FlxText;
+import org.flixel.plugin.photonstorm.FlxSpecialFX;
+import org.flixel.plugin.photonstorm.fx.StarfieldFX;
 import utils.Utils;
 
 class HighScoreState extends FlxState {
 	var bg:FlxSprite;
-	var text1:FlxText;
-	var text2:FlxText;
+	var starfield:StarfieldFX;
+	var stars:FlxSprite;
 
 	override public function create():Void {
 		GameState.lightingLayer.visible = false;
@@ -20,26 +22,21 @@ class HighScoreState extends FlxState {
 		FlxG.fade(0, 1, true, null, true);
 		FlxG.playMusic(Library.getMusic(VICTORY));
 		
+		if (FlxG.getPlugin(FlxSpecialFX) == null) {
+			FlxG.addPlugin(new FlxSpecialFX());
+		}
+			
+		starfield = FlxSpecialFX.starfield();
+		starfield.setStarSpeed( 0, 1);
+		stars = starfield.create(0, 0, FlxG.width, FlxG.height);
+		add(stars);
+
+		
 		bg = new FlxSprite(0, 0);
-		bg.loadGraphic(Library.getFilename(END), true, false, 240, 160);
-		bg.addAnimation("idle", Utils.range(0, 8), 8);
+		bg.loadGraphic(Library.getFilename(SUCCESS), true, false, 240, 160);
+		bg.addAnimation("idle", Utils.range(0, 2), 2);
 		bg.play("idle");
 		add(bg);
-		
-		var dy = 32;
-		var w = 150;
-		text1 = new FlxText(110, 10, w, "Success!");
-		text1.setFont(Library.getFont().fontName);
-		text1.setSize(24);
-		text1.setColor(0xffffffff);
-		
-		text2 = new FlxText(80, text1.y+dy, w, "After your long and arduous journey, you come back to the surface with your bounty of monopoles to fuel your ship.\n\nYou charge the depleted micro fusion drive and turn on the navigational computer.\n\nIt worked! The engine is fueled and ready to go. You set a course back to Ceres base and take off.");
-		text2.setFont(Library.getFont().fontName);
-		text2.setSize(8);
-		text2.setColor(0xffffffff);
-		
-		add(text1);
-		add(text2);
 	}
 	
 	override public function update():Void {
@@ -55,9 +52,9 @@ class HighScoreState extends FlxState {
 	override public function destroy():Void {
 		super.destroy();
 		
+		starfield.destroy();
+		stars.destroy();
 		bg.destroy();
-		text1.destroy();
-		text2.destroy();
 		
 		Registry.player = null;
 		Registry.gameState = null;
