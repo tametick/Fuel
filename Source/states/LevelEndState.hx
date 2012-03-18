@@ -28,31 +28,12 @@ class LevelEndState extends FlxState {
 	var stats:StatsPart;
 
 	override public function create():Void {
+		GameState.lightingLayer.visible = false;
+		
 		FlxG.fade(0, 1, true, null, true);
 		FlxG.playMusic(Library.getMusic(RECHARGE));
 	
-		//tmp
-		stats = new StatsPart(null,{
-			maxSuitCharge:1,
-			maxGunCharge:1,
-			maxBeltCharge:1,
-			ice:5,
-			monopoles:0
-		});
-				
-		GameState.hudLayer.init();
-		GameState.hudLayer.setIceCounter(stats.ice);
-		GameState.hudLayer.setMonopoleCounter(stats.monopoles);
-		
-		GameState.hudLayer.visible = true;
-		
-		stats.beltCharge = 0.5;
-		stats.suitCharge = 0.5;
-		stats.gunCharge = 0.5;
-		GameState.hudLayer.setSuitBarWidth(stats.suitCharge);
-		GameState.hudLayer.setBeltBarWidth(stats.beltCharge);
-		GameState.hudLayer.setGunBarWidth(stats.gunCharge);
-		//end tmp
+		stats = Registry.player.stats;
 	
 		FlxG.mouse.show();
 		
@@ -151,14 +132,13 @@ class LevelEndState extends FlxState {
 				gunClick.visible = true;
 				gunClick.play("idle",true);
 				Actuate.timer(1).onComplete(chrageGun);
+			} else if (stats.ice == 0 && active) {
+				active = false;
+				FlxG.fade(0);
+				Actuate.timer(1).onComplete(Registry.gameState.newLevel).onComplete(FlxG.switchState, [Registry.gameState]);
 			}
 			
 			GameState.hudLayer.setIceCounter(stats.ice);
-			if (stats.ice == 0 && active) {
-				active = false;
-				FlxG.fade(0);
-				Actuate.timer(1).onComplete(FlxG.switchState, [Registry.gameState]).onComplete(Registry.gameState.newLevel);
-			}
 		}
 		
 		super.update();

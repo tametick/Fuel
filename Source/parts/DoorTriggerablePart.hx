@@ -25,7 +25,8 @@ class DoorTriggerablePart extends TriggerablePart {
 
 	public override function onBump(agent:Actor) {
 		if (agent == Registry.player && actor.type == EXIT_DOOR) {
-			Actuate.timer(1).onComplete(FlxG.switchState, [new LevelEndState()]);
+			Registry.gameState.isGoingToLevelEndScreen = true;
+			FlxG.switchState(new LevelEndState());
 		}
 	}
 }

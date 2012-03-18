@@ -21,9 +21,11 @@ import world.LevelFactory;
 class GameState extends FlxState {
 	public static var lightingLayer:LightingSprite;
 	public static var hudLayer:HudSprite;
+	public var isGoingToLevelEndScreen:Bool;
 	
 	
 	override public function create() {
+		isGoingToLevelEndScreen = false;
 		Registry.gameState = this;
 		
 		Actuate.defaultEase = Linear.easeNone;
@@ -46,6 +48,9 @@ class GameState extends FlxState {
 	}
 	
 	override public function destroy() {
+		if (isGoingToLevelEndScreen)
+			return;
+	
 		super.destroy();
 		
 		Registry.level = null;
@@ -55,6 +60,7 @@ class GameState extends FlxState {
 	}
 	
 	public function newLevel() {
+		isGoingToLevelEndScreen = false;
 		FlxG.fade(0, 1, true,null,true);
 	
 		//if(!Registry.debug) {
