@@ -39,7 +39,7 @@ class Registry {
 	public static inline var gunDischargeRate =  0.05;
 	public static inline var suitChargeRate =  0.01;
 	
-	public static inline var rechargeValue = 0.15;
+	public static inline var rechargeValue = 0.2;
 	
 	public static inline var walkerDigChance = 0.4;
 	
