@@ -118,7 +118,7 @@ class GameState extends FlxState {
 			super.draw();
 			lightingLayer.updatePosition();
 		} else {
-			kill();
+			//...
 		}
 	}
 	

@@ -270,7 +270,7 @@ class Level {
 		}
 		
 		Registry.player.stats.suitCharge -= Registry.suitChargeRate;
-		if (Registry.player.stats.suitCharge == 0) {
+		if (Registry.player.stats.suitCharge < 0.01) {
 			Registry.player.kill();
 		}
 	}
