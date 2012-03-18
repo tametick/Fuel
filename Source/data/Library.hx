@@ -72,6 +72,7 @@ enum Image {
 	LIFT;
 	SPLASH;
 	HELP;
+	END;
 	
 	BELT_RECHARGE;
 	BELT_RECHARGE_CLICK;
@@ -103,4 +104,5 @@ enum Music {
 	DEATH;
 	RECHARGE;
 	MENU;
+	VICTORY;
 }
