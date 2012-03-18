@@ -60,7 +60,7 @@ class HudSprite extends Sprite {
 		
 		//...
 		
-		textLine = newText("I am shit out of luck, looks like I'll die in this pit.", 5, 2, 0);
+		textLine = newText("I hope I could find some fuel in this desolate crater.", 5, 2, 0);
 		iceCounter = newText("", 200, 2, 0);
 		monopoleCounter = newText("", 222, 2, 0);
 		setIceCounter(0);
