@@ -1,5 +1,6 @@
 package world;
 
+import com.eclecticdesignstudio.motion.Actuate;
 import data.Library;
 import org.flixel.FlxG;
 import org.flixel.FlxObject;
@@ -116,11 +117,14 @@ class Actor {
 		if (this == Registry.player) {
 			FlxG.playMusic(Library.getMusic(DEATH),1.0,false);
 			GameState.hudLayer.setSuitBarWidth(0);
+			GameState.hudLayer.setGunBarWidth(0);
+			GameState.hudLayer.setBeltBarWidth(0);
 			sprite.play("die");
 			sprite.alive = false;
 			
 			// todo - high score screen
 			// todo - game over
+			FlxG.fade(0, 3, false, SpaceMiner.restart);
 		} else {
 			var s:Sound = null;
 			switch (type) {

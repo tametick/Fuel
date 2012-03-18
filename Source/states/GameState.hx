@@ -114,8 +114,12 @@ class GameState extends FlxState {
 	}
 	
 	override public function draw():Void {
-		super.draw();
-		lightingLayer.updatePosition();
+		if (members!=null) {
+			super.draw();
+			lightingLayer.updatePosition();
+		} else {
+			kill();
+		}
 	}
 	
 	override public function update():Void {

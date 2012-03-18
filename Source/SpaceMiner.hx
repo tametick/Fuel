@@ -62,7 +62,7 @@ class SpaceMiner extends FlxGame {
 	
 	public static function restart() {
 		Registry.gameState.destroy();
-		FlxG.switchState(new GameState());
+		FlxG.switchState(new MenuState());
 	}
 	
 	public function resizeHandler(event:Event) {
