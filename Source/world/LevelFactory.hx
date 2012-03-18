@@ -156,7 +156,6 @@ class LevelFactory {
 	}
 	
 	static function addEnemies(level:Level) {
-		trace("\n");
 		for (e in 0...Registry.enemiesPerLevel) {
 			var type = Utils.randomElement([WALKER, CLIMBER, ActorType.FLYER]);
 			addEnemy(level, type);
