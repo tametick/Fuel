@@ -9,6 +9,7 @@ import org.flixel.plugin.photonstorm.FlxSpecialFX;
 import org.flixel.plugin.photonstorm.fx.StarfieldFX;
 
 class MenuState extends FlxState {
+	static var wasShownHelp:Bool;
 	var starfield:StarfieldFX;
 	var stars:FlxSprite;
 	var bg:FlxSprite;
@@ -58,7 +59,12 @@ class MenuState extends FlxState {
 		if (FlxG.keys.CONTROL && FlxG.keys.SHIFT && active) {
 			active = false;
 			FlxG.fade(0);
-			Actuate.timer(1).onComplete(FlxG.switchState, [new HelpState()]);
+			if (wasShownHelp) {
+				Actuate.timer(1).onComplete(FlxG.switchState, [new GameState()]);
+			} else {
+				wasShownHelp = true;
+				Actuate.timer(1).onComplete(FlxG.switchState, [new HelpState()]);
+			}
 		}
 	}
 	
