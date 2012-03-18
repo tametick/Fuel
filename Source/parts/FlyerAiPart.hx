@@ -21,7 +21,8 @@ class FlyerAiPart extends AiPart {
 			actor.weapon.fire();
 		} else {
 			var d = Utils.randomElement(Registry.level.getFreeNeighbors(actor.tilePoint));
-			s.startMoving(Std.int(d.x),Std.int(d.y));
+			if(d!=null)
+				s.startMoving(Std.int(d.x),Std.int(d.y));
 		}
 	}
 }
