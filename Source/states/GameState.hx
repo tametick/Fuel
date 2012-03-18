@@ -57,9 +57,9 @@ class GameState extends FlxState {
 	public function newLevel() {
 		FlxG.fade(0, 1, true,null,true);
 	
-		if(!Registry.debug) {
+		//if(!Registry.debug) {
 			FlxG.playMusic(Library.getMusic(GAMEPLAY));
-		}
+		//}
 	
 		var currentLevel = 0;
 		if (Registry.level != null) {

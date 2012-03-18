@@ -1,7 +1,9 @@
 package parts;
 
+import com.eclecticdesignstudio.motion.Actuate;
 import data.Registry;
 import org.flixel.FlxG;
+import states.LevelEndState;
 import world.Actor;
 
 class DoorTriggerablePart extends TriggerablePart {
@@ -23,7 +25,7 @@ class DoorTriggerablePart extends TriggerablePart {
 
 	public override function onBump(agent:Actor) {
 		if (agent == Registry.player && actor.type == EXIT_DOOR) {
-			FlxG.fade(0, 1, false, Registry.gameState.newLevel);
+			Actuate.timer(1).onComplete(FlxG.switchState, [new LevelEndState()]);
 		}
 	}
 }

@@ -9,6 +9,7 @@ import org.flixel.plugin.photonstorm.FlxSpecialFX;
 import org.flixel.plugin.photonstorm.fx.StarfieldFX;
 
 class MenuState extends FlxState {
+	var starfield:StarfieldFX;
 	var stars:FlxSprite;
 	var bg:FlxSprite;
 	var text:FlxText;
@@ -17,12 +18,11 @@ class MenuState extends FlxState {
 		FlxG.fade(0, 1, true, null, true);
 		FlxG.playMusic(Library.getMusic(MENU));
 		
-		
 		if (FlxG.getPlugin(FlxSpecialFX) == null) {
 			FlxG.addPlugin(new FlxSpecialFX());
 		}
 			
-		var starfield = FlxSpecialFX.starfield();
+		starfield = FlxSpecialFX.starfield();
 		starfield.setStarSpeed( -0.5, 0);
 		stars = starfield.create(0, 0, FlxG.width, FlxG.height);
 		
@@ -55,15 +55,19 @@ class MenuState extends FlxState {
 	override public function update():Void {
 		super.update();
 		
-		if (FlxG.keys.CONTROL && FlxG.keys.SHIFT) {
+		if (FlxG.keys.CONTROL && FlxG.keys.SHIFT && active) {
+			active = false;
 			FlxG.fade(0);
-			// todo - switch state after 1 second
+			Actuate.timer(1).onComplete(FlxG.switchState, [new HelpState()]);
 		}
 	}
 	
 	override public function destroy():Void {
 		super.destroy();
 		
-		
+		starfield.destroy();
+		stars.destroy();
+		bg.destroy();
+		text.destroy();
 	}
 }

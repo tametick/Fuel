@@ -1,6 +1,7 @@
 package states;
 import com.eclecticdesignstudio.motion.Actuate;
 import data.Library;
+import data.Registry;
 import org.flixel.FlxG;
 import org.flixel.FlxPoint;
 import org.flixel.FlxSprite;
@@ -153,9 +154,10 @@ class LevelEndState extends FlxState {
 			}
 			
 			GameState.hudLayer.setIceCounter(stats.ice);
-			if (stats.ice == 0) {
+			if (stats.ice == 0 && active) {
+				active = false;
 				FlxG.fade(0);
-				// todo - switch state after 1 second
+				Actuate.timer(1).onComplete(FlxG.switchState, [Registry.gameState]).onComplete(Registry.gameState.newLevel);
 			}
 		}
 		
