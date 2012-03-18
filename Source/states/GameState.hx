@@ -22,25 +22,28 @@ class GameState extends FlxState {
 	public static var lightingLayer:LightingSprite;
 	public static var hudLayer:HudSprite;
 	public var isGoingToLevelEndScreen:Bool;
+	public var isComingFromLevelEndScreen:Bool;
 	
 	
 	override public function create() {
-		isGoingToLevelEndScreen = false;
-		Registry.gameState = this;
-		
-		Actuate.defaultEase = Linear.easeNone;
-		
-		newLevel();
-		var tileMap = Registry.level.mapSprite;
-		
-		FlxG.camera.follow(Registry.player.sprite, FlxCamera.STYLE_TOPDOWN_TIGHT);
-		FlxG.camera.setBounds(0, 0, tileMap.width, tileMap.height);
-		
-		hudLayer.init();
-		
 		lightingLayer.visible = true;
 		hudLayer.visible = true;
+		isGoingToLevelEndScreen = false;
+
+		Registry.gameState = this;
+		Actuate.defaultEase = Linear.easeNone;
 		
+		if (isComingFromLevelEndScreen) {
+			isComingFromLevelEndScreen = false;
+			newLevel();
+		}else {
+			newLevel();
+			hudLayer.init();
+		}
+		
+		FlxG.camera.follow(Registry.player.sprite, FlxCamera.STYLE_TOPDOWN_TIGHT);
+		var tileMap = Registry.level.mapSprite;
+		FlxG.camera.setBounds(0, 0, tileMap.width, tileMap.height);
 		FlxG.worldBounds.x = 0;
 		FlxG.worldBounds.width = Registry.levelWidth * Registry.tileSize;
 		FlxG.worldBounds.y = 0;
