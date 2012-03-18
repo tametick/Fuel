@@ -6,6 +6,7 @@ import world.Actor;
 import world.Level;
 
 class Registry {
+	public static inline var noMenu = true;
 	public static inline var debug = false;
 	
 	public static inline var movementKeys = [["RIGHT", "LEFT", "DOWN", "UP"],["D","A","S","W"],["L","H","J","K"]];
@@ -15,7 +16,7 @@ class Registry {
 	public static inline var enemiesPerLevel = 6;// 10;
 	public static inline var spikesPerLevel = 10;
 	public static inline var monopoleChancePerLevel = 0.5;
-	public static inline var mineralNodesPerLevel = 5;
+	public static inline var mineralNodesPerLevel = 10;
 	
 	public static inline var screenWidth = 240;
 	public static inline var screenHeight = 160;
@@ -24,7 +25,7 @@ class Registry {
 	public static inline var tileSize = 13;
 	public static inline var fontSize = 8;
 
-	public static inline var fovRange = 3;
+	public static inline var fovRange = 4;
 	public static inline var walkingSpeed = 7;
 	
 	public static inline var bulletSpeed = 100;
@@ -33,10 +34,12 @@ class Registry {
 	public static inline var rangeShort = 1;
 	public static inline var rangeLong = fovRange + 2;
 	
-	public static inline var beltDischargeRate =  0.04;
+	public static inline var beltDischargeRate =  0.02;
 	public static inline var beltChargeRate =  0.01;
-	public static inline var gunDischargeRate =  0.1;
+	public static inline var gunDischargeRate =  0.05;
 	public static inline var suitChargeRate =  0.01;
+	
+	public static inline var rechargeValue = 0.15;
 	
 	public static inline var walkerDigChance = 0.4;
 	

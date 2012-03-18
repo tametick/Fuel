@@ -150,21 +150,21 @@ class LevelEndState extends FlxState {
 		suitClick.visible = false;
 		suit.visible = true;
 		
-		stats.suitCharge += 0.1;
+		stats.suitCharge += Registry.rechargeValue;
 		GameState.hudLayer.setSuitBarWidth(stats.suitCharge);
 	}
 	function chrageBelt() {
 		beltClick.visible = false;
 		belt.visible = true;
 		
-		stats.beltCharge += 0.1;
+		stats.beltCharge += Registry.rechargeValue;
 		GameState.hudLayer.setBeltBarWidth(stats.beltCharge);
 	}
 	function chrageGun() {
 		gunClick.visible = false;
 		gun.visible = true;
 		
-		stats.gunCharge += 0.1;
+		stats.gunCharge += Registry.rechargeValue;
 		GameState.hudLayer.setGunBarWidth(stats.gunCharge);
 	}
 	

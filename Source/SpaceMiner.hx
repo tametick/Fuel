@@ -41,11 +41,13 @@ class SpaceMiner extends FlxGame {
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 	
 		#if flash
-		removeMenu = true;
-		// this is only for the projector, becuase of removing the window menu
-		stageHeight += 20;
-		Lib.current.stage.addEventListener(Event.RESIZE, resizeHandler, false, 0, true);
-		resizeHandler(null);
+		if(Registry.noMenu) {
+			removeMenu = true;
+			// this is only for the projector, becuase of removing the window menu
+			stageHeight += 20;
+			Lib.current.stage.addEventListener(Event.RESIZE, resizeHandler, false, 0, true);
+			resizeHandler(null);
+		}
 		#end
 		
 		var ratioX:Float = stageWidth / Registry.screenWidth;
@@ -66,7 +68,7 @@ class SpaceMiner extends FlxGame {
 	}
 	
 	public function resizeHandler(event:Event) {
-		if (removeMenu) {
+		if (removeMenu && Registry.noMenu) {
 			Lib.current.stage.showDefaultContextMenu = true;
 			Lib.current.stage.showDefaultContextMenu = false;
 		}
@@ -74,7 +76,7 @@ class SpaceMiner extends FlxGame {
 	override private function update():Void {
 		super.update();
 		
-		if (FlxG.keys.justPressed("F3")) {
+		if (FlxG.keys.justPressed("F3") && Registry.noMenu) {
 			if(removeMenu){
 				Lib.current.stage.showDefaultContextMenu = true;
 				Lib.current.stage.showDefaultContextMenu = true;
