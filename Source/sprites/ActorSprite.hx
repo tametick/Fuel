@@ -140,7 +140,6 @@ class ActorSprite extends FlxSprite {
 		super.update();
 		
 		if(owner.weapon!=null) {
-			owner.weapon.sprite.setBulletBounds(FlxG.worldBounds);
 			owner.weapon.sprite.update();
 		}
 		

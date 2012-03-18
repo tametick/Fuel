@@ -63,7 +63,7 @@ class MapSprite extends FlxTilemap {
 			return bulletSprites;
 		}
 		
-		var bulletSprites = new FlxGroup();
+		bulletSprites = new FlxGroup();
 		for (a in owner.actors) {
 			if (a.weapon != null) {
 				bulletSprites.add(a.weapon.sprite.group);

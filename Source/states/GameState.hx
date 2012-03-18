@@ -38,6 +38,11 @@ class GameState extends FlxState {
 		
 		lightingLayer.visible = true;
 		hudLayer.visible = true;
+		
+		FlxG.worldBounds.x = 0;
+		FlxG.worldBounds.width = Registry.levelWidth * Registry.tileSize;
+		FlxG.worldBounds.y = 0;
+		FlxG.worldBounds.height = Registry.levelHeight * Registry.tileSize;
 	}
 	
 	override public function destroy() {
@@ -105,11 +110,12 @@ class GameState extends FlxState {
 	}
 	
 	override public function update():Void {
+	/*
 		FlxG.worldBounds.x = Registry.player.sprite.x  - FlxG.width;
 		FlxG.worldBounds.width = 2 * FlxG.width;
 		FlxG.worldBounds.y = Registry.player.sprite.y  - FlxG.height;
 		FlxG.worldBounds.height = 2 * FlxG.height;
-		
+		*/
 		super.update();
 	}
 }

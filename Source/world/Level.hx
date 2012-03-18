@@ -150,7 +150,9 @@ class Level {
 	
 	public function levelOver() {
 		for (sprite in sprites) {
-			sprite.kill();
+			if(sprite!=mapSprite.bulletSprites) {
+				sprite.kill();
+			}
 		}
 	}
 	

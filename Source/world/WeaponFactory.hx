@@ -1,5 +1,6 @@
 package world;
 
+import org.flixel.FlxG;
 import sprites.WeaponSprite;
 import data.Registry;
 import parts.WeaponPart;
@@ -24,6 +25,7 @@ class WeaponFactory {
 			bulletColor = 0xffFFFF80;
 		}
 		w.sprite.makePixelBullet(Registry.bulletsPerWeapon, 2, 2, bulletColor);
+		w.sprite.setBulletBounds(FlxG.worldBounds);
 		
 		return w;
 	}

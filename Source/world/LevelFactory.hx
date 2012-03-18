@@ -6,6 +6,7 @@ import addons.FlxCaveGenerator;
 import data.Registry;
 import org.flixel.FlxU;
 import parts.ButtonTriggerablePart;
+import parts.WeaponPart;
 import states.GameState;
 import world.Actor;
 import utils.Utils;
@@ -21,8 +22,9 @@ class LevelFactory {
 		
 		if (Registry.player == null) {
 			Registry.player = level.player =  ActorFactory.newActor(ActorType.SPACE_MINER);
+			
 		} else {
-			level.player = Registry.player;
+			var p = level.player = Registry.player;
 		}
 		
 		level.init();
