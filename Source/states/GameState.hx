@@ -26,6 +26,7 @@ class GameState extends FlxState {
 	
 	
 	override public function create() {
+		FlxG.bgColor = 0xff100000;
 		lightingLayer.visible = true;
 		hudLayer.visible = true;
 		isGoingToLevelEndScreen = false;

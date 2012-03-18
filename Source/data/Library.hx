@@ -72,6 +72,7 @@ enum Image {
 	LIFT;
 	SPLASH;
 	HELP;
+	HELP2;
 	END;
 	
 	BELT_RECHARGE;

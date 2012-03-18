@@ -5,9 +5,9 @@ import org.flixel.FlxG;
 import org.flixel.FlxGame;
 import sprites.HudSprite;
 import sprites.LightingSprite;
-import states.GameState;
 import data.Registry;
 import data.Library;
+import states.GameState;
 import states.HighScoreState;
 import states.MenuState;
 
