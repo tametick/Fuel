@@ -155,6 +155,7 @@ class LevelEndState extends FlxState {
 			GameState.hudLayer.setIceCounter(stats.ice);
 			if (stats.ice == 0) {
 				FlxG.fade(0);
+				// todo - switch state after 1 second
 			}
 		}
 		
