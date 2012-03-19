@@ -9,7 +9,7 @@ You need to find 5 monopoles to refuel your ship.
 Controls:
 * movement: arrow keys.
 * fire blaster: ctrl. You can also aim your blaster in a different direction by pressing the arrow keys before releasing ctrl.
-* toggle anti-grav belt: alt
+* toggle anti-grav belt: shift
 
 See the bottom of this file for alternative controls.
 
