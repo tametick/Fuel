@@ -17,7 +17,7 @@ class MenuState extends FlxState {
 
 	override public function create():Void {
 		FlxG.fade(0, 1, true, null, true);
-		FlxG.playMusic(Library.getMusic(MENU));
+		FlxG.playMusic(Library.getMusic(THEME));
 		
 		if (FlxG.getPlugin(FlxSpecialFX) == null) {
 			FlxG.addPlugin(new FlxSpecialFX());
