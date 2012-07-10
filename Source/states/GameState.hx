@@ -49,6 +49,8 @@ class GameState extends FlxState {
 		FlxG.worldBounds.width = Registry.levelWidth * Registry.tileSize;
 		FlxG.worldBounds.y = 0;
 		FlxG.worldBounds.height = Registry.levelHeight * Registry.tileSize;
+		
+		FlxG.mouse.show();
 	}
 	
 	override public function destroy() {

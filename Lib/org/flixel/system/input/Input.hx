@@ -82,6 +82,7 @@ class Input implements Dynamic
 	 */
 	public function justPressed(Key:String):Bool 
 	{ 
+		if (!_lookup.exists(Key)) return false;
 		return _map[_lookup.get(Key)].current == 2;
 	}
 	
@@ -92,6 +93,7 @@ class Input implements Dynamic
 	 */
 	public function justReleased(Key:String):Bool 
 	{ 
+		if (!_lookup.exists(Key)) return false;
 		return _map[_lookup.get(Key)].current == -1; 
 	}
 	

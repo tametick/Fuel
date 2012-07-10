@@ -80,7 +80,7 @@ package org.flixel.plugin.photonstorm.fx;
 		#if flash
 		public function createFromFlxSprite(source:FlxSprite, type:UInt, size:UInt, length:UInt, ?frequency:UInt = 2, ?pixelsPerChunk:UInt = 1, updateFrame:Bool = false, ?backgroundColor:UInt = 0x0):FlxSprite
 		#else
-		public function createFromFlxSprite(source:FlxSprite, type:Int, size:Int, length:Int, ?frequency:Unt = 2, ?pixelsPerChunk:Int = 1, updateFrame:Bool = false, ?backgroundColor:Int = 0x0):FlxSprite
+		public function createFromFlxSprite(source:FlxSprite, type:Int, size:Int, length:Int, ?frequency:Int = 2, ?pixelsPerChunk:Int = 1, updateFrame:Bool = false, ?backgroundColor:Int = 0x0):FlxSprite
 		#end
 		{
 			var result:FlxSprite = create(source.pixels, Math.floor(source.x), Math.floor(source.y), type, size, length, frequency, pixelsPerChunk, backgroundColor);
@@ -241,7 +241,7 @@ package org.flixel.plugin.photonstorm.fx;
 		#if flash
 		public function updateWaveData(type:UInt, size:UInt, length:UInt, ?frequency:UInt = 2, ?pixelsPerChunk:UInt = 1):Void
 		#else
-		public function updateWaveData(type:UInt, size:UInt, length:UInt, ?frequency:UInt = 2, ?pixelsPerChunk:UInt = 1):Void
+		public function updateWaveData(type:Int, size:Int, length:Int, ?frequency:Int = 2, ?pixelsPerChunk:Int = 1):Void
 		#end
 		{
 			if (type > WAVETYPE_HORIZONTAL_COSINE)
@@ -255,8 +255,8 @@ package org.flixel.plugin.photonstorm.fx;
 			}
 			
 			waveType = type;
-			waveSize = cast(Math.floor(size * 0.5), UInt);
-			waveLength = cast(Math.floor(length / pixelsPerChunk), UInt);
+			waveSize = cast(Math.floor(size * 0.5), Int);
+			waveLength = cast(Math.floor(length / pixelsPerChunk), Int);
 			waveFrequency = frequency;
 			wavePixelChunk = pixelsPerChunk;
 			waveData = FlxMath.sinCosGenerator(waveLength, waveSize, waveSize, waveFrequency);
@@ -300,7 +300,7 @@ package org.flixel.plugin.photonstorm.fx;
 				canvas.lock();
 				canvas.fillRect(clsRect, clsColor);
 				
-				var s:UInt = 0;
+				var s:Int = 0;
 				
 				copyRect.x = 0;
 				copyRect.y = 0;

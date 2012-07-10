@@ -115,7 +115,7 @@ class Actor {
 	public function kill() {
 		isFlying = false;
 		if (this == Registry.player) {
-			FlxG.playMusic(Library.getMusic(DEATH),1.0,false);
+			FlxG.playMusic(Library.getMusic(DEATH),1.0);
 			GameState.hudLayer.setSuitBarWidth(0);
 			GameState.hudLayer.setGunBarWidth(0);
 			GameState.hudLayer.setBeltBarWidth(0);

@@ -1,7 +1,5 @@
 package org.flixel;
 
-import nme.geom.ColorTransform;
-
 import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
@@ -13,7 +11,7 @@ import nme.geom.Rectangle;
 import org.flixel.system.FlxTile;
 import org.flixel.system.FlxTilemapBuffer;
 
-#if cpp
+#if (cpp || neko)
 import org.flixel.tileSheetManager.TileSheetData;
 import org.flixel.tileSheetManager.TileSheetManager;
 #end
@@ -127,7 +125,7 @@ class FlxTilemap extends FlxObject
 	 */
 	private var _startingIndex:Int;
 	
-	#if cpp
+	#if (cpp || neko)
 	private var _tileSheetData:TileSheetData;
 	private var _framesData:FlxSpriteFrames;
 	/**
@@ -139,59 +137,6 @@ class FlxTilemap extends FlxObject
 	 */
 	private var _rectIDs:Array<Int>;
 	#end
-	
-	
-	// from FlxSprite
-	#if flash
-	private var _color:UInt;
-	#else
-	private var _color:Int;
-	#end
-	
-	private var _colorTransform:ColorTransform;
-	
-	#if flash
-	public var color(getColor, setColor):UInt;
-	#else
-	public var color(getColor, setColor):Int;
-	#end
-
-	#if flash
-	public function getColor():UInt
-	#else
-	public function getColor():Int
-	#end
-	{
-		return _color;
-	}
-	
-	#if flash
-	public function setColor(Color:UInt):UInt
-	#else
-	public function setColor(Color:Int):Int
-	#end
-	{
-		_tintRect = new Rectangle(0, 0, _tileWidth, _tileHeight);
-	
-		Color &= 0x00ffffff;
-		if (_color == Color) {
-			return _color;
-		}
-		_color = Color;
-		if (_color != 0x00ffffff) {
-			_colorTransform = new ColorTransform((_color >> 16) * 0.00392, (_color >> 8 & 0xff) * 0.00392, (_color & 0xff) * 0.00392, 1);
-		}else {
-			_colorTransform = null;
-		}
-		#if cpp
-		_red = (_color >> 16) * 0.00392;
-		_green = (_color >> 8 & 0xff) * 0.00392;
-		_blue = (_color & 0xff) * 0.00392;
-		#end
-		return _color;
-	}
-	//
-	
 	
 	/**
 	 * The tilemap constructor just initializes some basic variables.
@@ -227,7 +172,7 @@ class FlxTilemap extends FlxObject
 		_lastVisualDebug = FlxG.visualDebug;
 		_startingIndex = 0;
 		
-		#if cpp
+		#if (cpp || neko)
 		_helperPoint = new Point();
 		#end
 	}
@@ -263,7 +208,7 @@ class FlxTilemap extends FlxObject
 		_debugTileSolid = null;
 		#end
 		
-		#if cpp
+		#if (cpp || neko)
 		_framesData = null;
 		_tileSheetData = null;
 		_helperPoint = null;
@@ -282,7 +227,7 @@ class FlxTilemap extends FlxObject
 	 * @param	AutoTile		Whether to load the map using an automatic tile placement algorithm.  Setting this to either AUTO or ALT will override any values you put for StartingIndex, DrawIndex, or CollideIndex.
 	 * @param	StartingIndex	Used to sort of insert empty tiles in front of the provided graphic.  Default is 0, usually safest ot leave it at that.  Ignored if AutoTile is set.
 	 * @param	DrawIndex		Initializes all tile objects equal to and after this index as visible. Default value is 1.  Ignored if AutoTile is set.
-	 * @param	CollideIndex	Initializes all tile objects equal to and after this index as allowCollisions = ANY.  Default value is 1.  Ignored if AutoTile is set.  Can override and customize per-tile-type collision behavior using <code>setTileProperties()</code>.
+	 * @param	CollideIndex	Initializes all tile objects equal to and after this index as allowCollisions = ANY.  Default value is 1.  Ignored if AutoTile is set.  Can override and customize per-tile-type collision behavior using <code>setTileProperties()</code>.	
 	 * @return	A pointer this instance of FlxTilemap, for chaining as usual :)
 	 */
 	public function loadMap(MapData:String, TileGraphic:Dynamic, ?TileWidth:Int = 0, ?TileHeight:Int = 0, ?AutoTile:Int = 0, ?StartingIndex:Int = 0, ?DrawIndex:Int = 1, ?CollideIndex:Int = 1):FlxTilemap
@@ -428,8 +373,6 @@ class FlxTilemap extends FlxObject
 		}
 	}
 
-
-	private var _tintRect:Rectangle;
 	/**
 	 * Internal function that actually renders the tilemap to the tilemap buffer.  Called by draw().
 	 * @param	Buffer		The <code>FlxTilemapBuffer</code> you are rendering to.
@@ -483,7 +426,6 @@ class FlxTilemap extends FlxObject
 		var columnIndex:Int;
 		var tile:FlxTile;
 		var debugTile:BitmapData;
-		
 		while(row < screenRows)
 		{
 			columnIndex = rowIndex;
@@ -496,13 +438,6 @@ class FlxTilemap extends FlxObject
 				if(_flashRect != null)
 				{
 					Buffer.pixels.copyPixels(_tiles, _flashRect, _flashPoint, null, null, true);
-					if (_colorTransform != null)
-					{
-						_tintRect.x = _flashPoint.x;
-						_tintRect.y = _flashPoint.y;
-						Buffer.pixels.colorTransform(_tintRect, _colorTransform);
-					}
-					
 					if(FlxG.visualDebug && !ignoreDrawDebug)
 					{
 						tile = _tileObjects[_data[columnIndex]];
@@ -557,15 +492,27 @@ class FlxTilemap extends FlxObject
 						{
 							if (tile.allowCollisions <= FlxObject.NONE)
 							{
+								#if !neko
 								debugColor = FlxG.BLUE;
+								#else
+								debugColor = FlxG.BLUE.rgb;
+								#end
 							}
 							else if (tile.allowCollisions != FlxObject.ANY)
 							{
+								#if !neko
 								debugColor = FlxG.PINK;
+								#else
+								debugColor = FlxG.PINK.rgb;
+								#end
 							}
 							else
 							{
+								#if !neko
 								debugColor = FlxG.GREEN;
+								#else
+								debugColor = FlxG.GREEN.rgb;
+								#end
 							}
 							
 							// Copied from makeDebugTile
@@ -796,7 +743,7 @@ class FlxTilemap extends FlxObject
 			{
 				continue;
 			}
-			if(ray(source,node,_point))
+			if(ray(source,node,_point))	
 			{
 				if (lastIndex >= 0)
 				{
@@ -1083,7 +1030,7 @@ class FlxTilemap extends FlxObject
 			var i:Int = 0;
 			var grp:FlxGroup = cast(ObjectOrGroup, FlxGroup);
 			var members:Array<FlxBasic> = grp.members;
-			//while(i < length)
+			
 			while(i < grp.length)
 			{
 				basic = members[i++];
@@ -1114,7 +1061,7 @@ class FlxTilemap extends FlxObject
 	/**
 	 * Checks to see if this <code>FlxObject</code> were located at the given position, would it overlap the <code>FlxObject</code> or <code>FlxGroup</code>?
 	 * This is distinct from overlapsPoint(), which just checks that point, rather than taking the object's size into account.
-	 * WARNING: Currently tilemaps do NOT support screen space overlap checks!
+	 * WARNING: Currently tilemaps do NOT support screen space overlap checks! 
 	 * @param	X				The X position you want to check.  Pretends this object (the caller, not the parameter) is located here.
 	 * @param	Y				The Y position you want to check.  Pretends this object (the caller, not the parameter) is located here.
 	 * @param	ObjectOrGroup	The object or group being tested.
@@ -1305,9 +1252,9 @@ class FlxTilemap extends FlxObject
 	
 	/**
 	 * Get the value of a tile in the tilemap by index.
-	 *
+	 * 
 	 * @param	Index	The slot in the data array (Y * widthInTiles + X) where this tile is stored.
-	 *
+	 * 
 	 * @return	A uint containing the value of the tile at this spot in the array.
 	 */
 	public function getTileByIndex(Index:Int):Int
@@ -1383,7 +1330,7 @@ class FlxTilemap extends FlxObject
 	 * @param	Tile			The new integer data you wish to inject.
 	 * @param	UpdateGraphics	Whether the graphical representation of this tile should change.
 	 * @return	Whether or not the tile was actually changed.
-	 */
+	 */ 
 	public function setTile(X:Int, Y:Int, Tile:Int, ?UpdateGraphics:Bool = true):Bool
 	{
 		if ((X >= widthInTiles) || (Y >= heightInTiles))
@@ -1825,7 +1772,7 @@ class FlxTilemap extends FlxObject
 		#end
 	}
 	
-	#if cpp
+	#if (cpp || neko)
 	/**
 	 * Gets FlxTilemap's TileSheetData index in TileSheetManager
 	 */
@@ -1846,7 +1793,7 @@ class FlxTilemap extends FlxObject
 	 */
 	public function updateTileSheet():Void
 	{
-	#if cpp
+	#if (cpp || neko)
 		if (_tiles != null && _tileWidth >= 1 && _tileHeight >= 1)
 		{
 			_tileSheetData = TileSheetManager.addTileSheet(_tiles, true);
@@ -1891,7 +1838,11 @@ class FlxTilemap extends FlxObject
 		
 		var pt:Point = new Point(0, 0);
 		var tileSprite:FlxSprite = new FlxSprite();
+		#if !neko
 		tileSprite.makeGraphic(_tileWidth, _tileHeight, 0x00000000, true);
+		#else
+		tileSprite.makeGraphic(_tileWidth, _tileHeight, {rgb: 0x000000, a: 0x00}, true);
+		#end
 		tileSprite.x = X * _tileWidth + x;
 		tileSprite.y = Y * _tileHeight + y;
 		if (rect != null) tileSprite.pixels.copyPixels(_tiles, rect, pt);

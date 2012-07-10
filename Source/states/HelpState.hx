@@ -2,6 +2,7 @@ package states;
 
 import com.eclecticdesignstudio.motion.Actuate;
 import data.Library;
+import nme.Assets;
 import org.flixel.FlxG;
 import org.flixel.FlxSprite;
 import org.flixel.FlxState;
@@ -16,14 +17,14 @@ class HelpState extends FlxState{
 		FlxG.fade(0, 1, true, null, true);
 		
 		bg1 = new FlxSprite();
-		bg1.loadGraphic(Library.getFilename(HELP), true,false,FlxG.width, FlxG.height);
+		bg1.loadGraphic("assets/help.png", true, false,  FlxG.width, FlxG.height);
 		bg1.addAnimation("idle", Utils.range(1, 8), 8);
 		add(bg1);
 		bg1.play("idle");
 		
 		bg2 = new FlxSprite();
-		bg2.loadGraphic(Library.getFilename(HELP2), true,false,FlxG.width, FlxG.height);
-		bg2.addAnimation("idle", Utils.range(1, 20), 8);
+		bg2.loadGraphic("assets/help2.png", true, false, FlxG.width, FlxG.height);
+		bg2.addAnimation("idle", Utils.range(1, 10), 8);
 		add(bg2);
 		bg2.play("idle");
 		
@@ -35,7 +36,7 @@ class HelpState extends FlxState{
 
 		if (active) {
 			if (FlxG.keys.CONTROL && FlxG.keys.SHIFT && (FlxG.keys.justPressed("CONTROL") || FlxG.keys.justPressed("SHIFT"))) {
-				if(bg1.visible) {
+				if (bg1.visible) {
 					bg1.visible = false;
 					bg2.visible = true;
 				} else if (bg2.visible) {

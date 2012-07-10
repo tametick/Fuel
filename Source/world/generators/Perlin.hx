@@ -16,8 +16,8 @@ class Perlin {
 		}
 		
 		var bmpData:BitmapData = new BitmapData(width, height);
-		var seed:Int = Math.round( Math.random()*10000);
-		bmpData.perlinNoise(width/jaggedness , height/jaggedness , 8, seed, false, true, 7, true);
+		var seed:Int = Math.round( Math.random() * 10000);
+		//bmpData.perlinNoise(width/jaggedness , height/jaggedness , 8, seed, false, true, 7, true); // todo : migrate
 		var pixels = bmpData.getVector(bmpData.rect);
 		
 		var level:Array<Array<Int>> = new Array();

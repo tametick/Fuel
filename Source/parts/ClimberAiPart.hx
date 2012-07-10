@@ -23,18 +23,11 @@ class ClimberAiPart extends AiPart{
 			if (canAttackPlayer()) {
 				actor.weapon.fire();
 			} else if (canWalkForward()) {
-				var dx = d == W? -1:1;
-				if (Registry.level.isWalkable(actor.tileX + dx, actor.tileY)) {
-					s.startMoving(dx,0);
+				if (Registry.level.isWalkable(actor.tileX + d.dx, actor.tileY)) {
+					s.startMoving(d);
 				}
 			} else {
-				// turn around
-				s.direction = Utils.reverseDirection(s.direction);
-				if (s.direction == E) {
-					s.faceRight();
-				} else {
-					s.faceLeft();
-				}
+				s.direction = d.flip;
 			}
 		}
 	}

@@ -14,7 +14,9 @@ import states.GameState;
 import world.Actor;
 import world.ActorFactory;
 import world.Level;
+import nme.display.BitmapInt32;
 
+import org.flixel.FlxObject;
 
 class MapSprite extends FlxTilemap {
 	public var owner:Level;
@@ -22,7 +24,7 @@ class MapSprite extends FlxTilemap {
 	public var itemSprites:FlxGroup;
 	public var mobSprites:FlxGroup;
 	public var bulletSprites(getBulletSprites, null):FlxGroup;
-
+	
 	public function findTilePath(start:FlxPoint, end:FlxPoint):FlxPath {
 		var s = new FlxPoint(start.x*_tileWidth, start.y*_tileHeight);
 		var e = new FlxPoint(end.x*_tileWidth, end.y*_tileHeight);
@@ -37,6 +39,11 @@ class MapSprite extends FlxTilemap {
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), tileGraphics, 13, 13, FlxTilemap.AUTO);
 		updateTileSheet();
 	}
+	
+	public function setColor(c:BitmapInt32) {
+		
+	}
+	
 		
 	public function drawFov(lightMap:Array<Float>) {
 		for(y in 0...heightInTiles) {
@@ -97,25 +104,31 @@ class MapSprite extends FlxTilemap {
 	override public function update() {
 		super.update();
 		
-		try {
+		//try {
 			FlxG.overlap(mobSprites, bulletSprites, hitActor);
-		} catch (err:Dynamic) {
-			if(Registry.debug) {
-				trace(err);
-			}
-		}
+		//} catch (err:Dynamic) {
+			//if(Registry.debug) {
+//				trace(err);
+	//		}
+	//	}
 		if(Registry.player.sprite.alive){
 			FlxG.overlap(Registry.player.sprite, mobSprites, overlapWithEnemy);
 		}
 		FlxG.collide(this, bulletSprites, hitWall);
 	}
 	
-	function overlapWithEnemy(?victim:ActorSprite, ?killer:ActorSprite) {
+	function overlapWithEnemy(f1:FlxObject, f2:FlxObject) : Void {
+		var victim:ActorSprite = cast(f1, ActorSprite);
+		var killer:ActorSprite = cast(f2, ActorSprite);
+		
 		if(Utils.exists([CLIMBER, WALKER, FLYER, CEILING_SPIKE], killer.owner.type))
 			Registry.player.kill();
 	}
 	
-	public function hitWall(m:MapSprite, b:Bullet) {
+	public function hitWall(f1:FlxObject, f2:FlxObject):Void {
+		var m:MapSprite = cast(f1, MapSprite);
+		var b:Bullet = cast(f2, Bullet);
+		
 		FlxG.play(Library.getSound(DESTROY_WALL));
 		
 		var shooter = cast(b.weapon.parent, ActorSprite);
@@ -125,16 +138,8 @@ class MapSprite extends FlxTilemap {
 		var tx = b.x / Registry.tileSize;
 		var ty = b.y / Registry.tileSize;
 		
-		switch (shooter.direction) {
-			case N:
-				ty--;
-			case E:
-				tx++;
-			case S:
-				ty++;
-			case W:
-				tx--;
-		}
+		tx += shooter.direction.dx;
+		ty += shooter.direction.dy;
 		
 		owner.set(tx, ty, 0);
 		owner.updateFov(Registry.player.tilePoint);
@@ -160,7 +165,10 @@ class MapSprite extends FlxTilemap {
 		//}
 	}
 	
-	public function hitActor(a:ActorSprite, b:Bullet) {
+	public function hitActor(f1:FlxObject, f2:FlxObject) : Void {
+		var a:ActorSprite = cast (f1, ActorSprite);
+		var b:Bullet = cast (f2, Bullet);
+		
 		var attacker = cast(b.weapon.parent, ActorSprite).owner;
 		var victim = a.owner;
 		
@@ -173,7 +181,9 @@ class MapSprite extends FlxTilemap {
 		b.kill();
 	}
 	
-	public function overlapItem(a:ActorSprite, i:ActorSprite) {
+	public function overlapItem(f1:FlxObject, f2:FlxObject) : Void {
+		var a:ActorSprite = cast (f1, ActorSprite);
+		var i:ActorSprite = cast (f2, ActorSprite);
 		if (i.owner.triggerable != null)
 			i.owner.triggerable.onBump(a.owner);
 	}

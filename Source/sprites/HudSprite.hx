@@ -60,7 +60,7 @@ class HudSprite extends Sprite {
 		
 		//...
 		
-		textLine = newText("I hope I could find some fuel in this desolate crater.", 5, 2, 0);
+		textLine = newText("I hope I find some fuel in this desolate crater.", 5, 2, 0);
 		iceCounter = newText("", 200, 2, 0);
 		monopoleCounter = newText("", 222, 2, 0);
 		setIceCounter(0);
@@ -92,19 +92,31 @@ class HudSprite extends Sprite {
 	}
 	
 	public function setSuitBarWidth(w:Float) {
-		var w = Std.int(w * 64 * FlxCamera.defaultZoom);
-		var dw = Math.abs(suitBar.width - w);
-		Actuate.tween(suitBar, dw/150, { width:w } );
+		var w:Float = Std.int(w * 64.0 * FlxCamera.defaultZoom);
+		var dw:Float = Math.abs(suitBar.width - w);
+		//suitBar.width = w;
+		//Actuate.tween(suitBar, dw / 150.0, { width:w } );
+		Actuate.update(tweenBarWidth, dw / 150.0, [suitBar, suitBar.width], [suitBar, w]);
 	}
 	public function setBeltBarWidth(w:Float) {
-		var w = Std.int(w * 64 * FlxCamera.defaultZoom);
+		w = Std.int(w * 64.0 * FlxCamera.defaultZoom);
 		var dw = Math.abs(beltBar.width - w);
-		Actuate.tween(beltBar, dw/150, { width:w } );
+		//beltBar.width = w;
+		Actuate.update(tweenBarWidth, dw / 150.0, [beltBar, gunBar.width], [beltBar, w]);
+		//Actuate.tween(beltBar, dw / 150.0, { width:w} );
 	}
 	public function setGunBarWidth(w:Float) {
-		var w = Std.int(w * 64 * FlxCamera.defaultZoom);
+		w = Std.int(w * 64.0 * FlxCamera.defaultZoom);
 		var dw = Math.abs(gunBar.width - w);
-		Actuate.tween(gunBar, dw/150, { width:w } );
+		//gunBar.width = w;
+		Actuate.update(tweenBarWidth, dw / 150.0, [gunBar, gunBar.width], [gunBar, w]);
+		//Actuate.tween(gunBar, dw / 150.0, { width:w } );
+	}
+	
+	public function tweenBarWidth(bar:Bitmap, w:Float) {
+		if (bar != null) {
+			bar.width = w;
+		}
 	}
 	
 	public function setIceCounter(i:Int) {

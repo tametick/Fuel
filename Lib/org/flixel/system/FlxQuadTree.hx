@@ -622,6 +622,7 @@ class FlxQuadTree extends FlxRect
 					_notifyCallback(_object,checkObject);
 				}
 			}
+			if (_iterator == null) break; // makes no sense, but it can happen -- probably if the callbacks mess with the objects
 			_iterator = _iterator.next;
 		}
 		

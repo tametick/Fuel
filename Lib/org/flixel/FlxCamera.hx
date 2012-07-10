@@ -2,6 +2,8 @@ package org.flixel;
 
 import nme.display.Bitmap;
 import nme.display.BitmapData;
+import nme.display.BitmapInt32;
+import nme.display.Graphics;
 import nme.display.Sprite;
 import nme.geom.ColorTransform;
 import nme.geom.Point;
@@ -127,7 +129,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	public var bgColor:UInt;
 	#else
-	public var bgColor:Int;
+	public var bgColor:BitmapInt32;
 	#end
 	
 	#if flash
@@ -153,7 +155,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	private var _color:UInt;
 	#else
-	private var _color:Int;
+	private var _color:BitmapInt32;
 	#end
 	
 	#if flash
@@ -188,7 +190,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	private var _fxFlashColor:UInt;
 	#else
-	private var _fxFlashColor:Int;
+	private var _fxFlashColor:BitmapInt32;
 	#end
 	/**
 	 * Internal, used to control the "flash" special effect.
@@ -208,7 +210,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	private var _fxFadeColor:UInt;
 	#else
-	private var _fxFadeColor:Int;
+	private var _fxFadeColor:BitmapInt32;
 	#end
 	/**
 	 * Internal, used to control the "fade" special effect.
@@ -247,7 +249,7 @@ class FlxCamera extends FlxBasic
 	 */
 	private var _fill:BitmapData;
 	
-	#if cpp
+	#if (cpp || neko)
 	/**
 	 * sprite for drawing (instead of _flashBitmap in flash)
 	 */
@@ -305,7 +307,13 @@ class FlxCamera extends FlxBasic
 		buffer = screen.pixels;
 		#end
 		bgColor = FlxG.bgColor;
+		
+		#if !neko
 		_color = 0xffffff;
+		#else
+		_color = { rgb:0xffffff, a: 0 };
+		#end
+		
 		#if flash
 		_flashBitmap = new Bitmap(buffer);
 		_flashBitmap.x = -width * 0.5;
@@ -332,12 +340,20 @@ class FlxCamera extends FlxBasic
 		_flashRect = new Rectangle(0, 0, width, height);
 		_flashPoint = new Point();
 		
+		#if !neko
 		_fxFlashColor = 0;
+		#else
+		_fxFlashColor = { rgb:0, a:0 };
+		#end
 		_fxFlashDuration = 0.0;
 		_fxFlashComplete = null;
 		_fxFlashAlpha = 0.0;
 		
+		#if !neko
 		_fxFadeColor = 0;
+		#else
+		_fxFadeColor = { rgb:0, a:0 };
+		#end
 		_fxFadeDuration = 0.0;
 		_fxFadeComplete = null;
 		_fxFadeAlpha = 0.0;
@@ -348,9 +364,13 @@ class FlxCamera extends FlxBasic
 		_fxShakeOffset = new FlxPoint();
 		_fxShakeDirection = 0;
 		
+		#if !neko
 		_fill = new BitmapData(width, height, true, 0);
+		#else
+		_fill = new BitmapData(width, height, true, {rgb: 0, a: 0});
+		#end
 		
-		#if cpp
+		#if (cpp || neko)
 		_canvas.scrollRect = new Rectangle(0, 0, width, height);
 		_antialiasing = false;
 		
@@ -394,7 +414,7 @@ class FlxCamera extends FlxBasic
 		_fxShakeOffset = null;
 		_fill = null;
 		
-		#if cpp
+		#if (cpp || neko)
 		_flashSprite.removeChild(_debugLayer);
 		_flashSprite.removeChild(_canvas);
 		var canvasNumChildren:Int = _canvas.numChildren;
@@ -653,9 +673,21 @@ class FlxCamera extends FlxBasic
 	#if flash
 	public function flash(?Color:UInt = 0xffffffff, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#else
-	public function flash(?Color:Int = 0xffffffff, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	public function flash(?Color:BitmapInt32, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#end
 	{
+		#if cpp
+		if (Color == null)
+		{
+			Color = 0xffffffff;
+		}
+		#elseif neko
+		if (Color == null)
+		{
+			Color = { rgb: 0xffffff, a: 0xff };
+		}
+		#end
+		
 		if (!Force && (_fxFlashAlpha > 0.0))
 		{
 			return;
@@ -681,9 +713,21 @@ class FlxCamera extends FlxBasic
 	#if flash
 	public function fade(?Color:UInt = 0xff000000, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#else
-	public function fade(?Color:Int = 0xff000000, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	public function fade(?Color:BitmapInt32, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#end
 	{
+		#if cpp
+		if (Color == null)
+		{
+			Color = 0xff000000;
+		}
+		#elseif neko
+		if (Color == null)
+		{
+			Color = { rgb: 0x000000, a: 0xff };
+		}
+		#end
+		
 		if (!Force && (_fxFadeAlpha > 0.0))
 		{
 			return;
@@ -857,7 +901,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	public var color(getColor, setColor):UInt;
 	#else
-	public var color(getColor, setColor):Int;
+	public var color(getColor, setColor):BitmapInt32;
 	#end
 	
 	/**
@@ -866,7 +910,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	public function getColor():UInt
 	#else
-	public function getColor():Int
+	public function getColor():BitmapInt32
 	#end
 	{
 		return _color;
@@ -878,7 +922,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	public function setColor(Color:UInt):UInt
 	#else
-	public function setColor(Color:Int):Int
+	public function setColor(Color:BitmapInt32):BitmapInt32
 	#end
 	{
 		_color = Color;
@@ -888,12 +932,14 @@ class FlxCamera extends FlxBasic
 		colorTransform.greenMultiplier = (_color >> 8 & 0xff) * 0.0039;
 		colorTransform.blueMultiplier = (_color & 0xff) * 0.00392;
 		_flashBitmap.transform.colorTransform = colorTransform;
-		#else
+		#elseif cpp
 		//var colorTransform:ColorTransform = _canvas.transform.colorTransform;
 		//_canvas.transform.colorTransform = colorTransform;
 		red = (_color >> 16) * 0.00392;
 		green = (_color >> 8 & 0xff) * 0.0039;
 		blue = (_color & 0xff) * 0.00392;
+		#elseif neko
+		
 		#end
 		
 		return _color;
@@ -971,7 +1017,7 @@ class FlxCamera extends FlxBasic
 	#if flash
 	public function fill(Color:UInt, ?BlendAlpha:Bool = true):Void
 	#else
-	public function fill(Color:Int, ?BlendAlpha:Bool = true, ?FxAlpha:Float = 1.0):Void
+	public function fill(Color:BitmapInt32, ?BlendAlpha:Bool = true, ?FxAlpha:Float = 1.0, graphics:Graphics = null):Void
 	#end
 	{
 		#if flash
@@ -979,6 +1025,8 @@ class FlxCamera extends FlxBasic
 		buffer.copyPixels(_fill, _flashRect, _flashPoint, null, null, BlendAlpha);
 		#else
 		// This is temporal fix for camera's color
+		#if cpp
+		var targetGraphics:Graphics = (graphics == null) ? _canvas.graphics : graphics;
 		Color = Color & 0x00ffffff;
 		if (red != 1.0 || green != 1.0 || blue != 1.0)
 		{
@@ -989,16 +1037,21 @@ class FlxCamera extends FlxBasic
 		}
 		// end of fix
 		
-		_canvas.graphics.beginFill(Color, FxAlpha);
-		_canvas.graphics.drawRect(0, 0, width, height);
-		_canvas.graphics.endFill();
-		
-		if (_fog > 0)
+		targetGraphics.beginFill(Color, FxAlpha);
+		#elseif neko
+		if (red != 1.0 || green != 1.0 || blue != 1.0)
 		{
-			_debugLayer.graphics.beginFill(0xffffff, _fog);
-			_debugLayer.graphics.drawRect(0, 0, width, height);
-			_debugLayer.graphics.endFill();
+			var redComponent:Int = Math.floor((Color.rgb >> 16) * red);
+			var greenComponent:Int = Math.floor((Color.rgb >> 8 & 0xff) * green);
+			var blueComponent:Int = Math.floor((Color.rgb & 0xff) * blue);
+			Color.rgb = redComponent << 16 | greenComponent << 8 | blueComponent;
 		}
+		
+		targetGraphics.beginFill(Color.rgb, FxAlpha);
+		#end
+		
+		targetGraphics.drawRect(0, 0, width, height);
+		targetGraphics.endFill();
 		#end
 	}
 	
@@ -1012,22 +1065,36 @@ class FlxCamera extends FlxBasic
 		//Draw the "flash" special effect onto the buffer
 		if(_fxFlashAlpha > 0.0)
 		{
+			#if neko
+			alphaComponent = _fxFlashColor.a;
+			#else
 			alphaComponent = (_fxFlashColor >> 24) & 255;
+			#end
+			
 			#if flash
 			fill((Std.int(((alphaComponent <= 0) ? 0xff : alphaComponent) * _fxFlashAlpha) << 24) + (_fxFlashColor & 0x00ffffff));
-			#else
-			fill((_fxFlashColor & 0x00ffffff), true, ((alphaComponent <= 0) ? 0xff : alphaComponent) * _fxFlashAlpha / 255);
+			#elseif cpp
+			fill((_fxFlashColor & 0x00ffffff), true, ((alphaComponent <= 0) ? 0xff : alphaComponent) * _fxFlashAlpha / 255, _debugLayer.graphics);
+			#elseif neko
+			fill(_fxFlashColor, true, ((alphaComponent <= 0) ? 0xff : alphaComponent) * _fxFlashAlpha / 255, _debugLayer.graphics);
 			#end
 		}
 		
 		//Draw the "fade" special effect onto the buffer
 		if(_fxFadeAlpha > 0.0)
 		{
+			#if neko
+			alphaComponent = _fxFadeColor.a;
+			#else
 			alphaComponent = (_fxFadeColor >> 24) & 255;
+			#end
+			
 			#if flash
 			fill((Std.int(((alphaComponent <= 0) ?0xff : alphaComponent) * _fxFadeAlpha) << 24) + (_fxFadeColor & 0x00ffffff));
-			#else
-			fill((_fxFadeColor & 0x00ffffff), true, ((alphaComponent <= 0) ?0xff : alphaComponent) * _fxFadeAlpha / 255);
+			#elseif cpp
+			fill((_fxFadeColor & 0x00ffffff), true, ((alphaComponent <= 0) ?0xff : alphaComponent) * _fxFadeAlpha / 255, _debugLayer.graphics);
+			#elseif neko
+			fill(_fxFadeColor, true, ((alphaComponent <= 0) ?0xff : alphaComponent) * _fxFadeAlpha / 255, _debugLayer.graphics);
 			#end
 		}
 		
@@ -1036,9 +1103,18 @@ class FlxCamera extends FlxBasic
 			_flashSprite.x = x + _flashOffsetX + _fxShakeOffset.x;
 			_flashSprite.y = y + _flashOffsetY + _fxShakeOffset.y;
 		}
+		
+		#if (cpp || neko)
+		if (_fog > 0)
+		{
+			_debugLayer.graphics.beginFill(0xffffff, _fog);
+			_debugLayer.graphics.drawRect(0, 0, width, height);
+			_debugLayer.graphics.endFill();
+		}
+		#end
 	}
 	
-	#if cpp
+	#if (cpp || neko)
 	public var width(getWidth, setWidth):Int;
 	public var height(getHeight, setHeight):Int;
 	

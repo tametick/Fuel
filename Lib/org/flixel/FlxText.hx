@@ -1,11 +1,12 @@
 package org.flixel;
 
 import nme.display.BitmapData;
+import nme.display.BitmapInt32;
 import nme.text.TextField;
 import nme.text.TextFormat;
 import nme.text.TextFormatAlign;
 
-#if cpp
+#if (cpp || neko)
 import org.flixel.tileSheetManager.TileSheetManager;
 #end
 
@@ -20,10 +21,8 @@ class FlxText extends FlxSprite
 {
 	
 	#if flash
-	override public var color(getColor, setColor):UInt;
 	public var shadow(getShadow, setShadow):UInt;
 	#else
-	override public var color(getColor, setColor):Int;
 	public var shadow(getShadow, setShadow):Int;
 	#end
 	
@@ -58,7 +57,11 @@ class FlxText extends FlxSprite
 		Width = FlxU.fromIntToUInt(Width);
 		
 		super(X, Y);
+		#if (flash || cpp)
 		makeGraphic(Width, 1, 0);
+		#elseif neko
+		makeGraphic(Width, 1, {rgb: 0, a: 0});
+		#end
 		
 		if (Text == null)
 		{
@@ -69,7 +72,7 @@ class FlxText extends FlxSprite
 		_textField.selectable = false;
 		_textField.multiline = true;
 		_textField.wordWrap = true;
-		var format:TextFormat = new TextFormat(FlxAssets.nokiaFont, 8, 0xffffffff);
+		var format:TextFormat = new TextFormat(FlxAssets.nokiaFont, 8, 0xffffff);
 		//_textField.setTextFormat(format);
 		_textField.defaultTextFormat = format;
 		_textField.text = Text;
@@ -219,9 +222,13 @@ class FlxText extends FlxSprite
 		return _textField.defaultTextFormat.color;
 	}
 	#else
-	override public function getColor():Int
+	override public function getColor():BitmapInt32
 	{
+		#if cpp
 		return _textField.defaultTextFormat.color;
+		#elseif neko
+		return { rgb: _textField.defaultTextFormat.color, a: 0xff };
+		#end
 	}
 	#end
 	
@@ -232,11 +239,15 @@ class FlxText extends FlxSprite
 	#if flash
 	override public function setColor(Color:UInt):UInt
 	#else
-	override public function setColor(Color:Int):Int
+	override public function setColor(Color:BitmapInt32):BitmapInt32
 	#end
 	{
 		var format:TextFormat = dtfCopy();
+		#if neko
+		format.color = Color.rgb;
+		#else
 		format.color = Color;
+		#end
 		_textField.defaultTextFormat = format;
 		_textField.setTextFormat(format);
 		_regen = true;
@@ -342,7 +353,7 @@ class FlxText extends FlxSprite
 	override private function calcFrame(?AreYouSure:Bool = false):Void
 	#end
 	{
-		#if cpp
+		#if (cpp || neko)
 		if (AreYouSure)
 		{
 		#end
@@ -352,7 +363,11 @@ class FlxText extends FlxSprite
 				//Need to generate a new buffer to store the text graphic
 				height = _textField.textHeight;
 				height += 4; //account for 2px gutter on top and bottom
+				#if !neko
 				_pixels = new BitmapData(Std.int(width), Std.int(height), true, 0);
+				#else
+				_pixels = new BitmapData(Std.int(width), Std.int(height), true, {rgb: 0, a: 0});
+				#end
 				frameHeight = Std.int(height);
 				_textField.height = height * 1.2;
 				_flashRect.x = 0;
@@ -363,7 +378,11 @@ class FlxText extends FlxSprite
 			}
 			else	//Else just clear the old buffer before redrawing the text
 			{
+				#if !neko
 				_pixels.fillRect(_flashRect, 0);
+				#else
+				_pixels.fillRect(_flashRect, {rgb: 0, a: 0});
+				#end
 			}
 			
 			if((_textField != null) && (_textField.text != null) && (_textField.text.length > 0))
@@ -398,7 +417,7 @@ class FlxText extends FlxSprite
 				_textField.setTextFormat(new TextFormat(format.font, format.size, format.color, null, null, null, null, null, format.align));
 			}
 			
-			#if cpp
+			#if (cpp || neko)
 			if (_tileSheetData != null)
 			{
 				TileSheetManager.removeTileSheet(_tileSheetData);
@@ -410,11 +429,16 @@ class FlxText extends FlxSprite
 			//Finally, update the visible pixels
 			if ((framePixels == null) || (framePixels.width != _pixels.width) || (framePixels.height != _pixels.height))
 			{
+				#if (flash || cpp)
 				framePixels = new BitmapData(_pixels.width, _pixels.height, true, 0);
+				#elseif neko
+				framePixels = new BitmapData(_pixels.width, _pixels.height, true, {rgb: 0, a: 0});
+				#end
 			}
 			framePixels.copyPixels(_pixels, _flashRect, _flashPointZero);
 			
-		#if cpp
+		#if (cpp || neko)
+			origin.make(frameWidth * 0.5, frameHeight * 0.5);
 		}
 		#end
 	}

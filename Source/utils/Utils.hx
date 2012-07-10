@@ -149,8 +149,4 @@ class Utils {
 			arr.push(n);
 		return arr;
 	}
-	
-	public static function reverseDirection(dir:Direction):Direction {
-		return Type.createEnumIndex(Direction, (Type.enumIndex(dir)+2)%4 );
-	}
 }

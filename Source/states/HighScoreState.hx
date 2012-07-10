@@ -6,14 +6,14 @@ import org.flixel.FlxG;
 import org.flixel.FlxSprite;
 import org.flixel.FlxState;
 import org.flixel.FlxText;
-import org.flixel.plugin.photonstorm.FlxSpecialFX;
-import org.flixel.plugin.photonstorm.fx.StarfieldFX;
+//import org.flixel.plugin.photonstorm.FlxSpecialFX;
+//import org.flixel.plugin.photonstorm.fx.StarfieldFX;
 import utils.Utils;
 
 class HighScoreState extends FlxState {
 	var bg:FlxSprite;
-	var starfield:StarfieldFX;
-	var stars:FlxSprite;
+	//var starfield:StarfieldFX;
+	//var stars:FlxSprite;
 
 	override public function create():Void {
 		GameState.lightingLayer.visible = false;
@@ -22,14 +22,14 @@ class HighScoreState extends FlxState {
 		FlxG.fade(0, 1, true, null, true);
 		FlxG.playMusic(Library.getMusic(VICTORY));
 		
-		if (FlxG.getPlugin(FlxSpecialFX) == null) {
-			FlxG.addPlugin(new FlxSpecialFX());
-		}
+		//if (FlxG.getPlugin(FlxSpecialFX) == null) {
+			//FlxG.addPlugin(new FlxSpecialFX());
+		//}
 			
-		starfield = FlxSpecialFX.starfield();
-		starfield.setStarSpeed( 0, 1);
-		stars = starfield.create(0, 0, FlxG.width, FlxG.height);
-		add(stars);
+		//starfield = FlxSpecialFX.starfield();
+		//starfield.setStarSpeed( 0, 1);
+		//stars = starfield.create(0, 0, FlxG.width, FlxG.height);
+		//add(stars);
 
 		
 		bg = new FlxSprite(0, 0);
@@ -52,8 +52,8 @@ class HighScoreState extends FlxState {
 	override public function destroy():Void {
 		super.destroy();
 		
-		starfield.destroy();
-		stars.destroy();
+		//starfield.destroy();
+		//stars.destroy();
 		bg.destroy();
 		
 		Registry.player = null;

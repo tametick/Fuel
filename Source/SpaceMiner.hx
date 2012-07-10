@@ -53,10 +53,9 @@ class SpaceMiner extends FlxGame {
 		
 		var ratioX:Float = stageWidth / Registry.screenWidth;
 		var ratioY:Float = stageHeight / Registry.screenHeight;
-		var ratio:Float = Math.min(ratioX, ratioY);
+		var ratio:Float = Math.floor(Math.min(ratioX, ratioY) + .025);
 		
-		//super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), HighScoreState, ratio);
-		super(Math.floor(stageWidth / ratio), Math.floor(stageHeight / ratio), MenuState, ratio);
+		super(Registry.screenWidth, Registry.screenHeight, MenuState, ratio);
 		
 		if(Registry.debug) {
 			forceDebugger = true;
@@ -70,20 +69,24 @@ class SpaceMiner extends FlxGame {
 	
 	public function resizeHandler(event:Event) {
 		if (removeMenu && Registry.noMenu) {
+			#if flash
 			Lib.current.stage.showDefaultContextMenu = true;
 			Lib.current.stage.showDefaultContextMenu = false;
+			#end
 		}
 	}
 	override private function update():Void {
 		super.update();
 		
 		if (FlxG.keys.justPressed("F3") && Registry.noMenu) {
+			#if flash
 			if(removeMenu){
 				Lib.current.stage.showDefaultContextMenu = true;
 				Lib.current.stage.showDefaultContextMenu = true;
 			} else {
 				Lib.current.stage.showDefaultContextMenu = false;
 			}
+			#end
 			removeMenu = !removeMenu;
 		}
 		

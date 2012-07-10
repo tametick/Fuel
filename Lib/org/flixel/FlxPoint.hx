@@ -9,7 +9,7 @@ import nme.geom.Point;
 /**
  * Stores a 2D floating point coordinate.
  */
-class FlxPoint
+class FlxPoint 
 {
 	
 	/**
@@ -99,11 +99,6 @@ class FlxPoint
 	public function toString():String
 	{
 		return FlxU.getClassName(this, true);
-	}
-	
-	public function intEquals(o:FlxPoint):Bool
-	{
-		return Math.round(o.x) == Math.round(x) && Math.round(o.y) == Math.round(y);
 	}
 	
 }

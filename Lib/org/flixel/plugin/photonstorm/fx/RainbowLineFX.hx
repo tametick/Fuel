@@ -19,6 +19,7 @@ import org.flixel.plugin.photonstorm.FlxColor;
 import org.flixel.plugin.photonstorm.FlxGradient;
 import org.flixel.plugin.photonstorm.FlxMath;
 
+import nme.display.BitmapInt32;
 
 /**
  * Creates a Rainbow Line Effect - typically a rainbow sequence of color values passing through a 1px high line
@@ -67,7 +68,7 @@ class RainbowLineFX extends BaseFX
 	#if flash
 	public function create(x:Int, y:Int, width:UInt, ?height:UInt = 1, ?colors:Array<UInt> = null, ?colorWidth:UInt = 360, ?colorSpeed:UInt = 1, ?stepSize:UInt = 1, ?fadeWidth:UInt = 128, ?fadeColor:UInt = 0xff000000):FlxSprite
 	#else
-	public function create(x:Int, y:Int, width:UInt, ?height:UInt = 1, ?colors:Array<UInt> = null, ?colorWidth:UInt = 360, ?colorSpeed:UInt = 1, ?stepSize:UInt = 1, ?fadeWidth:UInt = 128, ?fadeColor:UInt = 0xff000000):FlxSprite
+	public function create(x:Int, y:Int, width:Int, ?height:Int = 1, ?colors:Array<BitmapInt32> = null, ?colorWidth:Int = 360, ?colorSpeed:Int = 1, ?stepSize:Int = 1, ?fadeWidth:Int = 128, ?fadeColor:BitmapInt32 = 0xff000000):FlxSprite
 	#end
 	{
 		sprite = new FlxSprite(x, y).makeGraphic(width, height, 0x0);

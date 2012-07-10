@@ -42,7 +42,7 @@ class ActorSprite extends FlxSprite {
 			immovable = true;
 		}
 				
-		faceRight();
+		face(Direction.E);
 		
 		if (owner.stats != null) {
 			explosionEmitter = new EmitterSprite(Registry.explosionColor);
@@ -105,7 +105,20 @@ class ActorSprite extends FlxSprite {
 		}
 	}
 	
-	public function startMoving(dx:Int, dy:Int) {
+	public function startMoving(?d:Direction) {
+		if (d == null) d = direction;
+		
+		var dx = d.dx;
+		var dy = d.dy;
+		
+		if (!Registry.level.isWalkable(owner.tileX + dx, owner.tileY + dy)) {
+			return;
+		}
+		
+		if (d.dy == -1 && !owner.isFlying) {
+			return;
+		}
+		
 		isMoving = true;
 		if (owner.isOnGround(dx, dy) && !owner.isFlying && alive) {
 			play("run");
@@ -117,7 +130,6 @@ class ActorSprite extends FlxSprite {
 		} else if(owner.stats !=null && owner.stats.beltCharge>0 && owner.isFlying && alive) {
 			play("fly");
 		}
-
 		
 		var duration = 1 / (Registry.walkingSpeed);
 		var nextPixelX = Utils.getPositionSnappedToGrid(this.x + dx * Registry.tileSize);
@@ -128,7 +140,7 @@ class ActorSprite extends FlxSprite {
 		// move
 		Actuate.tween(this, duration, {x: nextPixelX, y: nextPixelY}).onComplete(stopped);
 		// update fov
-		if(owner.isPlayer) {
+		if (owner.isPlayer) {
 			Registry.level.updateFov(new FlxPoint(nextTileX, nextTileY));
 		}
 	}
@@ -153,26 +165,28 @@ class ActorSprite extends FlxSprite {
 			return;
 	
 		if (!isMoving) {
-			for(moveKeys in Registry.movementKeys) {
-				if (FlxG.keys.pressed(moveKeys[0])) {
-					faceRight();
-					if(Registry.level.isWalkable(owner.tileX+1,owner.tileY) && !FlxG.keys.CONTROL) {
-						startMoving(1,0);
-					}
-				} else if (FlxG.keys.pressed(moveKeys[1])) {
-					faceLeft();
-					if(Registry.level.isWalkable(owner.tileX-1,owner.tileY) && !FlxG.keys.CONTROL) {
-						startMoving(-1,0);
-					}
-				} else if (FlxG.keys.pressed(moveKeys[2])) {
-					faceDown();
-					if(Registry.level.isWalkable(owner.tileX,owner.tileY+1)  && !FlxG.keys.CONTROL && owner.isFlying) {
-						startMoving(0,1);
-					}
-				} else if (FlxG.keys.pressed(moveKeys[3])) {
-					faceUp();
-					if(Registry.level.isWalkable(owner.tileX,owner.tileY-1)  && !FlxG.keys.CONTROL && owner.isFlying) {
-						startMoving(0,-1);
+			if (FlxG.mouse.justPressed()) {
+				if (FlxG.mouse.x < x) startMoving(Direction.W);
+				else startMoving(Direction.E);
+			}
+			if (!FlxG.keys.CONTROL) {
+				for(moveKeys in Registry.movementKeys) {
+					if (FlxG.keys.pressed(moveKeys[0])) {
+						face(Direction.W);
+						startMoving();
+					} else if (FlxG.keys.pressed(moveKeys[1])) {
+						face(Direction.E);
+						startMoving();
+					} else if (FlxG.keys.pressed(moveKeys[2])) {
+						face(Direction.S);
+						if (owner.isFlying) {
+							startMoving();
+						}
+					} else if (FlxG.keys.pressed(moveKeys[3])) {
+						face(Direction.N);
+						if (owner.isFlying) {
+							startMoving();
+						}
 					}
 				}
 			}
@@ -208,14 +222,15 @@ class ActorSprite extends FlxSprite {
 	}
 	
 	public function aquireOverlappingItems() {
-		var mapSprite = Registry.level.mapSprite;
+		var mapSprite:MapSprite = Registry.level.mapSprite;
+		
 		FlxG.overlap(this, mapSprite.itemSprites, mapSprite.overlapItem);
 	}
 	
 	public function fall() {
 		falling++;
 		play("fall");
-		startMoving(0, 1);
+		startMoving(Direction.S);
 	}
 	
 	public function stopped() {
@@ -299,33 +314,12 @@ class ActorSprite extends FlxSprite {
 		aquireOverlappingItems();
 	}
 	
-	public function faceRight() {
-		facing = FlxObject.RIGHT;
-		direction = E;
+	public function face(d:Direction) {
+		direction = d;
+		facing = d.flxFacing;
+		
 		if(owner.weapon!=null) {
-			weaponSprite.setBulletDirection(WeaponSprite.RIGHT, Math.round(Registry.bulletSpeed));
-		}
-	}
-	
-	public function faceLeft() {
-		facing = FlxObject.LEFT;
-		direction = W;
-		if (owner.weapon != null) {
-			weaponSprite.setBulletDirection(WeaponSprite.LEFT, Math.round(Registry.bulletSpeed));
-		}
-	}
-	
-	public function faceDown()	{
-		direction = S;
-		if (owner.weapon != null) {
-			weaponSprite.setBulletDirection(WeaponSprite.DOWN, Math.round(Registry.bulletSpeed));
-		}
-	}
-	
-	public function faceUp() {
-		direction = N;
-		if (owner.weapon != null) {
-			weaponSprite.setBulletDirection(WeaponSprite.UP, Math.round(Registry.bulletSpeed));
+			weaponSprite.setBulletDirection(weaponSprite.getFacing(d), Math.round(Registry.bulletSpeed));
 		}
 	}
 }

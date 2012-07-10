@@ -15,6 +15,7 @@ package org.flixel.plugin.photonstorm.fx;
 
 import flash.display.BitmapData;
 import flash.geom.Rectangle;
+import nme.display.BitmapInt32;
 import org.flixel.FlxSprite;
 import org.flixel.plugin.photonstorm.FlxColor;
 
@@ -77,7 +78,7 @@ class PlasmaFX extends BaseFX
 	#if flash
 	public function create(x:Int, y:Int, width:UInt, height:UInt, ?scaleX:UInt = 1, ?scaleY:UInt = 1):FlxSprite
 	#else
-	public function create(x:Int, y:Int, width:UInt, height:UInt, ?scaleX:UInt = 1, ?scaleY:UInt = 1):FlxSprite
+	public function create(x:Int, y:Int, width:Int, height:Int, ?scaleX:Int = 1, ?scaleY:Int = 1):FlxSprite
 	#end
 	{
 		sprite = new FlxSprite(x, y).makeGraphic(width, height, 0x0);

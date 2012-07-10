@@ -2,6 +2,7 @@ package sprites;
 
 import org.flixel.plugin.photonstorm.FlxWeapon;
 import data.Registry;
+import utils.Direction;
 import world.Actor;
 import parts.WeaponPart;
 
@@ -24,7 +25,16 @@ class WeaponSprite extends FlxWeapon {
 		super(Type.enumConstructor(type));
 	}
 
-	override function getBulletLifeSpan():Int {
+	public function getBulletLifeSpan():Int {
 		return Std.int( 1000/(Registry.bulletSpeed/(owner.range*Registry.tileSize)) );
+	}
+	
+	public function getFacing(d:Direction) {
+		if (d.dx == -1) return FlxWeapon.BULLET_LEFT;
+		if (d.dx == 1) return FlxWeapon.BULLET_RIGHT;
+		if (d.dy == -1) return FlxWeapon.BULLET_UP;
+		if (d.dy == 1) return FlxWeapon.BULLET_DOWN;
+		
+		return 0;
 	}
 }

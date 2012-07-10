@@ -14,37 +14,25 @@ class WalkerAiPart extends AiPart {
 		if (canAttackPlayer()) {
 			actor.weapon.fire();
 		} else if (canWalkForward()) {
-			var dx = d == W? -1:1;
-			if (Registry.level.isWalkable(actor.tileX + dx, actor.tileY)) {
-				s.startMoving(dx,0);
+			if (Registry.level.isWalkable(actor.tileX + d.dx, actor.tileY)) {
+				s.startMoving(d);
 			}
 		} else {
 			if(canDig() && Math.random()<Registry.walkerDigChance) {
 				actor.weapon.fire();
 			} else {
-				// turn around
-				s.direction = Utils.reverseDirection(s.direction);
-				if (s.direction == E) {
-					s.faceRight();
-				} else {
-					s.faceLeft();
-				}
+				s.face(d.flip);
 			}
 		}
 	}
 	
 	function canDig():Bool {
 		var l = Registry.level;
-		switch (actor.sprite.direction) {
-			case W:
-				if (l.get(actor.tilePoint.x - 1, actor.tilePoint.y) == 1 && l.get(actor.tilePoint.x - 1, actor.tilePoint.y+1) == 1) {
-					return true;
-				}
-			case E:
-				if (l.get(actor.tilePoint.x + 1, actor.tilePoint.y) == 1 && l.get(actor.tilePoint.x + 1, actor.tilePoint.y+1) == 1) {
-					return true;
-				}
-			default:
+		var d = actor.sprite.direction;
+		if (d.horizontal) {
+			if (l.get(actor.tilePoint.x + d.dx, actor.tilePoint.y) == 1 && l.get(actor.tilePoint.x + d.dx, actor.tilePoint.y+1) == 1) {
+				return true;
+			}
 		}
 		return false;
 	}

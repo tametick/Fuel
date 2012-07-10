@@ -3,6 +3,7 @@ package org.flixel;
 import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
+import nme.display.BitmapInt32;
 import nme.display.Graphics;
 import nme.display.Sprite;
 import nme.display.Stage;
@@ -25,13 +26,13 @@ import org.flixel.system.FlxQuadTree;
  * Utilities for maths and color and things can be found in <code>FlxU</code>.
  * <code>FlxG</code> is specifically for Flixel-specific properties.
  */
-class FlxG
+class FlxG 
 {
 
 	#if flash
 	public static var bgColor(getBgColor, setBgColor):UInt;
 	#else
-	public static var bgColor(getBgColor, setBgColor):Int;
+	public static var bgColor(getBgColor, setBgColor):BitmapInt32;
 	#end
 	
 	public static var flashFramerate(getFlashFramerate, setFlashFramerate):Int;
@@ -93,48 +94,60 @@ class FlxG
 	 */
 	#if flash
 	static public inline var RED:UInt = 0xffff0012;
-	#else
-	static public inline var RED:Int = 0xffff0012;
+	#elseif cpp
+	static public inline var RED:BitmapInt32 = 0xffff0012;
+	#elseif neko
+	static public inline var RED:BitmapInt32 = {rgb: 0xff0012, a: 0xff};
 	#end
 	/**
 	 * Green is used to indicate solid but immovable objects.
 	 */
 	#if flash
 	static public inline var GREEN:UInt = 0xff00f225;
-	#else
-	static public inline var GREEN:Int = 0xff00f225;
+	#elseif cpp
+	static public inline var GREEN:BitmapInt32 = 0xff00f225;
+	#elseif neko
+	static public inline var GREEN:BitmapInt32 = {rgb: 0x00f225, a: 0xff};
 	#end
 	/**
 	 * Blue is used to indicate non-solid objects.
 	 */
 	#if flash
 	static public inline var BLUE:UInt = 0xff0090e9;
-	#else
-	static public inline var BLUE:Int = 0xff0090e9;
+	#elseif cpp
+	static public inline var BLUE:BitmapInt32 = 0xff0090e9;
+	#elseif neko
+	static public inline var BLUE:BitmapInt32 = {rgb: 0x0090e9, a: 0xff};
 	#end
 	/**
 	 * Pink is used to indicate objects that are only partially solid, like one-way platforms.
 	 */
 	#if flash
 	static public inline var PINK:UInt = 0xfff01eff;
-	#else
-	static public inline var PINK:Int = 0xfff01eff;
+	#elseif cpp
+	static public inline var PINK:BitmapInt32 = 0xfff01eff;
+	#elseif neko
+	static public inline var PINK:BitmapInt32 = {rgb: 0xf01eff, a: 0xff};
 	#end
 	/**
 	 * White... for white stuff.
 	 */
 	#if flash
 	static public inline var WHITE:UInt = 0xffffffff;
-	#else
-	static public inline var WHITE:Int = 0xffffffff;
+	#elseif cpp
+	static public inline var WHITE:BitmapInt32 = 0xffffffff;
+	#elseif neko
+	static public inline var WHITE:BitmapInt32 = {rgb: 0xffffff, a: 0xff};
 	#end
 	/**
 	 * And black too.
 	 */
 	#if flash
 	static public inline var BLACK:UInt = 0xff000000;
-	#else
-	static public inline var BLACK:Int = 0xff000000;
+	#elseif cpp
+	static public inline var BLACK:BitmapInt32 = 0xff000000;
+	#elseif neko
+	static public inline var BLACK:BitmapInt32 = {rgb: 0x000000, a: 0xff};
 	#end
 
 	/**
@@ -186,7 +199,7 @@ class FlxG
 	/**
 	 * Setting this to true will disable/skip stuff that isn't necessary for mobile platforms like Android. [BETA]
 	 */
-	static public var mobile:Bool;
+	static public var mobile:Bool; 
 	/**
 	 * The global random number generator seed (for deterministic behavior in recordings and saves).
 	 */
@@ -203,7 +216,7 @@ class FlxG
 	 * <code>FlxG.saves</code> is a generic bucket for storing
 	 * FlxSaves so you can access them whenever you want.
 	 */
-	static public var saves:Array<Dynamic>;
+	static public var saves:Array<Dynamic>; 
 	static public var save:Int;
 
 	/**
@@ -259,7 +272,7 @@ class FlxG
 	 * DebugPathDisplay, and TimerManager.
 	 */
 	 static public var plugins:Array<FlxBasic>;
-	
+	 
 	/**
 	 * Set this hook to get a callback whenever the volume changes.
 	 * Function should take the form <code>myVolumeHandler(Volume:Number)</code>.
@@ -583,7 +596,7 @@ class FlxG
 	 * @param	Music		The sound file you want to loop in the background.
 	 * @param	Volume		How loud the sound should be, from 0 to 1.
 	 */
-	static public function playMusic(Music:Sound, ?Volume:Float = 1.0, ?Loop:Bool=true):Void
+	static public function playMusic(Music:Dynamic, ?Volume:Float = 1.0):Void
 	{
 		if (music == null)
 		{
@@ -593,7 +606,7 @@ class FlxG
 		{
 			music.stop();
 		}
-		music.loadEmbedded(Music, Loop);
+		music.loadEmbedded(Music, true);
 		music.volume = Volume;
 		music.survive = true;
 		music.play();
@@ -601,7 +614,7 @@ class FlxG
 	
 	// TODO: Return from Sound -> Class<Sound>
 	/**
-	 * Creates a new sound object.
+	 * Creates a new sound object. 
 	 * @param	EmbeddedSound	The embedded sound resource you want to play.  To stream, use the optional URL parameter instead.
 	 * @param	Volume			How loud to play it (0 to 1).
 	 * @param	Looped			Whether to loop this sound.
@@ -610,7 +623,7 @@ class FlxG
 	 * @param	URL				Load a sound from an external web resource instead.  Only used if EmbeddedSound = null.
 	 * @return	A <code>FlxSound</code> object.
 	 */
-	static public function loadSound(?EmbeddedSound:Sound = null, ?Volume:Float = 1.0, ?Looped:Bool = false, ?AutoDestroy:Bool = false, ?AutoPlay:Bool = false, ?URL:String = null):FlxSound
+	static public function loadSound(?EmbeddedSound:Dynamic = null, ?Volume:Float = 1.0, ?Looped:Bool = false, ?AutoDestroy:Bool = false, ?AutoPlay:Bool = false, ?URL:String = null):FlxSound
 	{
 		if((EmbeddedSound == null) && (URL == null))
 		{
@@ -644,7 +657,7 @@ class FlxG
 	 * @param	AutoDestroy		Whether to destroy this sound when it finishes playing.  Leave this value set to "false" if you want to re-use this <code>FlxSound</code> instance.
 	 * @return	A <code>FlxSound</code> object.
 	 */
-	static public function play(EmbeddedSound:Sound, ?Volume:Float = 1.0, ?Looped:Bool = false, ?AutoDestroy:Bool = true):FlxSound
+	static public function play(EmbeddedSound:Dynamic, ?Volume:Float = 1.0, ?Looped:Bool = false, ?AutoDestroy:Bool = true):FlxSound
 	{
 		return FlxG.loadSound(EmbeddedSound, Volume, Looped, AutoDestroy, true);
 	}
@@ -667,7 +680,7 @@ class FlxG
 	
 	/**
 	 * Set <code>volume</code> to a number between 0 and 1 to change the global volume.
-	 *
+	 * 
 	 * @default 0.5
 	 */
 	static public function getVolume():Float
@@ -700,7 +713,7 @@ class FlxG
 
 	/**
 	 * Called by FlxGame on state changes to stop and destroy sounds.
-	 *
+	 * 
 	 * @param	ForceDestroy		Kill sounds even if they're flagged <code>survive</code>.
 	 */
 	static public function destroySounds(?ForceDestroy:Bool = false):Void
@@ -811,7 +824,7 @@ class FlxG
 	#if flash
 	static public function createBitmap(Width:UInt, Height:UInt, Color:UInt, ?Unique:Bool = false, ?Key:String = null):BitmapData
 	#else
-	static public function createBitmap(Width:Int, Height:Int, Color:Int, ?Unique:Bool = false, ?Key:String = null):BitmapData
+	static public function createBitmap(Width:Int, Height:Int, Color:BitmapInt32, ?Unique:Bool = false, ?Key:String = null):BitmapData
 	#end
 	{
 		var key:String = Key;
@@ -848,13 +861,21 @@ class FlxG
 	static public function addBitmap(Graphic:Dynamic, ?Reverse:Bool = false, ?Unique:Bool = false, ?Key:String = null):BitmapData
 	{
 		var isClass:Bool = true;
+		var isBitmap:Bool = true;
 		if (Std.is(Graphic, Class))
 		{
 			isClass = true;
+			isBitmap = false;
 		}
 		else if (Std.is(Graphic, String))
 		{
 			isClass = false;
+			isBitmap = false;
+		}
+		else if (Std.is(Graphic, BitmapData) && Key != null)
+		{
+			isClass = false;
+			isBitmap = true;
 		}
 		else
 		{
@@ -875,7 +896,7 @@ class FlxG
 			}
 			key += (Reverse ? "_REVERSE_" : "");
 			
-			if(Unique && checkBitmapCache(key))
+			if (Unique && checkBitmapCache(key))
 			{
 				var inc:Int = 0;
 				var ukey:String;
@@ -895,6 +916,10 @@ class FlxG
 			{
 				bd = Type.createInstance(cast(Graphic, Class<Dynamic>), []).bitmapData;
 			}
+			else if (isBitmap)
+			{
+				bd = cast(Graphic, BitmapData);
+			}
 			else
 			{
 				bd = Assets.getBitmapData(Graphic);
@@ -906,13 +931,17 @@ class FlxG
 				needReverse = true;
 			}
 		}
-		//var pixels:BitmapData = _cache[Key];
+		
 		var pixels:BitmapData = _cache.get(key);
 		
 		var tempBitmap:BitmapData;
 		if (isClass)
 		{
 			tempBitmap = Type.createInstance(Graphic, []).bitmapData;
+		}
+		else if (isBitmap)
+		{
+			tempBitmap = cast(Graphic, BitmapData);
 		}
 		else
 		{
@@ -923,9 +952,13 @@ class FlxG
 		{
 			needReverse = true;
 		}
-		if(needReverse)
+		if (needReverse)
 		{
+			#if !neko
 			var newPixels:BitmapData = new BitmapData(pixels.width << 1, pixels.height, true, 0x00000000);
+			#else
+			var newPixels:BitmapData = new BitmapData(pixels.width << 1, pixels.height, true, {rgb: 0x000000, a: 0x00});
+			#end
 			
 		#if flash
 			newPixels.draw(pixels);
@@ -934,7 +967,7 @@ class FlxG
 			mtx.translate(newPixels.width, 0);
 			newPixels.draw(pixels, mtx);
 		#else
-			var pixelColor:Int;
+			var pixelColor:BitmapInt32;
 			for (i in 0...(pixels.width + 1))
 			{
 				for (j in 0...(pixels.height + 1))
@@ -1070,7 +1103,7 @@ class FlxG
 	/**
 	 * Dumps all the current cameras and resets to just one camera.
 	 * Handy for doing split-screen especially.
-	 *
+	 * 
 	 * @param	NewCamera	Optional; specify a specific camera object to be the new main camera.
 	 */
 	static public function resetCameras(?NewCamera:FlxCamera = null):Void
@@ -1104,9 +1137,16 @@ class FlxG
 	#if flash
 	static public function flash(?Color:UInt = 0xffffffff, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#else
-	static public function flash(?Color:Int = 0xffffffff, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	static public function flash(?Color:BitmapInt32, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#end
 	{
+		#if !flash
+		if (Color == null)
+		{
+			Color = WHITE;
+		}
+		#end
+		
 		var i:Int = 0;
 		var l:Int = FlxG.cameras.length;
 		while (i < l)
@@ -1126,9 +1166,16 @@ class FlxG
 	#if flash
 	static public function fade(?Color:UInt = 0xff000000, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#else
-	static public function fade(?Color:Int = 0xff000000, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	static public function fade(?Color:BitmapInt32, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
 	#end
 	{
+		#if !flash
+		if (Color == null)
+		{
+			Color = BLACK;
+		}
+		#end
+		
 		var i:Int = 0;
 		var l:Int = FlxG.cameras.length;
 		while (i < l)
@@ -1163,12 +1210,16 @@ class FlxG
 	#if flash
 	static public function getBgColor():UInt
 	#else
-	static public function getBgColor():Int
+	static public function getBgColor():BitmapInt32
 	#end
 	{
 		if (FlxG.camera == null)
 		{
+			#if !neko
 			return 0xff000000;
+			#else
+			return BLACK;
+			#end
 		}
 		else
 		{
@@ -1179,7 +1230,7 @@ class FlxG
 	#if flash
 	static public function setBgColor(Color:UInt):UInt
 	#else
-	static public function setBgColor(Color:Int):Int
+	static public function setBgColor(Color:BitmapInt32):BitmapInt32
 	#end
 	{
 		var i:Int = 0;
@@ -1376,7 +1427,7 @@ class FlxG
 	 */
 	static public function reset():Void
 	{
-		#if cpp
+		#if (cpp || neko)
 		TileSheetManager.clear();
 		#end
 		FlxG.clearBitmapCache();
@@ -1437,7 +1488,7 @@ class FlxG
 			}
 			#end
 			
-			#if cpp
+			#if (cpp || neko)
 			cam._canvas.graphics.clear();
 			// clearing camera's debug sprite
 			cam._debugLayer.graphics.clear();

@@ -6,6 +6,7 @@ import org.flixel.FlxU;
 import sprites.MapSprite;
 import data.Registry;
 import data.Library;
+import utils.Direction;
 import utils.Utils;
 
 class Level {
@@ -76,8 +77,9 @@ class Level {
 		}
 		
 		var line = Utils.getLine(p1, p2, isBlockingSight);
+		var last:FlxPoint = line.last();
 		
-		return line.last().intEquals(p2);
+		return Std.int(last.x) == Std.int(p2.x) && Std.int(last.y) == Std.int(p2.y);
 	}
 	
 	function updateVisibilityMap(source:FlxPoint) {
@@ -251,16 +253,12 @@ class Level {
 	}
 	
 	
-	public function getFreeNeighbors(p:FlxPoint):Array<FlxPoint> {
+	public function getFreeNeighbors(p:FlxPoint):Array<Direction> {
 		var n = [];
-		if (isWalkable(p.x - 1, p.y))
-			n.push(new FlxPoint(-1, 0));
-		if (isWalkable(p.x + 1, p.y))
-			n.push(new FlxPoint(1, 0));
-		if (isWalkable(p.x, p.y-1))
-			n.push(new FlxPoint(0, -1));
-		if (isWalkable(p.x, p.y+1))
-			n.push(new FlxPoint(0, 1));
+		if (isWalkable(p.x - 1, p.y)) n.push(Direction.W);
+		if (isWalkable(p.x + 1, p.y)) n.push(Direction.E);
+		if (isWalkable(p.x, p.y-1)) n.push(Direction.N);
+		if (isWalkable(p.x, p.y+1)) n.push(Direction.S);
 		return n;
 	}
 	
