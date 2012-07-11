@@ -9,16 +9,31 @@ import nme.display.Sprite;
 import nme.display.Stage;
 import nme.errors.Error;
 import nme.geom.Matrix;
+import nme.geom.Point;
 import nme.geom.Rectangle;
 import nme.media.Sound;
+import nme.media.SoundTransform;
+
+#if (cpp || neko)
+import org.flixel.system.input.JoystickManager;
+#end
+
+import org.flixel.system.input.TouchManager;
+import nme.ui.Multitouch;
+
+import org.flixel.plugin.pxText.PxBitmapFont;
 import org.flixel.system.input.Keyboard;
 import org.flixel.system.input.Mouse;
 import org.flixel.tileSheetManager.TileSheetManager;
+import org.flixel.tweens.misc.MultiVarTween;
 
 import org.flixel.plugin.DebugPathDisplay;
 import org.flixel.plugin.TimerManager;
 import org.flixel.system.FlxDebugger;
 import org.flixel.system.FlxQuadTree;
+
+import org.flixel.tweens.FlxTween;
+import org.flixel.tweens.util.Ease;
 
 /**
  * This is a global helper class full of useful functions for audio,
@@ -28,7 +43,34 @@ import org.flixel.system.FlxQuadTree;
  */
 class FlxG 
 {
-
+	
+	/**
+	 * The maximum number of concurrent touch points supported by the current device.
+	 */
+	public static var maxTouchPoints:Int = 0;
+	
+	/**
+	 * Indicates whether the current environment supports basic touch input, such as a single finger tap.
+	 */
+	public static var supportsTouchEvents:Bool = false;
+	
+	/**
+	 * A reference to a <code>TouchManager</code> object. Useful for devices with multitouch support
+	 */
+	public static var touchManager:TouchManager;
+	
+	#if (cpp || neko)
+	/**
+	 * A reference to a <code>JoystickManager</code> object. Important for input!
+	 */
+	public static var joystickManager:JoystickManager;
+	#end
+	
+	/**
+	 * Global tweener for tweening between multiple worlds
+	 */
+	public static var tweener:FlxBasic = new FlxBasic();
+	
 	#if flash
 	public static var bgColor(getBgColor, setBgColor):UInt;
 	#else
@@ -153,7 +195,7 @@ class FlxG
 	/**
 	 * Internal tracker for game object.
 	 */
-	static private var _game:FlxGame;
+	static public var _game:FlxGame;
 	/**
 	 * Handy shared variable for implementing your own pause behavior.
 	 */
@@ -277,8 +319,7 @@ class FlxG
 	 * Set this hook to get a callback whenever the volume changes.
 	 * Function should take the form <code>myVolumeHandler(Volume:Number)</code>.
 	 */
-	//static public var volumeHandler:Function;
-	static public var volumeHandler:Dynamic;
+	static public var volumeHandler:Float->Void;
 	
 	/**
 	 * Useful helper objects for doing Flash-specific rendering.
@@ -484,7 +525,7 @@ class FlxG
 	 * @param	Timeout		Optional parameter: set a time limit for the replay.  CancelKeys will override this if pressed.
 	 * @param	Callback	Optional parameter: if set, called when the replay finishes.  Running to the end, CancelKeys, and Timeout will all trigger Callback(), but only once, and CancelKeys and Timeout will NOT call FlxG.stopReplay() if Callback is set!
 	 */
-	static public function loadReplay(Data:String, ?State:FlxState = null, ?CancelKeys:Array<String> = null, ?Timeout:Float = 0, ?Callback:Dynamic = null):Void
+	static public function loadReplay(Data:String, ?State:FlxState = null, ?CancelKeys:Array<String> = null, ?Timeout:Float = 0, ?Callback:Void->Void = null):Void
 	{
 		_game._replay.load(Data);
 		if (State == null)
@@ -588,6 +629,10 @@ class FlxG
 	{
 		keys.reset();
 		mouse.reset();
+		
+		#if (cpp || neko)
+		joystickManager.reset();
+		#end
 	}
 	
 	// TODO: Return from Sound -> Class<Sound>
@@ -612,7 +657,6 @@ class FlxG
 		music.play();
 	}
 	
-	// TODO: Return from Sound -> Class<Sound>
 	/**
 	 * Creates a new sound object. 
 	 * @param	EmbeddedSound	The embedded sound resource you want to play.  To stream, use the optional URL parameter instead.
@@ -647,7 +691,46 @@ class FlxG
 		return sound;
 	}
 	
-	// TODO: Return from Sound -> Class<Sound>
+	#if android
+	private static var _soundCache:Hash<Sound> = new Hash<Sound>();
+	private static var _soundTransform:SoundTransform = new SoundTransform();
+	
+	static public function addSound(EmbeddedSound:String):Sound
+	{
+		if (_soundCache.exists(EmbeddedSound))
+		{
+			return _soundCache.get(EmbeddedSound);
+		}
+		else
+		{
+			var sound:Sound = Assets.getSound(EmbeddedSound);
+			_soundCache.set(EmbeddedSound, sound);
+			return sound;
+		}
+	}
+	
+	static public function play(EmbeddedSound:String, ?Volume:Float = 1.0, ?Looped:Bool = false, ?AutoDestroy:Bool = true):FlxSound
+	{
+		var sound:Sound = null;
+		
+		_soundTransform.volume = (FlxG.mute ? 0 : 1) * FlxG.volume * Volume;
+		_soundTransform.pan = 0;
+		
+		if (_soundCache.exists(EmbeddedSound))
+		{
+			_soundCache.get(EmbeddedSound).play(0, 0, _soundTransform);
+		}
+		else
+		{
+			sound = Assets.getSound(EmbeddedSound);
+			
+			_soundCache.set(EmbeddedSound, sound);
+			sound.play(0, 0, _soundTransform);
+		}
+		
+		return null;
+	}
+	#else
 	/**
 	 * Creates a new sound object from an embedded <code>Class</code> object.
 	 * NOTE: Just calls FlxG.loadSound() with AutoPlay == true.
@@ -661,6 +744,7 @@ class FlxG
 	{
 		return FlxG.loadSound(EmbeddedSound, Volume, Looped, AutoDestroy, true);
 	}
+	#end
 		
 	/**
 	 * Creates a new sound object from a URL.
@@ -706,7 +790,7 @@ class FlxG
 		{
 			// volumeHandler(FlxG.mute ? 0 : _volume);
 			var param:Float = FlxG.mute ? 0 : _volume;
-			Reflect.callMethod(FlxG, Reflect.field(FlxG, "volumeHandler"), [param]);
+			Reflect.callMethod(FlxG, Reflect.getProperty(FlxG, "volumeHandler"), [param]);
 		}
 		return Volume;
 	}
@@ -830,7 +914,11 @@ class FlxG
 		var key:String = Key;
 		if(key == null)
 		{
+			#if !neko
 			key = Width + "x" + Height + ":" + Color;
+			#else
+			key = Width + "x" + Height + ":" + Color.a + "." + Color.rgb;
+			#end
 			if(Unique && checkBitmapCache(key))
 			{
 				var inc:Int = 0;
@@ -844,7 +932,6 @@ class FlxG
 		}
 		if (!checkBitmapCache(key))
 		{
-			//_cache[Key] = new BitmapData(Width,Height,true,Color);
 			_cache.set(key, new BitmapData(Width, Height, true, Color));
 		}
 		return _cache.get(key);
@@ -858,8 +945,13 @@ class FlxG
 	 * @param	Key			Force the cache to use a specific Key to index the bitmap.
 	 * @return	The <code>BitmapData</code> we just created.
 	 */
-	static public function addBitmap(Graphic:Dynamic, ?Reverse:Bool = false, ?Unique:Bool = false, ?Key:String = null):BitmapData
+	static public function addBitmap(Graphic:Dynamic, ?Reverse:Bool = false, ?Unique:Bool = false, ?Key:String = null, ?FrameWidth:Int = 0, ?FrameHeight:Int = 0):BitmapData
 	{
+		if (Graphic == null)
+		{
+			return null;
+		}
+		
 		var isClass:Bool = true;
 		var isBitmap:Bool = true;
 		if (Std.is(Graphic, Class))
@@ -867,20 +959,28 @@ class FlxG
 			isClass = true;
 			isBitmap = false;
 		}
-		else if (Std.is(Graphic, String))
-		{
-			isClass = false;
-			isBitmap = false;
-		}
 		else if (Std.is(Graphic, BitmapData) && Key != null)
 		{
 			isClass = false;
 			isBitmap = true;
 		}
+		else if (Std.is(Graphic, String))
+		{
+			isClass = false;
+			isBitmap = false;
+		}
 		else
 		{
 			return null;
 		}
+		
+		var additionalKey:String = "";
+		#if !flash
+		if (FrameWidth != 0 || FrameHeight != 0)
+		{
+			additionalKey = "FrameSize:" + FrameWidth + "_" + FrameHeight;
+		}
+		#end
 		
 		var needReverse:Bool = false;
 		var key:String = Key;
@@ -895,6 +995,7 @@ class FlxG
 				key = Graphic;
 			}
 			key += (Reverse ? "_REVERSE_" : "");
+			key += additionalKey;
 			
 			if (Unique && checkBitmapCache(key))
 			{
@@ -908,8 +1009,10 @@ class FlxG
 			}
 		}
 		
-		//If there is no data for this key, generate the requested graphic
-		if(!checkBitmapCache(key))
+		var tempBitmap:BitmapData;
+		
+		// If there is no data for this key, generate the requested graphic
+		if (!checkBitmapCache(key))
 		{
 			var bd:BitmapData = null;
 			if (isClass)
@@ -925,6 +1028,42 @@ class FlxG
 				bd = Assets.getBitmapData(Graphic);
 			}
 			
+			#if !flash
+			if (additionalKey != "")
+			{
+				var numHorizontalFrames:Int = (FrameWidth == 0) ? 1 : Math.floor(bd.width / FrameWidth);
+				var numVerticalFrames:Int = (FrameHeight == 0) ? 1 : Math.floor(bd.height / FrameHeight);
+				
+				FrameWidth = Math.floor(bd.width / numHorizontalFrames);
+				FrameHeight = Math.floor(bd.height / numVerticalFrames);
+				
+				#if !neko
+				var tempBitmap:BitmapData = new BitmapData(bd.width + numHorizontalFrames, bd.height + numVerticalFrames, true, 0x00000000);
+				#else
+				var tempBitmap:BitmapData = new BitmapData(bd.width + numHorizontalFrames, bd.height + numVerticalFrames, true, {rgb: 0x000000, a: 0x00});
+				#end
+				
+				var tempRect:Rectangle = new Rectangle(0, 0, FrameWidth, FrameHeight);
+				var tempPoint:Point = new Point();
+				
+				for (i in 0...(numHorizontalFrames))
+				{
+					tempPoint.x = i * (FrameWidth + 1);
+					tempRect.x = i * FrameWidth;
+					
+					for (j in 0...(numVerticalFrames))
+					{
+						tempPoint.y = j * (FrameHeight + 1);
+						tempRect.y = j * FrameHeight;
+						
+						tempBitmap.copyPixels(bd, tempRect, tempPoint);
+					}
+				}
+				
+				bd = tempBitmap;
+			}
+			#end
+			
 			_cache.set(key, bd);
 			if (Reverse)
 			{
@@ -934,7 +1073,7 @@ class FlxG
 		
 		var pixels:BitmapData = _cache.get(key);
 		
-		var tempBitmap:BitmapData;
+		#if flash
 		if (isClass)
 		{
 			tempBitmap = Type.createInstance(Graphic, []).bitmapData;
@@ -952,38 +1091,30 @@ class FlxG
 		{
 			needReverse = true;
 		}
+		
 		if (needReverse)
 		{
-			#if !neko
-			var newPixels:BitmapData = new BitmapData(pixels.width << 1, pixels.height, true, 0x00000000);
-			#else
-			var newPixels:BitmapData = new BitmapData(pixels.width << 1, pixels.height, true, {rgb: 0x000000, a: 0x00});
-			#end
+			var newPixels:BitmapData = new BitmapData(pixels.width * 2, pixels.height, true, 0x00000000);
 			
-		#if flash
 			newPixels.draw(pixels);
 			var mtx:Matrix = new Matrix();
 			mtx.scale(-1,1);
 			mtx.translate(newPixels.width, 0);
 			newPixels.draw(pixels, mtx);
-		#else
-			var pixelColor:BitmapInt32;
-			for (i in 0...(pixels.width + 1))
-			{
-				for (j in 0...(pixels.height + 1))
-				{
-					pixelColor = pixels.getPixel32(i, j);
-					newPixels.setPixel32(i, j, pixelColor);
-					newPixels.setPixel32(2 * pixels.width - i - 1, j, pixelColor);
-				}
-			}
-		#end
-			
 			pixels = newPixels;
-			//_cache[Key] = pixels;
 			_cache.set(key, pixels);
 		}
+		#end
+		
 		return pixels;
+	}
+	
+	public static function removeBitmap(Graphic:String):Void
+	{
+		if (_cache.exists(Graphic))
+		{
+			_cache.remove(Graphic);
+		}
 	}
 		
 	/**
@@ -1135,9 +1266,9 @@ class FlxG
 	 * @param	Force		Force the effect to reset.
 	 */
 	#if flash
-	static public function flash(?Color:UInt = 0xffffffff, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	static public function flash(?Color:UInt = 0xffffffff, ?Duration:Float = 1, ?OnComplete:Void->Void = null, ?Force:Bool = false):Void
 	#else
-	static public function flash(?Color:BitmapInt32, ?Duration:Float = 1, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	static public function flash(?Color:BitmapInt32, ?Duration:Float = 1, ?OnComplete:Void->Void = null, ?Force:Bool = false):Void
 	#end
 	{
 		#if !flash
@@ -1164,9 +1295,9 @@ class FlxG
 	 * @param	Force		Force the effect to reset.
 	 */
 	#if flash
-	static public function fade(?Color:UInt = 0xff000000, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	static public function fade(?Color:UInt = 0xff000000, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Void->Void = null, ?Force:Bool = false):Void
 	#else
-	static public function fade(?Color:BitmapInt32, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Dynamic = null, ?Force:Bool = false):Void
+	static public function fade(?Color:BitmapInt32, ?Duration:Float = 1, ?FadeIn:Bool = false, ?OnComplete:Void->Void = null, ?Force:Bool = false):Void
 	#end
 	{
 		#if !flash
@@ -1192,7 +1323,7 @@ class FlxG
 	 * @param	Force		Force the effect to reset (default = true, unlike flash() and fade()!).
 	 * @param	Direction	Whether to shake on both axes, just up and down, or just side to side (use class constants SHAKE_BOTH_AXES, SHAKE_VERTICAL_ONLY, or SHAKE_HORIZONTAL_ONLY).  Default value is SHAKE_BOTH_AXES (0).
 	 */
-	static public function shake(?Intensity:Float = 0.05, ?Duration:Float = 0.5, ?OnComplete:Dynamic = null, ?Force:Bool = true, ?Direction:Int = 0):Void
+	static public function shake(?Intensity:Float = 0.05, ?Duration:Float = 0.5, ?OnComplete:Void->Void = null, ?Force:Bool = true, ?Direction:Int = 0):Void
 	{
 		var i:Int = 0;
 		var l:Int = FlxG.cameras.length;
@@ -1254,7 +1385,7 @@ class FlxG
 	 * @param	ProcessCallback	A function with two <code>FlxObject</code> parameters - e.g. <code>myOverlapFunction(Object1:FlxObject,Object2:FlxObject)</code> - that is called if those two objects overlap.  If a ProcessCallback is provided, then NotifyCallback will only be called if ProcessCallback returns true for those objects!
 	 * @return	Whether any oevrlaps were detected.
 	 */
-	static public function overlap(?ObjectOrGroup1:FlxBasic = null, ?ObjectOrGroup2:FlxBasic = null, ?NotifyCallback:Dynamic = null, ?ProcessCallback:Dynamic = null):Bool
+	static public function overlap(?ObjectOrGroup1:FlxBasic = null, ?ObjectOrGroup2:FlxBasic = null, ?NotifyCallback:FlxObject->FlxObject->Void = null, ?ProcessCallback:FlxObject->FlxObject->Bool = null):Bool
 	{
 		if (ObjectOrGroup1 == null)
 		{
@@ -1265,7 +1396,7 @@ class FlxG
 			ObjectOrGroup2 = null;
 		}
 		FlxQuadTree.divisions = FlxG.worldDivisions;
-		var quadTree:FlxQuadTree = new FlxQuadTree(FlxG.worldBounds.x, FlxG.worldBounds.y, FlxG.worldBounds.width, FlxG.worldBounds.height);
+		var quadTree:FlxQuadTree = FlxQuadTree.recycle(FlxG.worldBounds.x, FlxG.worldBounds.y, FlxG.worldBounds.width, FlxG.worldBounds.height);
 		quadTree.load(ObjectOrGroup1, ObjectOrGroup2, NotifyCallback, ProcessCallback);
 		var result:Bool = quadTree.execute();
 		quadTree.destroy();
@@ -1285,7 +1416,7 @@ class FlxG
 	 * @param	NotifyCallback	A function with two <code>FlxObject</code> parameters - e.g. <code>myOverlapFunction(Object1:FlxObject,Object2:FlxObject)</code> - that is called if those two objects overlap.
 	 * @return	Whether any objects were successfully collided/separated.
 	 */
-	static public function collide(?ObjectOrGroup1:FlxBasic = null, ?ObjectOrGroup2:FlxBasic = null, ?NotifyCallback:Dynamic = null):Bool
+	static public function collide(?ObjectOrGroup1:FlxBasic = null, ?ObjectOrGroup2:FlxBasic = null, ?NotifyCallback:FlxObject->FlxObject->Void = null):Bool
 	{
 		return FlxG.overlap(ObjectOrGroup1, ObjectOrGroup2, NotifyCallback, FlxObject.separate);
 	}
@@ -1387,6 +1518,8 @@ class FlxG
 	 */
 	static public function init(Game:FlxGame, Width:Int, Height:Int, Zoom:Float):Void
 	{
+		//FlxAssets.cacheSounds();
+		
 		FlxG._game = Game;
 		FlxG.width = Math.floor(Math.abs(Width));
 		FlxG.height = Math.floor(Math.abs(Height));
@@ -1416,6 +1549,10 @@ class FlxG
 		FlxG.mouse = new Mouse(FlxG._game._mouse);
 		FlxG.keys = new Keyboard();
 		FlxG.mobile = false;
+		
+		#if (cpp || neko)
+		FlxG.joystickManager = new JoystickManager();
+		#end
 
 		FlxG.levels = new Array();
 		FlxG.scores = new Array();
@@ -1428,6 +1565,7 @@ class FlxG
 	static public function reset():Void
 	{
 		#if (cpp || neko)
+		PxBitmapFont.clearStorage();
 		TileSheetManager.clear();
 		#end
 		FlxG.clearBitmapCache();
@@ -1462,6 +1600,15 @@ class FlxG
 		{
 			FlxG.mouse.update(Math.floor(FlxG._game.mouseX), Math.floor(FlxG._game.mouseY));
 		}
+		
+		if (FlxG.supportsTouchEvents)
+		{
+			FlxG.touchManager.update();
+		}
+		
+		#if (cpp || neko)
+		FlxG.joystickManager.update();
+		#end
 	}
 	
 	/**
@@ -1590,6 +1737,43 @@ class FlxG
 				plugin.draw();
 			}
 		}
+	}
+	
+	/**
+	 * Tweens numeric public properties of an Object. Shorthand for creating a MultiVarTween tween, starting it and adding it to a Tweener.
+	 * @param	object		The object containing the properties to tween.
+	 * @param	values		An object containing key/value pairs of properties and target values.
+	 * @param	duration	Duration of the tween.
+	 * @param	options		An object containing key/value pairs of the following optional parameters:
+	 * 						type		Tween type.
+	 * 						complete	Optional completion callback function.
+	 * 						ease		Optional easer function.
+	 * 						tweener		The Tweener to add this Tween to.
+	 * @return	The added MultiVarTween object.
+	 *
+	 * Example: FlxG.tween(object, { x: 500, y: 350 }, 2.0, { ease: easeFunction, complete: onComplete } );
+	 */
+	public static function tween(object:Dynamic, values:Dynamic, duration:Float, ?options:Dynamic = null):MultiVarTween
+	{
+		var type:TweenType = TweenType.OneShot,
+			complete:CompleteCallback = null,
+			ease:EaseFunction = null,
+			tweener:FlxBasic = FlxG.tweener;
+		if (Std.is(object, FlxBasic)) 
+		{
+			tweener = cast(object, FlxBasic);
+		}
+		if (options)
+		{
+			if (Reflect.hasField(options, "type")) type = options.type;
+			if (Reflect.hasField(options, "complete")) complete = options.complete;
+			if (Reflect.hasField(options, "ease")) ease = options.ease;
+			if (Reflect.hasField(options, "tweener")) tweener = options.tweener;
+		}
+		var tween:MultiVarTween = new MultiVarTween(complete, type);
+		tween.tween(object, values, duration, ease);
+		tweener.addTween(tween);
+		return tween;
 	}
 	
 }

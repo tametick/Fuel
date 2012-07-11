@@ -83,6 +83,10 @@ class FlxObject extends FlxBasic
 	 * Path behavior controls: ignores any horizontal component to the path data, only follows up and down.
 	 */
 	static public inline var PATH_VERTICAL_ONLY:Int		= 0x100000;
+	
+	static private var _firstSeparateFlxRect:FlxRect = new FlxRect();
+	static private var _secondSeparateFlxRect:FlxRect = new FlxRect();
+	
 	/**
 	 * X position of the upper left corner of this object in world space.
 	 */
@@ -316,6 +320,8 @@ class FlxObject extends FlxBasic
 	 */
 	override public function destroy():Void
 	{
+		super.destroy();
+		
 		velocity = null;
 		acceleration = null;
 		drag = null;
@@ -389,21 +395,23 @@ class FlxObject extends FlxBasic
 	{
 		var delta:Float;
 		var velocityDelta:Float;
+		
+		var dt:Float = FlxG.elapsed;
 
-		velocityDelta = (FlxU.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular) - angularVelocity) / 2;
+		velocityDelta = 0.5 * (FlxU.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular) - angularVelocity);
 		angularVelocity += velocityDelta; 
-		angle += angularVelocity * FlxG.elapsed;
+		angle += angularVelocity * dt;
 		angularVelocity += velocityDelta;
 		
-		velocityDelta = (FlxU.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x) - velocity.x) / 2;
+		velocityDelta = 0.5 * (FlxU.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x) - velocity.x);
 		velocity.x += velocityDelta;
-		delta = velocity.x * FlxG.elapsed;
+		delta = velocity.x * dt;
 		velocity.x += velocityDelta;
 		x += delta;
 		
-		velocityDelta = (FlxU.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y) - velocity.y) / 2;
+		velocityDelta = 0.5 * (FlxU.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y) - velocity.y);
 		velocity.y += velocityDelta;
-		delta = velocity.y * FlxG.elapsed;
+		delta = velocity.y * dt;
 		velocity.y += velocityDelta;
 		y += delta;
 	}
@@ -928,8 +936,8 @@ class FlxObject extends FlxBasic
 		{
 			Camera = FlxG.camera;
 		}
-		point.x = x - Std.int(Camera.scroll.x * scrollFactor.x);
-		point.y = y - Std.int(Camera.scroll.y * scrollFactor.y);
+		point.x = x - Math.floor(Camera.scroll.x * scrollFactor.x);
+		point.y = y - Math.floor(Camera.scroll.y * scrollFactor.y);
 		point.x += (point.x > 0)?0.0000001: -0.0000001;
 		point.y += (point.y > 0)?0.0000001: -0.0000001;
 		return point;
@@ -1107,8 +1115,13 @@ class FlxObject extends FlxBasic
 			//Check if the X hulls actually overlap
 			var obj1deltaAbs:Float = (obj1delta > 0)?obj1delta: -obj1delta;
 			var obj2deltaAbs:Float = (obj2delta > 0)?obj2delta: -obj2delta;
-			var obj1rect:FlxRect = new FlxRect(Object1.x-((obj1delta > 0)?obj1delta:0),Object1.last.y,Object1.width+((obj1delta > 0)?obj1delta:-obj1delta),Object1.height);
-			var obj2rect:FlxRect = new FlxRect(Object2.x-((obj2delta > 0)?obj2delta:0),Object2.last.y,Object2.width+((obj2delta > 0)?obj2delta:-obj2delta),Object2.height);
+			
+			/*var obj1rect:FlxRect = new FlxRect(Object1.x-((obj1delta > 0)?obj1delta:0),Object1.last.y,Object1.width+((obj1delta > 0)?obj1delta:-obj1delta),Object1.height);
+			var obj2rect:FlxRect = new FlxRect(Object2.x-((obj2delta > 0)?obj2delta:0),Object2.last.y,Object2.width+((obj2delta > 0)?obj2delta:-obj2delta),Object2.height);*/
+			
+			var obj1rect:FlxRect = _firstSeparateFlxRect.make(Object1.x - ((obj1delta > 0)?obj1delta:0), Object1.last.y, Object1.width + ((obj1delta > 0)?obj1delta: -obj1delta), Object1.height);
+			var obj2rect:FlxRect = _secondSeparateFlxRect.make(Object2.x - ((obj2delta > 0)?obj2delta:0), Object2.last.y, Object2.width + ((obj2delta > 0)?obj2delta: -obj2delta), Object2.height);
+			
 			if((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height))
 			{
 				var maxOverlap:Float = obj1deltaAbs + obj2deltaAbs + OVERLAP_BIAS;
@@ -1216,8 +1229,13 @@ class FlxObject extends FlxBasic
 			//Check if the Y hulls actually overlap
 			var obj1deltaAbs:Float = (obj1delta > 0)?obj1delta: -obj1delta;
 			var obj2deltaAbs:Float = (obj2delta > 0)?obj2delta: -obj2delta;
-			var obj1rect:FlxRect = new FlxRect(Object1.x,Object1.y-((obj1delta > 0)?obj1delta:0),Object1.width,Object1.height+obj1deltaAbs);
-			var obj2rect:FlxRect = new FlxRect(Object2.x,Object2.y-((obj2delta > 0)?obj2delta:0),Object2.width,Object2.height+obj2deltaAbs);
+			
+			/*var obj1rect:FlxRect = new FlxRect(Object1.x,Object1.y-((obj1delta > 0)?obj1delta:0),Object1.width,Object1.height+obj1deltaAbs);
+			var obj2rect:FlxRect = new FlxRect(Object2.x,Object2.y-((obj2delta > 0)?obj2delta:0),Object2.width,Object2.height+obj2deltaAbs);*/
+			
+			var obj1rect:FlxRect = _firstSeparateFlxRect.make(Object1.x, Object1.y - ((obj1delta > 0)?obj1delta:0), Object1.width, Object1.height + obj1deltaAbs);
+			var obj2rect:FlxRect = _secondSeparateFlxRect.make(Object2.x, Object2.y - ((obj2delta > 0)?obj2delta:0), Object2.width, Object2.height + obj2deltaAbs);
+			
 			if((obj1rect.x + obj1rect.width > obj2rect.x) && (obj1rect.x < obj2rect.x + obj2rect.width) && (obj1rect.y + obj1rect.height > obj2rect.y) && (obj1rect.y < obj2rect.y + obj2rect.height))
 			{
 				var maxOverlap:Float = obj1deltaAbs + obj2deltaAbs + OVERLAP_BIAS;

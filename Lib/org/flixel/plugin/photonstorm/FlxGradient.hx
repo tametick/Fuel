@@ -17,6 +17,7 @@ package org.flixel.plugin.photonstorm;
 import nme.display.BitmapInt32;
 import nme.geom.Point;
 import nme.geom.Rectangle;
+import org.flixel.FlxG;
 import org.flixel.FlxSprite;
 
 import nme.display.Bitmap;
@@ -36,9 +37,9 @@ class FlxGradient
 	public function new() { }
 	
 	#if flash
-	public static function createGradientMatrix(width:Int, height:Int, colors:Array<UInt>, ?chunkSize:Int = 1, ?rotation:Int = 90):Dynamic
+	public static function createGradientMatrix(width:Int, height:Int, colors:Array<UInt>, ?chunkSize:Int = 1, ?rotation:Int = 90):GradientMatrix
 	#else
-	public static function createGradientMatrix(width:Int, height:Int, colors:Array<BitmapInt32>, ?chunkSize:Int = 1, ?rotation:Int = 90):Dynamic
+	public static function createGradientMatrix(width:Int, height:Int, colors:Array<BitmapInt32>, ?chunkSize:Int = 1, ?rotation:Int = 90):GradientMatrix
 	#end
 	{
 		var gradientMatrix:Matrix = new Matrix();
@@ -154,7 +155,31 @@ class FlxGradient
 			height = 1;
 		}
 		
-		var gradient:Dynamic = createGradientMatrix(width, height, colors, chunkSize, rotation);
+		#if !flash
+		var key:String = "Gradient: " + width + " x " + height + ", colors: [";
+		var a:Int;
+		var rgb:Int;
+		for (col in colors)
+		{
+			#if cpp
+			a = (col >> 24) & 255;
+			rgb = col & 0x00ffffff;
+			#else
+			a = col.a;
+			rgb = col.rgb;
+			#end
+			
+			key = key + rgb + "_" + a + ", ";
+		}
+		key = key + "], chunkSize: " + chunkSize + ", rotation: " + rotation;
+		
+		if (FlxG._cache.exists(key))
+		{
+			return FlxG._cache.get(key);
+		}
+		#end
+		
+		var gradient:GradientMatrix = createGradientMatrix(width, height, colors, chunkSize, rotation);
 		
 		var s:Shape = new Shape();
 		
@@ -201,6 +226,10 @@ class FlxGradient
 			
 			data.draw(tempBitmap, sM);
 		}
+		
+		#if !flash
+		FlxG._cache.set(key, data);
+		#end
 		
 		return data;
 	}
@@ -282,4 +311,10 @@ class FlxGradient
 		return dest;
 	}
 	
+}
+
+typedef GradientMatrix = {
+    var matrix:Matrix;
+    var alpha:Array<Float>;
+    var ratio:Array<Int>;
 }

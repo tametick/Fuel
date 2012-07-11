@@ -62,13 +62,13 @@ class FlxExtendedSprite extends FlxSprite
 	 * Function called when the mouse is pressed down on this sprite. Function is passed these parameters: obj:FlxExtendedSprite, x:int, y:int
 	 * @default null
 	 */
-	public var mousePressedCallback:Dynamic;
+	public var mousePressedCallback:FlxExtendedSprite->Int->Int->Void;
 	
 	/**
 	 * Function called when the mouse is released from this sprite. Function is passed these parameters: obj:FlxExtendedSprite, x:int, y:int
 	 * @default null
 	 */
-	public var mouseReleasedCallback:Dynamic;
+	public var mouseReleasedCallback:FlxExtendedSprite->Int->Int->Void;
 	
 	/**
 	 * Is this sprite allowed to be thrown?
@@ -720,7 +720,7 @@ class FlxExtendedSprite extends FlxSprite
 		
 		if (mousePressedCallback != null)
 		{
-			Reflect.callMethod(this, Reflect.field(this, "mousePressedCallback"), [this, mouseX, mouseY]);
+			Reflect.callMethod(this, Reflect.getProperty(this, "mousePressedCallback"), [this, mouseX, mouseY]);
 			//mousePressedCallback.apply(null, [ this, mouseX, mouseY ] );
 		}
 	}
@@ -750,7 +750,7 @@ class FlxExtendedSprite extends FlxSprite
 		
 		if (mouseReleasedCallback != null)
 		{
-			Reflect.callMethod(this, Reflect.field(this, "mouseReleasedCallback"), [this, this.mouseX, this.mouseY]);
+			Reflect.callMethod(this, Reflect.getProperty(this, "mouseReleasedCallback"), [this, this.mouseX, this.mouseY]);
 			//mouseReleasedCallback.apply(null, [ this, mouseX, mouseY ] );
 		}
 	}

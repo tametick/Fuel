@@ -1,5 +1,6 @@
 package org.flixel.system;
 
+import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
 import nme.display.BitmapInt32;
@@ -103,6 +104,8 @@ class FlxWindow extends Sprite
 	public function new(Title:String, Width:Float, Height:Float, ?Resizable:Bool = true, ?Bounds:Rectangle = null, ?BGColor:BitmapInt32, ?TopColor:BitmapInt32)
 	#end
 	{
+		super();
+		
 		#if (cpp || neko)
 		if (BGColor == null)
 		{
@@ -122,7 +125,6 @@ class FlxWindow extends Sprite
 		}
 		#end
 		
-		super();
 		_width = Math.floor(Math.abs(Width));
 		_height = Math.floor(Math.abs(Height));
 		_bounds = Bounds;
@@ -163,8 +165,7 @@ class FlxWindow extends Sprite
 		
 		if(_resizable)
 		{
-			//_handle = new ImgHandle(); 
-			_handle = Type.createInstance(FlxAssets.imgHandle, []);
+			_handle = new Bitmap(Assets.getBitmapData(FlxAssets.imgHandle));
 			addChild(_handle);
 		}
 		

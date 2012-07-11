@@ -59,7 +59,7 @@ class Input implements Dynamic
 		{
 			if(_map[i] == null) continue;
 			var o:MapObject = _map[i];
-			Reflect.setField(this, o.name, false);
+			Reflect.setProperty(this, o.name, false);
 			o.current = 0;
 			o.last = 0;
 		}
@@ -72,7 +72,7 @@ class Input implements Dynamic
 	 */
 	public function pressed(Key:String):Bool 
 	{ 
-		return Reflect.field(this, Key); 
+		return Reflect.getProperty(this, Key); 
 	}
 	
 	/**
@@ -82,7 +82,6 @@ class Input implements Dynamic
 	 */
 	public function justPressed(Key:String):Bool 
 	{ 
-		if (!_lookup.exists(Key)) return false;
 		return _map[_lookup.get(Key)].current == 2;
 	}
 	
@@ -93,7 +92,6 @@ class Input implements Dynamic
 	 */
 	public function justReleased(Key:String):Bool 
 	{ 
-		if (!_lookup.exists(Key)) return false;
 		return _map[_lookup.get(Key)].current == -1; 
 	}
 	
@@ -146,7 +144,7 @@ class Input implements Dynamic
 			if (o.value > 0)
 			{
 				//this[o2.name] = true;
-				Reflect.setField(this, o2.name, true);
+				Reflect.setProperty(this, o2.name, true);
 			}
 		}
 	}
@@ -158,7 +156,6 @@ class Input implements Dynamic
 	 */
 	public function getKeyCode(KeyName:String):Int
 	{
-		//return _lookup[KeyName];
 		return _lookup.get(KeyName);
 	}
 	
@@ -187,7 +184,6 @@ class Input implements Dynamic
 	 */
 	private function addKey(KeyName:String, KeyCode:Int):Void
 	{
-		//_lookup[KeyName] = KeyCode;
 		_lookup.set(KeyName, KeyCode);
 		_map[KeyCode] = new MapObject(KeyName, 0, 0);
 	}
