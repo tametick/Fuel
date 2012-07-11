@@ -106,6 +106,4 @@ enum Music {
 	RECHARGE;
 	MENU;
 	VICTORY;
-	
-	THEME;
 }
