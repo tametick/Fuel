@@ -1,5 +1,7 @@
 package org.flixel;
 
+import nme.geom.ColorTransform;
+
 import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.BitmapData;
@@ -137,6 +139,60 @@ class FlxTilemap extends FlxObject
 	 */
 	private var _rectIDs:Array<Int>;
 	#end
+	
+		
+	// from FlxSprite
+	#if flash
+	private var _color:UInt;
+	#else
+	private var _color:Int;
+	#end
+	
+	private var _colorTransform:ColorTransform;
+	
+	#if flash
+	public var color(getColor, setColor):UInt;
+	#else
+	public var color(getColor, setColor):Int;
+	#end
+
+	#if flash
+	public function getColor():UInt
+	#else
+	public function getColor():Int
+	#end
+	{
+		return _color;
+	}
+	
+	#if flash
+	public function setColor(Color:UInt):UInt
+	#else
+	public function setColor(Color:Int):Int
+	#end
+	{
+		_tintRect = new Rectangle(0, 0, _tileWidth, _tileHeight);
+	
+		Color &= 0x00ffffff;
+		if (_color == Color) {
+			return _color;
+		}
+		_color = Color;
+		if (_color != 0x00ffffff) {
+			_colorTransform = new ColorTransform((_color >> 16) * 0.00392, (_color >> 8 & 0xff) * 0.00392, (_color & 0xff) * 0.00392, 1);
+		}else {
+			_colorTransform = null;
+		}
+		#if cpp
+		_red = (_color >> 16) * 0.00392;
+		_green = (_color >> 8 & 0xff) * 0.00392;
+		_blue = (_color & 0xff) * 0.00392;
+		#end
+		return _color;
+	}
+	//
+	
+	
 	
 	/**
 	 * The tilemap constructor just initializes some basic variables.
@@ -334,6 +390,8 @@ class FlxTilemap extends FlxObject
 		return this;
 	}
 	
+	private var _tintRect:Rectangle;
+	
 	/**
 	 * Internal function to clean up the map loading code.
 	 * Just generates a wireframe box the size of a tile with the specified color.
@@ -438,6 +496,16 @@ class FlxTilemap extends FlxObject
 				if(_flashRect != null)
 				{
 					Buffer.pixels.copyPixels(_tiles, _flashRect, _flashPoint, null, null, true);
+					
+					//
+					if (_colorTransform != null)
+					{
+						_tintRect.x = _flashPoint.x;
+						_tintRect.y = _flashPoint.y;
+						Buffer.pixels.colorTransform(_tintRect, _colorTransform);
+					}
+					//
+					
 					if(FlxG.visualDebug && !ignoreDrawDebug)
 					{
 						tile = _tileObjects[_data[columnIndex]];

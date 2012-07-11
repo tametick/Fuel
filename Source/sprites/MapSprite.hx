@@ -38,12 +38,7 @@ class MapSprite extends FlxTilemap {
 		var tileGraphics = Library.getFilename(LEVEL);
 		loadMap(FlxTilemap.arrayToCSV(owner.tiles, Registry.levelWidth), tileGraphics, 13, 13, FlxTilemap.AUTO);
 		updateTileSheet();
-	}
-	
-	public function setColor(c:BitmapInt32) {
-		
-	}
-	
+	}	
 		
 	public function drawFov(lightMap:Array<Float>) {
 		for(y in 0...heightInTiles) {
