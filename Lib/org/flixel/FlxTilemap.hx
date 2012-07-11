@@ -186,9 +186,20 @@ class FlxTilemap extends FlxObject
 		_red = (_color >> 16) * 0.00392;
 		_green = (_color >> 8 & 0xff) * 0.00392;
 		_blue = (_color & 0xff) * 0.00392;
+		#elseif neko
+		_red = (_color.rgb >> 16) * 0.00392;
+		_green = (_color.rgb >> 8 & 0xff) * 0.00392;
+		_blue = (_color.rgb & 0xff) * 0.00392;
 		#end
 		return _color;
 	}
+	
+	#if (cpp || neko)
+	private var _frameID:Int;
+	private var _red:Float;
+	private var _green:Float;
+	private var _blue:Float;
+	#end
 	//
 	
 	/**
