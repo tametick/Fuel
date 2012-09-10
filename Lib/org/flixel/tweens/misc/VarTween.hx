@@ -13,9 +13,15 @@ class VarTween extends FlxTween
 	 * @param	complete	Optional completion callback.
 	 * @param	type		Tween type.
 	 */
-	public function new(?complete:CompleteCallback, ?type:TweenType) 
+	public function new(?complete:CompleteCallback, ?type:Int = 0) 
 	{
 		super(0, type, complete);
+	}
+	
+	override public function destroy():Void 
+	{
+		super.destroy();
+		_object = null;
 	}
 	
 	/**
@@ -38,16 +44,19 @@ class VarTween extends FlxTween
 		}
 		
 		_property = property;
-		var a:Float = Reflect.getProperty(_object, property);
 		
 		// Check if the variable is a number
 	#if (cpp || neko)
-		if (a == null)
+		if (Reflect.getProperty(_object, property) == null)
+	#else
+		if (!Reflect.hasField(_object, property))
+	#end
 		{
 			throw "The Object does not have the property\"" + property + "\", or it is not accessible.";
 		}
-	#end
-	
+		
+		var a = Reflect.getProperty(_object, property);
+		
 		if (Math.isNaN(a)) 
 		{
 			throw "The property \"" + property + "\" is not numeric.";

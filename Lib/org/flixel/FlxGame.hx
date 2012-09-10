@@ -229,7 +229,12 @@ class FlxGame extends Sprite
 		_requestedState = null;
 		_requestedReset = true;
 		_created = false;
-		addEventListener(Event.ENTER_FRAME, create);
+		
+		#if iphone
+		Lib.current.stage.addEventListener(Event.RESIZE, create);
+		#else
+		addEventListener(Event.ADDED_TO_STAGE, create);
+		#end
 	}
 	
 	/**
@@ -833,7 +838,13 @@ class FlxGame extends Sprite
 		{
 			return;
 		}
-		removeEventListener(Event.ENTER_FRAME, create);
+		
+		#if iphone
+		Lib.current.stage.removeEventListener(Event.RESIZE, create);
+		#else
+		removeEventListener(Event.ADDED_TO_STAGE, create);
+		#end
+		
 		_total = Lib.getTimer();
 		//Set up the view window and double buffering
 		stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -855,7 +866,7 @@ class FlxGame extends Sprite
 		
 		if (FlxG.supportsTouchEvents)
 		{
-			Lib.current.stage.addEventListener(TouchEvent.TOUCH_BEGIN , onTouchBegin);
+			Lib.current.stage.addEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);
 			Lib.current.stage.addEventListener(TouchEvent.TOUCH_END, onTouchEnd);
 			Lib.current.stage.addEventListener(TouchEvent.TOUCH_MOVE, onTouchMove);
 		}
@@ -1016,20 +1027,21 @@ class FlxGame extends Sprite
 		var halfHeight:Int = Math.floor(screenHeight / 2);
 		var helper:Int = Math.floor(FlxU.min(halfWidth, halfHeight) / 3);
 		gfx.moveTo(halfWidth - helper, halfHeight - helper);
-		gfx.beginFill(0xffffff,0.65);
+		gfx.beginFill(0xffffff, 0.65);
 		gfx.lineTo(halfWidth + helper, halfHeight);
 		gfx.lineTo(halfWidth - helper, halfHeight + helper);
 		gfx.lineTo(halfWidth - helper, halfHeight - helper);
 		gfx.endFill();
 		
-		var logo:Bitmap = new Bitmap(Assets.getBitmapData(FlxAssets.imgLogo));
-		logo.scaleX = Math.floor(helper/10);
-		if (logo.scaleX < 1)
+		var logo:Sprite = new Sprite();
+		FlxAssets.drawLogo(logo.graphics);
+		logo.scaleX = helper / 1000;
+		if (logo.scaleX < 0.2)
 		{
-			logo.scaleX = 1;
+			logo.scaleX = 0.2;
 		}
 		logo.scaleY = logo.scaleX;
-		logo.x -= logo.scaleX;
+		logo.x = logo.y = 5;
 		logo.alpha = 0.35;
 		_focus.addChild(logo);
 		

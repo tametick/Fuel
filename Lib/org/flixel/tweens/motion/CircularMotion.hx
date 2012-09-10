@@ -1,6 +1,5 @@
 ﻿package org.flixel.tweens.motion;
 
-import nme.geom.Point;
 import org.flixel.tweens.FlxTween;
 import org.flixel.tweens.util.Ease;
 
@@ -14,7 +13,7 @@ class CircularMotion extends Motion
 	 * @param	complete	Optional completion callback.
 	 * @param	type		Tween type.
 	 */
-	public function new(?complete:CompleteCallback, ?type:TweenType)
+	public function new(?complete:CompleteCallback, ?type:Int = 0)
 	{
 		_centerX = _centerY = 0;
 		_radius = angle = 0;

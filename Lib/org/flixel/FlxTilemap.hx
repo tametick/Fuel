@@ -140,6 +140,7 @@ class FlxTilemap extends FlxObject
 	private var _rectIDs:Array<Int>;
 	#end
 	
+		
 	// from FlxSprite
 	#if flash
 	private var _color:UInt;
@@ -164,6 +165,7 @@ class FlxTilemap extends FlxObject
 		return _color;
 	}
 	
+	private var _tintRect:Rectangle;
 	#if flash
 	public function setColor(Color:UInt):UInt
 	#else
@@ -186,21 +188,13 @@ class FlxTilemap extends FlxObject
 		_red = (_color >> 16) * 0.00392;
 		_green = (_color >> 8 & 0xff) * 0.00392;
 		_blue = (_color & 0xff) * 0.00392;
-		#elseif neko
-		_red = (_color.rgb >> 16) * 0.00392;
-		_green = (_color.rgb >> 8 & 0xff) * 0.00392;
-		_blue = (_color.rgb & 0xff) * 0.00392;
 		#end
 		return _color;
 	}
-	
-	#if (cpp || neko)
-	private var _frameID:Int;
-	private var _red:Float;
-	private var _green:Float;
-	private var _blue:Float;
-	#end
 	//
+	
+	
+	
 	
 	/**
 	 * The tilemap constructor just initializes some basic variables.
@@ -398,8 +392,6 @@ class FlxTilemap extends FlxObject
 		return this;
 	}
 	
-	private var _tintRect:Rectangle;
-	
 	/**
 	 * Internal function to clean up the map loading code.
 	 * Just generates a wireframe box the size of a tile with the specified color.
@@ -449,8 +441,8 @@ class FlxTilemap extends FlxObject
 		#if flash
 		Buffer.fill();
 		#else
-		_helperPoint.x = x - Std.int(Camera.scroll.x * scrollFactor.x); //copied from getScreenXY()
-		_helperPoint.y = y - Std.int(Camera.scroll.y * scrollFactor.y);
+		_helperPoint.x = x - (Camera.scroll.x * scrollFactor.x); //copied from getScreenXY()
+		_helperPoint.y = y - (Camera.scroll.y * scrollFactor.y);
 		var tileID:Int;
 		var debugColor:Int;
 		var drawX:Float;
@@ -519,6 +511,7 @@ class FlxTilemap extends FlxObject
 					}
 					//
 					
+					
 					if(FlxG.visualDebug && !ignoreDrawDebug)
 					{
 						tile = _tileObjects[_data[columnIndex]];
@@ -544,8 +537,8 @@ class FlxTilemap extends FlxObject
 				tileID = _rectIDs[columnIndex];
 				if (tileID != -1)
 				{
-					drawX = Math.floor(_helperPoint.x) + (columnIndex % widthInTiles) * _tileWidth;
-					drawY = Math.floor(_helperPoint.y) + Math.floor(columnIndex / widthInTiles) * _tileHeight;
+					drawX = (_helperPoint.x) + (columnIndex % widthInTiles) * _tileWidth;
+					drawY = (_helperPoint.y) + Math.floor(columnIndex / widthInTiles) * _tileHeight;
 					currDrawData[currIndex++] = drawX;
 					currDrawData[currIndex++] = drawY;
 					currDrawData[currIndex++] = tileID;

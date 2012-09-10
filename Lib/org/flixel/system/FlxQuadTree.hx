@@ -651,7 +651,9 @@ class FlxQuadTree extends FlxRect
 					_notifyCallback(_object,checkObject);
 				}
 			}
-			_iterator = _iterator.next;
+			if(_iterator!=null) {
+				_iterator = _iterator.next;
+			}
 		}
 		
 		return overlapProcessed;

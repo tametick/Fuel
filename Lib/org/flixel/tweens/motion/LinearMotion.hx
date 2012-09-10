@@ -2,7 +2,6 @@
 
 import org.flixel.tweens.FlxTween;
 import org.flixel.tweens.util.Ease;
-import nme.geom.Point;
 
 /**
  * Determines motion along a line, from one point to another.
@@ -14,7 +13,7 @@ class LinearMotion extends Motion
 	 * @param	complete	Optional completion callback.
 	 * @param	type		Tween type.
 	 */
-	public function new(?complete:CompleteCallback, ?type:TweenType)
+	public function new(?complete:CompleteCallback, ?type:Int = 0)
 	{
 		_fromX = _fromY = _moveX = _moveY = 0;
 		_distance = -1;

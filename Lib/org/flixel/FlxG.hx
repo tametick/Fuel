@@ -85,19 +85,19 @@ class FlxG
 	 * If you build and maintain your own version of flixel,
 	 * you can give it your own name here.
 	 */
-	static public inline var LIBRARY_NAME:String = "flixel";
+	static public inline var LIBRARY_NAME:String = "HaxeFlixel";
 	
 	/**
 	 * Assign a major version to your library.
 	 * Appears before the decimal in the console.
 	 */
-	static public inline var LIBRARY_MAJOR_VERSION:Int = 2;
+	static public inline var LIBRARY_MAJOR_VERSION:Int = 1;
 	
 	/**
 	 * Assign a minor version to your library.
 	 * Appears after the decimal in the console.
 	 */
-	static public inline var LIBRARY_MINOR_VERSION:Int = 55;
+	static public inline var LIBRARY_MINOR_VERSION:Int = 06;
 	
 	/**
 	 * Debugger overlay layout preset: Wide but low windows at the bottom of the screen.
@@ -1303,7 +1303,7 @@ class FlxG
 		#if !flash
 		if (Color == null)
 		{
-			Color = BLACK;
+			Color = FlxG.BLACK;
 		}
 		#end
 		
@@ -1346,11 +1346,7 @@ class FlxG
 	{
 		if (FlxG.camera == null)
 		{
-			#if !neko
-			return 0xff000000;
-			#else
-			return BLACK;
-			#end
+			return FlxG.BLACK;
 		}
 		else
 		{
@@ -1755,7 +1751,7 @@ class FlxG
 	 */
 	public static function tween(object:Dynamic, values:Dynamic, duration:Float, ?options:Dynamic = null):MultiVarTween
 	{
-		var type:TweenType = TweenType.OneShot,
+		var type:Int = FlxTween.ONESHOT,
 			complete:CompleteCallback = null,
 			ease:EaseFunction = null,
 			tweener:FlxBasic = FlxG.tweener;
