@@ -49,7 +49,11 @@ class SpaceMiner extends FlxGame {
 		var ratioY:Float = stageHeight / Registry.screenHeight;
 		var ratio:Float = Math.floor(Math.min(ratioX, ratioY) + .025);
 		
-		super(Registry.screenWidth, Registry.screenHeight, MenuState, ratio);
+		if (Registry.debug) {
+			super(Registry.screenWidth, Registry.screenHeight, GameState, ratio);
+		} else {
+			super(Registry.screenWidth, Registry.screenHeight, MenuState, ratio);
+		}
 		
 		if(Registry.debug) {
 			forceDebugger = true;
@@ -58,7 +62,11 @@ class SpaceMiner extends FlxGame {
 	
 	public static function restart() {
 		Registry.gameState.destroy();
-		FlxG.switchState(new MenuState());
+		if (Registry.debug) {
+			FlxG.switchState(new GameState());
+		} else {
+			FlxG.switchState(new MenuState());
+		}
 	}
 	
 	public function resizeHandler(event:Event) {
