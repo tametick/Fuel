@@ -28,12 +28,6 @@ class SpaceMiner extends FlxGame {
 		if(!Registry.debug) {
 			var interlace:Bitmap = null;
 			var w = Lib.current.width;
-/*			if(w<720)
-				interlace = new Bitmap(Library.getImage(INTERLACE_SMALL));
-			else
-				interlace = new Bitmap(Library.getImage(INTERLACE_BIG));
-			interlace.width = Lib.current.width;
-			Lib.current.addChild(interlace);*/
 		}
 	}
 

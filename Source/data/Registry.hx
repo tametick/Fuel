@@ -6,7 +6,7 @@ import world.Actor;
 import world.Level;
 
 class Registry {
-	public static inline var noMenu = true;
+	public static inline var noMenu = false;
 	public static inline var debug = false;
 	
 	public static inline var movementKeys = [["RIGHT", "LEFT", "DOWN", "UP"],["D","A","S","W"],["L","H","J","K"]];
